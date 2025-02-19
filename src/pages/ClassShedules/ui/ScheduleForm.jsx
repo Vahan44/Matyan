@@ -10,51 +10,20 @@ const ScheduleForm = () => {
 
   console.log("Schedule data:", schedule);
 
-  // ✅ Բեռնում ենք դասացուցակը MySQL-ից, երբ էջը բացվում է
+  // ✅ Բեռնել դասացուցակը MySQL-ից, երբ էջը բացվում է
   useEffect(() => {
     dispatch(fetchSchedule());
   }, [dispatch]);
 
   // ✅ Պահպանել դասացուցակը MySQL-ում
   const handleSave = () => {
-    dispatch(saveSchedule(schedule));
-    alert("✅ Դասացուցակը հաջողությամբ պահպանվեց!");
+    dispatch(saveSchedule(schedule)).then(() => alert("✅ Դասացուցակը հաջողությամբ պահպանվեց!"));
   };
 
   // ✅ Input փոփոխելու ֆունկցիա
   const handleChange = (dayIndex, periodIndex, subIndex, field, value) => {
     dispatch(updateClass({ dayIndex, periodIndex, subIndex, field, value }));
   };
-
-  function transformSchedule(data) {
-    const defaultSchedule = [
-      { day: "Երկուշաբթի", periods: [[], [], [], []] },
-      { day: "Երեքշաբթի", periods: [[], [], [], []] },
-      { day: "Չորեքշաբթի", periods: [[], [], [], []] },
-      { day: "Հինգշաբթի", periods: [[], [], [], []] },
-      { day: "Ուրբաթ", periods: [[], [], [], []] },
-    ];
-
-    data.forEach((item) => {
-      const dayEntry = defaultSchedule.find((d) => d.day === item.day);
-      if (dayEntry && item.period >= 0 && item.period < 4) {
-        if (!dayEntry.periods[item.period]) {
-          dayEntry.periods[item.period] = [];
-        }
-        dayEntry.periods[item.period].push({
-          name: item.name || "",
-          group: item.group_name || "", // ✅ Այստեղ `group_name`-ը `group` ենք դարձնում
-          professor: item.professor || "",
-          audience: item.audience || "",
-        });
-      }
-    });
-
-    return defaultSchedule;
-  }
-
-  // ✅ Վերափոխված դասացուցակը
-  let sched = transformSchedule(schedule);
 
   return (
     <div className="schedule-container">
@@ -85,7 +54,7 @@ const ScheduleForm = () => {
               </tr>
             </thead>
             <tbody>
-              {sched.map((day, dayIndex) => (
+              {schedule.map((day, dayIndex) => (
                 <tr key={day.day}>
                   <td className="day-name">{day.day}</td>
                   {day.periods.map((period, periodIndex) => (

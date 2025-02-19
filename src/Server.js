@@ -1,83 +1,55 @@
 import express from "express";
 import cors from "cors";
 import db from "./db.js";
-import dotenv from "dotenv";
-
-dotenv.config();
 
 const app = express();
-app.use(express.json());
+const PORT = process.env.PORT || 5000;
+
 app.use(cors());
+app.use(express.json());
 
-// ✅ API՝ տվյալների բազան թարմացնելու համար
-app.post("/update-schedule", (req, res) => {
-    console.log("Received schedule data:", req.body);
+// ✅ Բեռնել դասացուցակը
+app.get("/api/schedule", (req, res) => {
+  db.query("SELECT * FROM schedule", (err, results) => {
+    if (err) {
+      console.error("❌ Error fetching schedule:", err);
+      return res.status(500).json({ error: "Database error" });
+    }
+    res.json(results);
+  });
+});
 
-    const { schedule } = req.body;
-
-    if (!schedule || !Array.isArray(schedule)) {
-        return res.status(400).json({ error: "Invalid schedule format" });
+// ✅ Պահպանել դասացուցակը (ջնջել, ապա ավելացնել նոր տվյալներ)
+app.post("/api/schedule", (req, res) => {
+  const schedule = req.body;
+  db.query("DELETE FROM schedule", (deleteErr) => {
+    if (deleteErr) {
+      console.error("❌ Error clearing schedule:", deleteErr);
+      return res.status(500).json({ error: "Database error" });
     }
 
-    // Ջնջում ենք հին տվյալները
-    db.query("DELETE FROM schedule", (err) => {
-        if (err) {
-            return res.status(500).json({ error: "Failed to clear schedule" });
+    const values = schedule.flatMap((day) =>
+      day.periods.flatMap((period, periodIndex) =>
+        period.map((cls) => [day.day, periodIndex, cls.name, cls.group, cls.professor, cls.audience])
+      )
+    );
+
+    if (values.length === 0) return res.json({ message: "✅ Schedule saved!" });
+
+    db.query(
+      "INSERT INTO schedule (day, period, name, group_name, professor, audience) VALUES ?",
+      [values],
+      (insertErr) => {
+        if (insertErr) {
+          console.error("❌ Error inserting schedule:", insertErr);
+          return res.status(500).json({ error: "Database error" });
         }
-
-        // Նոր տվյալների ավելացում
-        schedule.forEach((day) => {
-            day.periods.forEach((period, periodIndex) => {
-                period.forEach((cls) => {
-                    if (cls.name) {
-                        db.query(
-                            "INSERT INTO schedule (day, period, name, group_name, professor, audience) VALUES (?, ?, ?, ?, ?, ?)",
-                            [day.day, periodIndex, cls.name, cls.group, cls.professor, cls.audience],
-                            (err) => {
-                                if (err) console.error("❌ Database insert error:", err);
-                            }
-                        );
-                    }
-                });
-            });
-        });
-
-        res.json({ message: "✅ Schedule updated successfully!" });
-    });
+        res.json({ message: "✅ Schedule saved successfully!" });
+      }
+    );
+  });
 });
 
-// ✅ API՝ ճիշտ ֆորմատով տվյալները վերադարձնելու համար
-app.get("/get-schedule", (req, res) => {
-    db.query("SELECT * FROM schedule", (err, results) => {
-        if (err) {
-            return res.status(500).json({ error: "Failed to fetch schedule" });
-        }
-
-        // Ստացված տվյալները վերածում ենք ճիշտ ֆորմատի
-        const formattedSchedule = [
-            { day: "Երկուշաբթի", periods: [[], [], [], []] },
-            { day: "Երեքշաբթի", periods: [[], [], [], []] },
-            { day: "Չորեքշաբթի", periods: [[], [], [], []] },
-            { day: "Հինգշաբթի", periods: [[], [], [], []] },
-            { day: "Ուրբաթ", periods: [[], [], [], []] }
-        ];
-
-        results.forEach((entry) => {
-            const dayIndex = formattedSchedule.findIndex(d => d.day === entry.day);
-            if (dayIndex !== -1 && entry.period >= 0 && entry.period < 4) {
-                formattedSchedule[dayIndex].periods[entry.period].push({
-                    name: entry.name,
-                    group: entry.group_name,
-                    professor: entry.professor,
-                    audience: entry.audience,
-                });
-            }
-        });
-
-        res.json(formattedSchedule);
-    });
-});
-
-app.listen(5000, () => {
-    console.log("🚀 Server is running on port 5000");
+app.listen(PORT, () => {
+  console.log(`✅ Server is running on port ${PORT}`);
 });
