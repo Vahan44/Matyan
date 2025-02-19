@@ -1,0 +1,129 @@
+
+
+.workspaceHeader{
+    text-align: center;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    font-size: xx-large;
+    
+}
+
+.workspaceHeader img {
+    width: 70px;
+    height: 70px;
+    border-radius: 10px;
+    margin-right: 5px;
+}
+
+.work{
+    color: rgb(195, 195, 195);
+    
+}
+
+.boards {
+    width: 90%;
+    padding: 50px;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 150px));
+    gap: 20px;
+}
+.Bli{
+    list-style: none;
+    width: 80%; 
+    height: 100px;
+    background-color: rgb(41, 111, 111);
+    color: rgb(250, 250, 250);
+    padding: 5px;
+    border-radius: 15px;
+    cursor: pointer;
+}
+a{
+    text-decoration: none;
+    color: #fff;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+}
+.Bcr{
+    list-style: none;
+    width: 80%; 
+    height: 100px;
+    background-color: rgb(129, 129, 129);
+    color: rgb(250, 250, 250);
+    padding: 5px;
+    border-radius: 15px;
+    text-align: center;
+    cursor: pointer;
+}
+.Bcr button{
+    background: fixed;
+    border: none;
+    color: #ffffff;
+    outline: none;
+    text-align: center;
+    align-items: center;
+    justify-content: center;
+    font-weight: 800;
+    display: flex;
+    flex-direction: column;
+    margin-top: 5px;
+    cursor: pointer;
+}
+.board {
+    font-weight: 800;
+    text-align: center;
+    justify-content: center;
+}
+
+
+.plus{
+    font-size: 40px;
+    opacity: 0.7;
+}
+
+.BoardNameInput{
+width: 80%;
+padding: 10px;
+border-radius: 5px;
+}
+
+
+
+.deleteBoard{
+    background: fixed;
+    border: none;
+    font-size: larger;
+    color: #ffffff;
+    align-items: center;
+    cursor: pointer;
+    border-radius: 50%;
+    height: 30px;
+    width: 30px;
+    display: flex;
+    justify-content: center;
+    margin-bottom: -10px;
+    
+    
+}
+
+.deleteBoard:hover{
+    transform: scale(1.5);
+    transition: 0.5s;
+    background-color: #d0caca;
+    color: rgb(46, 46, 46);
+    
+}
+
+.addBoard{
+    margin-left: 10px;
+}
+.addBoard:hover{
+    transform: scale(1.2);
+    transition: 0.5s;
+    color: rgb(30, 30, 30);
+}
+
+.addBoard small{
+    color: rgb(67, 11, 11);
+}
