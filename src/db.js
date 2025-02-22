@@ -21,16 +21,40 @@ db.connect((err) => {
   // Ստեղծենք աղյուսակը, եթե այն գոյություն չունի
   const createTableQuery = `
     CREATE TABLE IF NOT EXISTS schedule (
-      id INT AUTO_INCREMENT PRIMARY KEY,
+      ClassScheduleID INT AUTO_INCREMENT PRIMARY KEY,
       day VARCHAR(20),
       period INT,
+      course VARCHAR(100),
       name VARCHAR(255),
       group_name VARCHAR(100),
       professor VARCHAR(100),
-      audience VARCHAR(100)
+      audience VARCHAR(100),
+      classroom VARCHAR(100)
     );
   `;
 
+    // Ստեղծում ենք Employees աղյուսակը, եթե այն դեռ չկա
+    const createEmployeesTable = `
+    CREATE TABLE IF NOT EXISTS Employees (
+      UserID INT AUTO_INCREMENT PRIMARY KEY,
+      FirstName VARCHAR(100) NOT NULL,
+      LastName VARCHAR(100) NOT NULL,
+      InstituteID INT NOT NULL,
+      Role VARCHAR(50),
+      Username VARCHAR(100) UNIQUE NOT NULL,
+      Password VARCHAR(255) NOT NULL,
+      Email VARCHAR(150) UNIQUE,
+      Profession VARCHAR(100)
+    );
+  `;
+
+  db.query(createEmployeesTable, (err) => {
+    if (err) {
+      console.error("❌ Error creating Employees table:", err);
+    } else {
+      console.log("✅ Employees table is ready!");
+    }
+  });
   db.query(createTableQuery, (err) => {
     if (err) {
       console.error("❌ Error creating table:", err);

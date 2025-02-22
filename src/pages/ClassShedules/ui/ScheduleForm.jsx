@@ -7,7 +7,7 @@ const ScheduleForm = () => {
   const dispatch = useDispatch();
   const schedule = useSelector((state) => state.schedule.schedule);
   const loading = useSelector((state) => state.schedule.loading);
-
+  const groups = ["Դաս", "Լաբ 1", "Լաբ 2", "Լաբ 3", "Լաբ 4", "Լաբ 5", "Լաբ 6", "Գործ 1", "Գործ 2", "Գործ 3", "Գործ 4", "ԿԱ 1", "ԿԱ 2", "ԿԱ 3", "ԿԱ 4"];
   console.log("Schedule data:", schedule);
 
   // ✅ Բեռնել դասացուցակը MySQL-ից, երբ էջը բացվում է
@@ -29,10 +29,7 @@ const ScheduleForm = () => {
     <div className="schedule-container">
       <h2 className="title">Դասացուցակ</h2>
 
-      {/* Save Button */}
-      <button onClick={handleSave} className="save-button">
-        Պահպանել դասացուցակը
-      </button>
+      
 
       {loading ? (
         <p>🔄 Բեռնվում է...</p>
@@ -43,9 +40,17 @@ const ScheduleForm = () => {
               <tr className="first">
                 <th>Կուրս</th>
                 <td>
-                  <input type="text" className="schedule-input" />
+                  <input 
+                  type="text"
+                  className="schedule-input" />
                 </td>
+                <td colspan="3">
+              <button onClick={handleSave} className="save-button">
+        Պահպանել դասացուցակը
+      </button>
+              </td>
               </tr>
+              
               <tr>
                 <th>Օր</th>
                 {["1-2", "3-4", "5-6", "7-8"].map((period) => (
@@ -70,15 +75,19 @@ const ScheduleForm = () => {
                             }
                             className="schedule-input"
                           />
-                          <input
-                            type="text"
-                            placeholder="Խումբ"
-                            value={cls.group}
-                            onChange={(e) =>
-                              handleChange(dayIndex, periodIndex, subIndex, "group", e.target.value)
-                            }
-                            className="schedule-input"
-                          />
+                          
+                          <select
+                          value={cls.group}
+                          onChange={(e) =>
+                            handleChange(dayIndex, periodIndex, subIndex, "group", e.target.value)
+                          }
+                          className="schedule-input2"
+                        >
+                          <option value="">Ընտրել խումբը</option>
+                          {groups.map((group) => (
+                            <option key={group} value={group}>{group}</option>
+                          ))}
+                        </select>
                           <input
                             type="text"
                             placeholder="Դասախոս"
@@ -88,12 +97,26 @@ const ScheduleForm = () => {
                             }
                             className="schedule-input"
                           />
-                          <input
+                          
+                          <select
+                          value={cls.audience}
+                          onChange={(e) =>
+                            handleChange(dayIndex, periodIndex, subIndex, "audience", e.target.value)
+                          }
+                          className="schedule-input2"
+                        >
+                            <option key="Համարիչ"  value="Համարիչ">Համարիչ</option>
+                          
+                            <option key="Հայտարար" value="Հայտարար">Հայտարար</option>
+                          
+                        </select>
+
+                        <input
                             type="text"
-                            placeholder="Համարիչ"
-                            value={cls.audience}
+                            placeholder="Լսարան"
+                            value={cls.classroom}
                             onChange={(e) =>
-                              handleChange(dayIndex, periodIndex, subIndex, "audience", e.target.value)
+                              handleChange(dayIndex, periodIndex, subIndex, "classroom", e.target.value)
                             }
                             className="schedule-input"
                           />

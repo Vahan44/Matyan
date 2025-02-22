@@ -9,5 +9,6 @@ export const store = configureStore({
         user: userSlice ,
         boards: boardsSlice,
         schedule: scheduleReducer,
+        Employee: userSlice
     }
 });

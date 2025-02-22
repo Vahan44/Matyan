@@ -7,12 +7,12 @@ import { AiOutlineQuestionCircle } from "react-icons/ai";
 import { RootState } from "../../Redux/store";
 import { useSelector } from 'react-redux';
 import { useAppDispatch } from "../../hooks/useAppDispatch";
-import { handleSingOut } from "../../Redux/userSlice";
+import { logout } from "../../Redux/userSlice";
 import { server } from "typescript";
 const Header = () => {
 
   const user = useSelector((state) => {
-    return state.user
+    return state.Employee
   })
 
 
@@ -59,7 +59,7 @@ const Header = () => {
 
   const logOut = () => {
 
-    dispach(handleSingOut())
+    dispach(logout())
     navigate('/LogInPage')
   }
   return (
@@ -72,14 +72,14 @@ const Header = () => {
               <h1>Trello</h1>
             </Link>
           </li>
-          {user.profile ? <li>
+          {user.isAuthenticated ? <li>
             <Link className={styles.link} to='/Workspaces'>
               <h3 >Workspace</h3>
               <RiArrowDropDownLine />
             </Link>
           </li> : null}
           <li>
-            {user.profile ? <Link className={styles.button} to='/MainPage?creatingBoard=true'>
+            {user.isAuthenticated ? <Link className={styles.button} to='/MainPage?creatingBoard=true'>
               Create
             </Link> : null}
           </li>
@@ -92,7 +92,7 @@ const Header = () => {
           <Link to='https://www.atlassian.com/legal/privacy-policy#what-this-policy-covers' className={styles.questiones}>
             <AiOutlineQuestionCircle />
           </Link>
-          {user?.profile ? (
+          {user.isAuthenticated ? (
             <>
               <input onChange={onSearch} onClick={() => setIsSearching(true)} className={styles.search} type="text" placeholder="search" />
               {isSearching ? <div className={styles.results}>
@@ -116,7 +116,7 @@ const Header = () => {
 
 
               <img onClick={toggleUserMenu}
-                src={user.profile.photoURL || 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTW6M4NWghKPuAh1lEjThjCMcdSp9cn029guiwej3QjFg&s'}
+                src={'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTW6M4NWghKPuAh1lEjThjCMcdSp9cn029guiwej3QjFg&s'}
                 alt=""
                 className={styles.userImage}
 

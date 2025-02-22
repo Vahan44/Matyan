@@ -1,13 +1,15 @@
 import express from "express";
 import cors from "cors";
 import db from "./db.js";
+import authRoutes from "./routes/authRoutes.js"; // ✅ Import արեցինք authRoutes-ը
 
 const app = express();
+
 const PORT = process.env.PORT || 5000;
 
 app.use(cors());
 app.use(express.json());
-
+app.use("/api/auth", authRoutes);
 // ✅ Բեռնել դասացուցակը
 app.get("/api/schedule", (req, res) => {
   db.query("SELECT * FROM schedule", (err, results) => {
@@ -30,14 +32,14 @@ app.post("/api/schedule", (req, res) => {
 
     const values = schedule.flatMap((day) =>
       day.periods.flatMap((period, periodIndex) =>
-        period.map((cls) => [day.day, periodIndex, cls.name, cls.group, cls.professor, cls.audience])
+        period.map((cls) => [day.day, periodIndex, cls.course, cls.name, cls.group, cls.professor, cls.audience, cls.classroom])
       )
     );
 
     if (values.length === 0) return res.json({ message: "✅ Schedule saved!" });
 
     db.query(
-      "INSERT INTO schedule (day, period, name, group_name, professor, audience) VALUES ?",
+      "INSERT INTO schedule (day, period, course, name, group_name, professor, audience, classroom) VALUES ?",
       [values],
       (insertErr) => {
         if (insertErr) {

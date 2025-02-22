@@ -1,22 +1,20 @@
-import React, { FC, useEffect } from 'react';
-import { render } from "react-dom";
-import { BrowserRouter, Route, Routes, RedirectFunction, useNavigate } from 'react-router-dom'
+import React , {useEffect} from 'react';
+import { BrowserRouter, Route, Routes } from 'react-router-dom'
 import MainPage from '../pages/MainPage/ui/MainPage';
 import styles from './App.module.css';
 import Header from '../Header/ui/Header';
 import LogInPage from '../pages/LogInPage/ui';
 import ClassShedule from '../pages/ClassShedules/ui/ScheduleForm';
-
 import Dashboard from './Dashboaard';
-import { useSelector, useDispatch } from 'react-redux';
-import { RootState } from '../Redux/store';
-import SignUp from '../pages/SignUp/ui/SignUp';
+import { useSelector,  } from 'react-redux';
+//import SignUp from '../pages/SignUp/ui/SignUp';
 import Workspaces from '../pages/Workspaces/ui/Workspaces';
 import Board from '../pages/Board/ui/Board';
 import { useAppDispatch } from '../hooks/useAppDispatch';
 import { autoLogIn } from '../Redux/userSlice';
 
 const App = () => {
+
   const dispatch = useAppDispatch()
 
   useEffect(() => {
@@ -24,14 +22,12 @@ const App = () => {
   }, [])
 
 
-  const user = useSelector((state) => {
-    return state.user
+  const Employee = useSelector((state) => {
+    return state.Employee
   })
 
-console.log(90909909090909090,user)
+console.log(90909909090909090,Employee)
 
-
- 
 
 
 
@@ -45,7 +41,7 @@ console.log(90909909090909090,user)
           <Route path='/' element={<Dashboard />} />
           <Route path='*' element={<h1 >Not Foung</h1>} />
           
-          {user.profile ? <>
+          {Employee.isAuthenticated ? <>
 
             <Route path='/MainPage' element={<ClassShedule />} />
             <Route path='/Workspaces' element={<Workspaces />} />
@@ -53,7 +49,7 @@ console.log(90909909090909090,user)
 
           </> : <>
             <Route path='/LogInPage' element={<LogInPage />} />
-            <Route path='/SignUpPage' element={<SignUp />} />
+            {/* <Route path='/SignUpPage' element={<SignUp />} /> */}
           </>
           }
 
