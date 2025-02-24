@@ -2,6 +2,7 @@ import { configureStore } from "@reduxjs/toolkit";
 import userSlice from "./userSlice";
 import boardsSlice from "./boardsSlice";
 import scheduleReducer from "./SheduleSlice";
+import students  from "./StudentSlice";
 //import blogSlice from "./blogSlice";
 
 export const store = configureStore({
@@ -9,6 +10,7 @@ export const store = configureStore({
         user: userSlice ,
         boards: boardsSlice,
         schedule: scheduleReducer,
-        Employee: userSlice
+        Employee: userSlice,
+        students: students
     }
 });

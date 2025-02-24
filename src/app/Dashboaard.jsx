@@ -5,19 +5,17 @@ import { useNavigate } from "react-router-dom";
 
 
 const Dashboard = () => {
-    const user = useSelector((state) => {
-        
-        return state.user
-      })
+  const Employee = useSelector((state) => state.Employee);
+
 
     
 
 
     // console.log(workspaces)
       const navigate = useNavigate()
-      useEffect(() => {
-        user.profile ? navigate('/MainPage') : navigate('/LogInPage')
-      }, [])
+
+        
+    Employee.isAuthenticated ? navigate('/MainPage') : navigate('/LogInPage')
       return (
         <h1 style={{color: 'white'}}>
             Loading ...

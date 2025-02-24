@@ -15,9 +15,24 @@ const ScheduleForm = () => {
     dispatch(fetchSchedule());
   }, [dispatch]);
 
+  function isScheduleValid(schedule) {
+    return schedule.every(day => 
+        day.periods.every(period => 
+            period.every(lesson => 
+                Object.values(lesson).every(value => value.trim() !== "")
+            )
+        )
+    );
+}
   // ✅ Պահպանել դասացուցակը MySQL-ում
   const handleSave = () => {
-    dispatch(saveSchedule(schedule)).then(() => alert("✅ Դասացուցակը հաջողությամբ պահպանվեց!"));
+    if(isScheduleValid(schedule)){
+      dispatch(saveSchedule(schedule)).then(() => alert("✅ Դասացուցակը հաջողությամբ պահպանվեց!"));
+    }
+    else{
+      alert("Կան բաց թողնված տվյալներ")
+    }
+    
   };
 
   // ✅ Input փոփոխելու ֆունկցիա
@@ -83,7 +98,7 @@ const ScheduleForm = () => {
                           }
                           className="schedule-input2"
                         >
-                          <option value="">Ընտրել խումբը</option>
+                          <option value={null}>Ընտրել խումբը</option>
                           {groups.map((group) => (
                             <option key={group} value={group}>{group}</option>
                           ))}
@@ -105,6 +120,8 @@ const ScheduleForm = () => {
                           }
                           className="schedule-input2"
                         >
+                            <option value={null}>Ընտրել շաբաթը</option>
+
                             <option key="Համարիչ"  value="Համարիչ">Համարիչ</option>
                           
                             <option key="Հայտարար" value="Հայտարար">Հայտարար</option>

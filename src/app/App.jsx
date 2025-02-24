@@ -9,10 +9,12 @@ import Dashboard from './Dashboaard';
 import { useSelector,  } from 'react-redux';
 //import SignUp from '../pages/SignUp/ui/SignUp';
 import Workspaces from '../pages/Workspaces/ui/Workspaces';
+import Students from '../pages/Students/ui/Students';
 import Board from '../pages/Board/ui/Board';
 import { useAppDispatch } from '../hooks/useAppDispatch';
 import { autoLogIn } from '../Redux/userSlice';
-
+import PageNotFound from '../pages/PageNotFound';
+import AdminData from '../AdminData/ui/AdminData';
 const App = () => {
 
   const dispatch = useAppDispatch()
@@ -39,14 +41,15 @@ console.log(90909909090909090,Employee)
         <Routes >
 
           <Route path='/' element={<Dashboard />} />
-          <Route path='*' element={<h1 >Not Foung</h1>} />
+          <Route path='*' element={<PageNotFound />} />
           
           {Employee.isAuthenticated ? <>
 
             <Route path='/MainPage' element={<ClassShedule />} />
-            <Route path='/Workspaces' element={<Workspaces />} />
+            <Route path='/Workspaces' element={<Students />} />
             <Route path='/board/:id' element={<Board />} />
-
+            <Route path='/AdminData' element={<AdminData />} />
+            <Route path='/Students/:cours' element={<Students />} />
           </> : <>
             <Route path='/LogInPage' element={<LogInPage />} />
             {/* <Route path='/SignUpPage' element={<SignUp />} /> */}

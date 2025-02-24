@@ -48,6 +48,19 @@ db.connect((err) => {
     );
   `;
 
+  const createStudentsTable = `
+  CREATE TABLE IF NOT EXISTS \`students\` (
+    \`id\` INT AUTO_INCREMENT PRIMARY KEY,
+    \`firstName\` VARCHAR(50) NOT NULL,
+    \`lastName\` VARCHAR(50) NOT NULL,
+    \`patronymic\` VARCHAR(50),
+    \`course\` INT NOT NULL,
+    \`group_\` VARCHAR(50) NOT NULL,
+    \`subgroup\` VARCHAR(50),
+    \`email\` VARCHAR(100) UNIQUE NOT NULL
+  );
+`;
+
   db.query(createEmployeesTable, (err) => {
     if (err) {
       console.error("❌ Error creating Employees table:", err);
@@ -60,6 +73,14 @@ db.connect((err) => {
       console.error("❌ Error creating table:", err);
     } else {
       console.log("✅ Schedule table is ready!");
+    }
+  });
+
+  db.query(createStudentsTable, (err) => {
+    if (err) {
+      console.error("❌ Error creating Students table:", err);
+    } else {
+      console.log("✅ Students table is ready!");
     }
   });
 });

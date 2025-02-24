@@ -29,7 +29,7 @@ const scheduleSlice = createSlice({
     },
     addClass: (state, action) => {
       const { dayIndex, periodIndex } = action.payload;
-      state.schedule[dayIndex].periods[periodIndex].push({ name: "", group: "", professor: "", audience: "" });
+      state.schedule[dayIndex].periods[periodIndex].push({ name: "", group: "", professor: "", audience: "", classroom: ""});
     },
     removeClass: (state, action) => {
       const { dayIndex, periodIndex, subIndex } = action.payload;
@@ -73,6 +73,7 @@ function transformSchedule(data) {
         group: item.group_name || "",
         professor: item.professor || "",
         audience: item.audience || "",
+        classroom: item.classroom || "",
       });
     }
   });
