@@ -1,9 +1,9 @@
 import React, { FC, useState, useEffect } from "react";
 import { Link, useNavigate } from 'react-router-dom'
 import styles from './Header.module.css'
-import { FaTrello } from "react-icons/fa";
 import { RiArrowDropDownLine } from "react-icons/ri";
 import { AiOutlineQuestionCircle } from "react-icons/ai";
+import { AiOutlineMenu } from "react-icons/ai"
 import { RootState } from "../../Redux/store";
 import { useSelector } from 'react-redux';
 import { useAppDispatch } from "../../hooks/useAppDispatch";
@@ -16,9 +16,7 @@ const Header = () => {
   })
 
 
-  const boards = useSelector((state) => {
-    return state.boards.boards
-  })
+
 
   const [isUserMenuOpen, setUserMenuOpen] = useState(false)
   const [isSearching, setIsSearching] = useState(false)
@@ -66,15 +64,16 @@ const Header = () => {
     <header className={styles.header}>
       <nav className={styles.menu}>
         <ul className={styles.mainMenu}>
+
           <li>
             <Link className={styles.link} to='/'>
-              <FaTrello />
-              <h1>Trello</h1>
+              
+              <h1>Matyan</h1>
             </Link>
           </li>
           {user.isAuthenticated ? <li>
-            <Link className={styles.link} to='/Workspaces'>
-              <h3 >Workspace</h3>
+            <Link className={styles.link} to='/AdminData'>
+              <h3 >Տվյալներ</h3>
               <RiArrowDropDownLine />
             </Link>
           </li> : null}
@@ -89,34 +88,19 @@ const Header = () => {
 
 
         <div className={styles.userContainer}>
-          <Link to='https://www.atlassian.com/legal/privacy-policy#what-this-policy-covers' className={styles.questiones}>
+          <Link to='https://github.com/Vahan44' className={styles.questiones}>
             <AiOutlineQuestionCircle />
           </Link>
           {user.isAuthenticated ? (
             <>
               <input onChange={onSearch} onClick={() => setIsSearching(true)} className={styles.search} type="text" placeholder="search" />
               {isSearching ? <div className={styles.results}>
-                <ul>
-                  {boards.reduce((jsx, { id, board }) => {
-                    return (
-                      <>
 
-                        {jsx}
-                        {board.name.includes(search) ?
-                          <li key={board.id} className={styles.searchItem}>
-                            <Link onClick={() => { setIsSearching(false) }} to={{ pathname: `/board/${id}` }}>
-                              {board.name}
-                            </Link>
-                            <hr />
-                          </li> : null}</>
-                    )
-                  }, <></>)}
-                </ul>
               </div> : null}
 
 
               <img onClick={toggleUserMenu}
-                src={'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTW6M4NWghKPuAh1lEjThjCMcdSp9cn029guiwej3QjFg&s'}
+                src={ 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTW6M4NWghKPuAh1lEjThjCMcdSp9cn029guiwej3QjFg&s'}
                 alt=""
                 className={styles.userImage}
 
@@ -128,12 +112,17 @@ const Header = () => {
                     <ul>
                       <li>
                         <Link to='/'>
-                          Trello
+                          Matyan
                         </Link>
                       </li>
                       <li>
-                        <Link to='/Workspaces'>
-                          Workspace
+                        <Link to='/Schedule'>
+                          Դասացուցակ
+                        </Link>
+                      </li>
+                      <li>
+                        <Link to='/AdminData'>
+                          Տվյալներ
                         </Link>
                       </li>
                       <button className={styles.signOutButton} onClick={logOut}>Sign Out</button>

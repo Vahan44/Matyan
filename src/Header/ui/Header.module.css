@@ -1,5 +1,7 @@
 .header {
-    background-color: #1D2125;
+    background-color: #000000;
+    width: 100%;
+    position: fixed;
     border-bottom: 1px solid rgb(123, 123, 123);
     padding: 0px 10px 0 10px;
     display: flex;
@@ -8,6 +10,7 @@
     clear: both;
     margin: 0;
     height: 60px;
+    margin-bottom: 100px;
   }
 
   .menu {

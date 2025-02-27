@@ -51,10 +51,11 @@ db.connect((err) => {
   const createStudentsTable = `
   CREATE TABLE IF NOT EXISTS \`students\` (
     \`id\` INT AUTO_INCREMENT PRIMARY KEY,
+    \`recordNumber\` INT NOT NULL,
     \`firstName\` VARCHAR(50) NOT NULL,
     \`lastName\` VARCHAR(50) NOT NULL,
     \`patronymic\` VARCHAR(50),
-    \`course\` INT NOT NULL,
+    \`course\` VARCHAR(50) NOT NULL,
     \`group_\` VARCHAR(50) NOT NULL,
     \`subgroup\` VARCHAR(50),
     \`email\` VARCHAR(100) UNIQUE NOT NULL

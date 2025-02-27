@@ -84,9 +84,8 @@ const Workspaces = () => {
   }
   return (
     <ul className={styles.work}>workspaces
-      {loding ? <h1>loding... </h1> : null}
-      {error ? <h1>error 404 </h1> : null}
-      {!loding && !error && boards.every(board => board) ?
+     
+      { boards.every(board => board) ?
 
         <div className={styles.workspaces}>
           <div className={styles.workspaceHeader}>

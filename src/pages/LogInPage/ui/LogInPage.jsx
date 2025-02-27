@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import { SiTrello } from "react-icons/si";
 import styles from "./LogInPage.module.css";
 import { useNavigate } from "react-router-dom";
 import { useAppDispatch } from "../../../hooks/useAppDispatch";
@@ -15,7 +14,6 @@ const LogInPage = () => {
   const Employee = useSelector((state) => state.Employee);
 
 
-   
 
   const handleLogin = async () => {
     const response = await logIn(dispatch, { username, password });
@@ -27,13 +25,19 @@ const LogInPage = () => {
     }
    };
 
+   const handleKeyDown = (event) => {
+    if (event.key === "Enter") {
+      handleLogin();
+    }
+  };
+
   return (
-    <div className={styles.container}>
+    <div onKeyDown={handleKeyDown} className={styles.container}>
       <h1>
-        <SiTrello /> Trello
+        Matyan
       </h1>
       <div className={styles.body}>
-        <h4>Log in to continue</h4>
+        <h4>Մուտք գործեք շարունակելու համար</h4>
 
         {error && <p className={styles.error}>{error}</p>}
 

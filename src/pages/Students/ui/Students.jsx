@@ -6,15 +6,17 @@ import { FaPencil } from "react-icons/fa6";
 import { MdDelete  } from "react-icons/md";
 import { MdSave  } from "react-icons/md";
 import { MdCancel  } from "react-icons/md";
-
+import { useParams } from "react-router-dom";
 import "./Student.css";
 
 const Students = () => {
+  const { course } = useParams();
   const dispatch = useDispatch();
   const students = useSelector((state) => state.students?.list);
   const [studentData, setStudentData] = useState([]);
   const [editMode, setEditMode] = useState(null);
   const [newStudent, setNewStudent] = useState({
+    recordNumber: "",
     firstName: "",
     lastName: "",
     patronymic: "",
@@ -23,21 +25,34 @@ const Students = () => {
     subgroup: "",
     email: ""
   });
+
+
+  console.log(students)
   useEffect(() => {
     dispatch(fetchStudents());
   }, [dispatch]);
 
   useEffect(() => {
-    setStudentData(sortStudents(students));
-  }, [students]);
+    setNewStudent(prevState => {
+      const index = studentData.findIndex(student => student.id === prevState.id);
+      return { ...prevState, recordNumber: index !== -1 ? index : null };
+    });
+  }, [studentData]); // ✅ Ավելացրու կախվածության մեջ
+  
+
+  useEffect(() => {
+    
+    setStudentData(sortStudents(students).filter((s) => s.course === course));
+    if (course) {
+      setNewStudent(prevState => ({ ...prevState, course: course }));
+    }  }, [students, course]);
 
   // 🔹 Սորտավորման ֆունկցիա (նախ ազգանուն, ապա անուն)
   const sortStudents = (students) => {
+    
     return [...students].sort((a, b) => {
-      if (a.lastName[0] === b.lastName[0]) {
-        return a.firstName.localeCompare(b.firstName);
-      }
-      return a.lastName.localeCompare(b.lastName);
+        return a.recordNumber - (b.recordNumber);
+      
     });
   };
 
@@ -51,8 +66,11 @@ const Students = () => {
 
   const handleSave = (id) => {
     const updatedStudent = studentData.find((student) => student.id === id);
-    dispatch(updateStudent(updatedStudent));
-    setEditMode(null);
+    if(studentData.find((student)=> student.recordNumber === updatedStudent.recordNumber)){
+      dispatch(updateStudent(updatedStudent));
+      setEditMode(null);
+    }else alert(updatedStudent.recordNumber,"համարով ուսանող արդեն կա")
+    
   };
 
   const handleDelete = (id) => {
@@ -63,24 +81,35 @@ const Students = () => {
   const handleNewStudentChange = (e) => {
     setNewStudent({ ...newStudent, [e.target.name]: e.target.value });
   };
-
+  const isObjectComplete = (obj) => {
+    return Object.values(obj).every(value => value !== null && value !== undefined && value !== "");
+  };
+  
   const handleAddStudent = () => {
-    dispatch(addStudent(newStudent));
-    setStudentData((prev) => [...prev, newStudent]);
-    setNewStudent({
-      firstName: "",
-      lastName: "",
-      patronymic: "",
-      course: "",
-      group_: "",
-      subgroup: "",
-      email: ""
-    });
+    
+    const updatedStudent = { ...newStudent, recordNumber: (studentData?.length || 0) + 1 };
+    if(isObjectComplete(updatedStudent)){
+      
+      dispatch(addStudent(updatedStudent));
+      setStudentData((prev) => [...prev, updatedStudent]);
+      setNewStudent({
+        recordNumber: "",
+        firstName: "",
+        lastName: "",
+        patronymic: "",
+        course: course,
+        group_: "",
+        subgroup: "",
+        email: ""
+      });
+    }
+    else alert("Լռացրեք ուսանողի բոլոր տվյալները")
+    
   };
 
   return (
     <div className="students-container">
-      <h2>Student List</h2>
+      <h2>{course}</h2>
       <table>
         <thead>
           <tr>
@@ -88,8 +117,6 @@ const Students = () => {
             <th>Անուն</th>
             <th>ազգանուն</th>
             <th>Հայրանուն</th>
-            <th></th>
-            {/* <th>Course</th> */}
             <th>Խումբ</th>
             <th>Ենթախումբ</th>
             <th>Էլ. Հասցէ</th>
@@ -98,14 +125,15 @@ const Students = () => {
         </thead>
         <tbody>
           {studentData.map((student) => (
-            <tr key={student.id}>
-              <td>{student.id}</td>
+            
+            <tr >
+              {/* <td>{student.recordNumber }</td> */}
               {editMode === student.id ? (
                 <>
+                  <td><input value={student.recordNumber} onChange={(e) => handleChange(student.id, "recordNumber", e.target.value)} /></td>
                   <td><input value={student.firstName} onChange={(e) => handleChange(student.id, "firstName", e.target.value)} /></td>
                   <td><input value={student.lastName} onChange={(e) => handleChange(student.id, "lastName", e.target.value)} /></td>
                   <td><input value={student.patronymic} onChange={(e) => handleChange(student.id, "patronymic", e.target.value)} /></td>
-                  <td><input value={student.course} onChange={(e) => handleChange(student.id, "course", e.target.value)} /></td>
                   <td><input value={student.group_} onChange={(e) => handleChange(student.id, "group_", e.target.value)} /></td>
                   <td><input value={student.subgroup} onChange={(e) => handleChange(student.id, "subgroup", e.target.value)} /></td>
                   <td><input value={student.email} onChange={(e) => handleChange(student.id, "email", e.target.value)} /></td>
@@ -117,10 +145,10 @@ const Students = () => {
                 </>
               ) : (
                 <>
+                   <td>{student.recordNumber}</td>
                   <td>{student.firstName}</td>
                   <td>{student.lastName}</td>
                   <td>{student.patronymic}</td>
-                  <td>{student.course}</td>
                   <td>{student.group_}</td>
                   <td>{student.subgroup}</td>
                   <td>{student.email}</td>
@@ -137,12 +165,11 @@ const Students = () => {
             <td><input name="firstName" value={newStudent.firstName} onChange={handleNewStudentChange} placeholder="First Name" /></td>
             <td><input name="lastName" value={newStudent.lastName} onChange={handleNewStudentChange} placeholder="Last Name" /></td>
             <td><input name="patronymic" value={newStudent.patronymic} onChange={handleNewStudentChange} placeholder="Patronymic" /></td>
-            <td><input name="course" value={newStudent.course} onChange={handleNewStudentChange} placeholder="Course" /></td>
             <td><input name="group_" value={newStudent.group_} onChange={handleNewStudentChange} placeholder="Group" /></td>
             <td><input name="subgroup" value={newStudent.subgroup} onChange={handleNewStudentChange} placeholder="Subgroup" /></td>
             <td><input name="email" value={newStudent.email} onChange={handleNewStudentChange} placeholder="Email" /></td>
             <td>
-              <button onClick={handleAddStudent}><FaPlus/></button>
+              <button className="b" onClick={handleAddStudent}><FaPlus/></button>
             </td>
           </tr>
         </tbody>

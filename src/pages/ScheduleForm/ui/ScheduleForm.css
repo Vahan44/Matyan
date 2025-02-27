@@ -23,6 +23,7 @@
 }
 
 .schedule-table {
+  background-color: #ffffff;
   align-items: center;
   border-collapse: collapse;
   table-layout: fixed;

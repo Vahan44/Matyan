@@ -1,7 +1,6 @@
 import { FC, useState, useEffect } from "react";
 import { Link, useLocation, useParams } from "react-router-dom";
 import styles from "./MainPage.module.css"
-import { FaTrello } from "react-icons/fa";
 import { FaPlus } from "react-icons/fa";
 import { RootState } from "../../../Redux/store";
 import { useSelector } from 'react-redux';
@@ -40,9 +39,7 @@ const MainPage = () => {
 
           <ul>
             <li>
-              <Link to="/">
-                <FaTrello />     Boards
-              </Link>
+              
             </li>
             <hr />
             <li className={styles.addWorkspaces}>
@@ -61,9 +58,7 @@ const MainPage = () => {
                 workspaceMenue ? (
                   <ul className={styles.WorkspaceTools}>
                     <li>
-                      <Link to="/workspaces">
-                        <FaTrello />     Boards
-                      </Link>
+                      
                     </li>
                   </ul>
                 ) : null
