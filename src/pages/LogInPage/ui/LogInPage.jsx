@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { useAppDispatch } from "../../../hooks/useAppDispatch";
 import { logIn } from "./LogIn.js";
 import { useSelector } from "react-redux";
+import { FaBookOpen } from "react-icons/fa"
 
 const LogInPage = () => {
   const [username, setUsername] = useState("");
@@ -35,6 +36,7 @@ const LogInPage = () => {
     <div onKeyDown={handleKeyDown} className={styles.container}>
       <h1>
         Matyan
+              <FaBookOpen style={{marginLeft: "5p", marginBottom: '-5px', fontSize: '28px'}}/>
       </h1>
       <div className={styles.body}>
         <h4>Մուտք գործեք շարունակելու համար</h4>

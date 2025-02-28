@@ -66,11 +66,16 @@ const Students = () => {
 
   const handleSave = (id) => {
     const updatedStudent = studentData.find((student) => student.id === id);
-    if(studentData.find((student)=> student.recordNumber === updatedStudent.recordNumber)){
-      dispatch(updateStudent(updatedStudent));
-      setEditMode(null);
-    }else alert(updatedStudent.recordNumber,"համարով ուսանող արդեն կա")
-    
+    if(isObjectComplete(updatedStudent)){
+      if(studentData.find((student)=> student.recordNumber === updatedStudent.recordNumber)){
+        dispatch(updateStudent(updatedStudent));
+        setEditMode(null);
+      }else alert(updatedStudent.recordNumber,"համարով ուսանող արդեն կա")
+      
+    }
+    else{
+      alert("Լռացրեք ուսանողի բոլոր տվյալները")
+    }
   };
 
   const handleDelete = (id) => {

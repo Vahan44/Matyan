@@ -9,6 +9,7 @@ import { useSelector } from 'react-redux';
 import { useAppDispatch } from "../../hooks/useAppDispatch";
 import { logout } from "../../Redux/userSlice";
 import { server } from "typescript";
+import { FaBookOpen } from "react-icons/fa"
 const Header = () => {
 
   const user = useSelector((state) => {
@@ -67,8 +68,9 @@ const Header = () => {
 
           <li>
             <Link className={styles.link} to='/'>
-              
+
               <h1>Matyan</h1>
+              <FaBookOpen style={{marginLeft: "5p", marginBottom: '-5px', fontSize: '18px'}}/>
             </Link>
           </li>
           {user.isAuthenticated ? <li>
@@ -100,7 +102,7 @@ const Header = () => {
 
 
               <img onClick={toggleUserMenu}
-                src={ 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTW6M4NWghKPuAh1lEjThjCMcdSp9cn029guiwej3QjFg&s'}
+                src={'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTW6M4NWghKPuAh1lEjThjCMcdSp9cn029guiwej3QjFg&s'}
                 alt=""
                 className={styles.userImage}
 
@@ -111,17 +113,18 @@ const Header = () => {
                   <div onClick={toggleUserMenu} className={styles.userMenu}>
                     <ul>
                       <li>
-                        <Link to='/'>
+                        <Link style={{ textDecoration: "none", color: "inherit" }} to='/'>
                           Matyan
+                          <FaBookOpen style={{marginLeft: "5p", marginBottom: '-5px', fontSize: '18px'}}/>
                         </Link>
                       </li>
                       <li>
-                        <Link to='/Schedule'>
+                        <Link style={{ textDecoration: "none", color: "inherit" }} to='/Schedule'>
                           Դասացուցակ
-                        </Link>
+                        </Link >
                       </li>
                       <li>
-                        <Link to='/AdminData'>
+                        <Link style={{ textDecoration: "none", color: "inherit" }} to='/AdminData'>
                           Տվյալներ
                         </Link>
                       </li>
@@ -135,7 +138,7 @@ const Header = () => {
           ) : (
             <div className={styles.registers}>
               <Link className={styles.button} to='/logInPage'>Log in</Link>
-              <Link className={styles.button} to='/SignUpPage'>Sign Up</Link>
+              {/* <Link className={styles.button} to='/SignUpPage'>Sign Up</Link> */}
 
             </div>
           )}

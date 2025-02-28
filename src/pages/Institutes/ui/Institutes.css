@@ -1,0 +1,131 @@
+/* Հիմնական կոնտեյներ */
+.course-container {
+    width: 80%;
+    max-width: 600px;
+    margin: 20px auto;
+    padding: 15px;
+    border-radius: 10px;
+    background: #ffffff;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  }
+
+  .workspaceHeader{
+    text-align: center;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    font-size: xx-large;
+    justify-content: center;
+}
+  /* Վերնագիր */
+  .course-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    padding-bottom: 10px;
+    border-bottom: 2px solid #e0e0e0;
+  }
+  
+  .user-avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+  }
+  
+  .dropdown-icon {
+    font-size: 24px;
+    cursor: pointer;
+  }
+  
+  /* Կուրսերի ցուցակ */
+  .course-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-top: 10px;
+  }
+  
+  /* Կուրսի բլոկ */
+  .course-item {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 12px;
+    background: #f0f0f0;
+    border-radius: 8px;
+    transition: 0.3s;
+  }
+  
+  .course-item:hover {
+    background: #d9d9d9;
+  }
+  
+  .course-link {
+    text-decoration: none;
+    color: #333;
+    font-size: 16px;
+    font-weight: bold;
+  }
+  
+  /* Կուրսի ավելացման դաշտ */
+  .course-add {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 15px;
+  }
+  
+  .course-add-form {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+  }
+  
+  .course-input {
+    width: 100px;
+    padding: 5px;
+    text-align: center;
+  }
+  
+  /* Կոճակներ */
+  .create-btn, .add-btn, .cancel-btn {
+    padding: 8px 12px;
+    border-radius: 5px;
+    border: none;
+    cursor: pointer;
+    transition: 0.3s;
+  }
+  
+  .create-btn {
+    background: #007bff;
+    color: white;
+  }
+  
+  .create-btn:hover {
+    background: #0056b3;
+  }
+  
+  .add-btn {
+    background: green;
+    color: white;
+  }
+  
+  .add-btn:hover {
+    background: darkgreen;
+  }
+  
+  .cancel-btn {
+    background: red;
+    color: white;
+  }
+  
+  .cancel-btn:hover {
+    background: darkred;
+  }
+  
+  /* Plus icon */
+  .plus-icon {
+    margin-left: 5px;
+  }
+  

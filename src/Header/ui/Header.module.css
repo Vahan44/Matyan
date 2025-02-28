@@ -102,13 +102,15 @@
     padding: 10px;
     margin: 0;
     align-items: center;
+    
   }
 
-  .userMenu ul li:hover {
-    text-align: left;
-    background-color: #5b5b5b;
+  .userMenu ul li p {
+    text-decoration: none;
+    
+    color: #929292; 
   }
-  
+
 
   
 

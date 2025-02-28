@@ -23,7 +23,7 @@ const AdminData = () => {
                     
 
                   </div>
-                  <div onClick={()=>navigate('/Employees')} className="course-item">
+                  <div onClick={()=>navigate('/Institutes')} className="course-item">
                       <h4>Դաասխոսներ</h4>
 
                   </div>
@@ -32,9 +32,9 @@ const AdminData = () => {
                     
 
                   </div>
-                  <div  onClick = {()=> navigate(`/Schedule`)}className="course-item">
+                  <div  onClick = {()=> navigate(`/Schedules`)}className="course-item">
                     
-                      <h4>Դասացուցակ</h4>
+                      <h4>Դասացուցակներ</h4>
                     
 
                   </div>

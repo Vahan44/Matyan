@@ -3,6 +3,7 @@ import cors from "cors";
 import db from "./db.js";
 import authRoutes from "./routes/authRoutes.js"; // ✅ Import արեցինք authRoutes-ը
 import studentRoutes from "./routes/studentRoutes.js"; // `.js` վերջավորությունը պարտադիր է ES module-ների համար
+import employeeRoutes from "./routes/employeeRoutes.js";
 
 const app = express();
 
@@ -12,6 +13,7 @@ app.use(cors());
 app.use(express.json());
 app.use("/students", studentRoutes);
 app.use("/api/auth", authRoutes);
+app.use("/employees", employeeRoutes);
 // ✅ Բեռնել դասացուցակը
 app.get("/api/schedule", (req, res) => {
   db.query("SELECT * FROM schedule", (err, results) => {

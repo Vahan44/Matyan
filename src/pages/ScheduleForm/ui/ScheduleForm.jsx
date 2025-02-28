@@ -1,12 +1,26 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchSchedule, saveSchedule, updateClass, addClass, removeClass } from "../../../Redux/SheduleSlice.js";
 import "./ScheduleForm.css";
-
+import { useParams } from "react-router-dom";
 const ScheduleForm = () => {
-  const dispatch = useDispatch();
+  const { course } = useParams();
+    const dispatch = useDispatch();
   const schedule = useSelector((state) => state.schedule.schedule);
   const loading = useSelector((state) => state.schedule.loading);
+  const [scheduleData, setScheduleData] = useState([])
+  const [newShedule, setNewShedule] = useState({
+    day : "",
+  period: "",
+  course: course,
+  name: "",
+  group_name: "",
+  professor: "",
+  audience: "",
+  classroom: ""
+})
+
+
   const groups = ["Դաս", "Լաբ 1", "Լաբ 2", "Լաբ 3", "Լաբ 4", "Լաբ 5", "Լաբ 6", "Գործ 1", "Գործ 2", "Գործ 3", "Գործ 4", "ԿԱ 1", "ԿԱ 2", "ԿԱ 3", "ԿԱ 4"];
   console.log("Schedule data:", schedule);
 
@@ -15,7 +29,30 @@ const ScheduleForm = () => {
     dispatch(fetchSchedule());
   }, [dispatch]);
 
-  function isScheduleValid(schedule) {
+  function getCourseSchedule(schedule, course) {
+    return schedule.filter(lesson => lesson.course === course);
+}
+
+// Օրինակային տվյալներ
+useEffect(() => {
+  setScheduleData(getCourseSchedule(schedule, course))
+}, [schedule, course, setScheduleData])
+
+
+const handleNewSheduleChange = (dayIndex, periodIndex, value) => {
+  setNewShedule((prevShedule) =>
+      prevShedule.map((day, index) =>
+          index === dayIndex
+              ? { ...day, periods: day.periods.map((period, pIndex) =>
+                  pIndex === periodIndex ? value : period
+              )}
+              : day
+      )
+  );
+};
+
+
+function isScheduleValid(schedule) {
     return schedule.every(day => 
         day.periods.every(period => 
             period.every(lesson => 
@@ -40,9 +77,41 @@ const ScheduleForm = () => {
     dispatch(updateClass({ dayIndex, periodIndex, subIndex, field, value }));
   };
 
+
+
+  function transformSchedule(data) {
+    const defaultSchedule = [
+      { day: "Երկուշաբթի", periods: [[], [], [], []] },
+      { day: "Երեքշաբթի", periods: [[], [], [], []] },
+      { day: "Չորեքշաբթի", periods: [[], [], [], []] },
+      { day: "Հինգշաբթի", periods: [[], [], [], []] },
+      { day: "Ուրբաթ", periods: [[], [], [], []] },
+    ];
+  
+    data.forEach((item) => {
+      const dayEntry = defaultSchedule.find((d) => d.day === item.day);
+      if (dayEntry && item.period >= 0 && item.period < 4) {
+        dayEntry.periods[item.period].push({
+          name: item.name || "",
+          group: item.group_name || "",
+          professor: item.professor || "",
+          audience: item.audience || "",
+          classroom: item.classroom || "",
+          course: item.course || course,
+        });
+      }
+    });
+  
+    return defaultSchedule;
+  }
+
+
+
+
+
   return (
     <div className="schedule-container">
-      <h2 className="title">Դասացուցակ</h2>
+      
 
       
 
@@ -52,14 +121,15 @@ const ScheduleForm = () => {
         <div className="table-wrapper">
           <table className="schedule-table">
             <thead>
+              <tr><th colSpan="5">
+              <h1 className="title">Դասացուցակ</h1>
+                </th></tr>
               <tr className="first">
                 <th>Կուրս</th>
-                <td>
-                  <input 
-                  type="text"
-                  className="schedule-input" />
+                <td className="schedule-input1">
+                  {course}
                 </td>
-                <td colspan="3">
+                <td colSpan="3">
               <button onClick={handleSave} className="save-button">
         Պահպանել դասացուցակը
       </button>
@@ -74,7 +144,7 @@ const ScheduleForm = () => {
               </tr>
             </thead>
             <tbody>
-              {schedule.map((day, dayIndex) => (
+              {transformSchedule(scheduleData).map((day, dayIndex) => (
                 <tr key={day.day}>
                   <td className="day-name">{day.day}</td>
                   {day.periods.map((period, periodIndex) => (
@@ -146,7 +216,7 @@ const ScheduleForm = () => {
                         </div>
                       ))}
                       <button
-                        onClick={() => dispatch(addClass({ dayIndex, periodIndex }))}
+                        onClick={() => dispatch(addClass({ dayIndex, periodIndex, course }))}
                         className="add-class-btn"
                       >
                         + Ավելացնել դասաժամ

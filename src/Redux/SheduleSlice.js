@@ -29,7 +29,7 @@ const scheduleSlice = createSlice({
     },
     addClass: (state, action) => {
       const { dayIndex, periodIndex } = action.payload;
-      state.schedule[dayIndex].periods[periodIndex].push({ name: "", group: "", professor: "", audience: "", classroom: ""});
+      state.schedule[dayIndex].periods[periodIndex].push({ name: "", group: "", professor: "", audience: "", classroom: "", course: "",});
     },
     removeClass: (state, action) => {
       const { dayIndex, periodIndex, subIndex } = action.payload;
@@ -43,7 +43,7 @@ const scheduleSlice = createSlice({
       })
       .addCase(fetchSchedule.fulfilled, (state, action) => {
         state.loading = false;
-        state.schedule = transformSchedule(action.payload);
+        state.schedule = action.payload;
       })
       .addCase(fetchSchedule.rejected, (state, action) => {
         state.loading = false;
@@ -74,6 +74,7 @@ function transformSchedule(data) {
         professor: item.professor || "",
         audience: item.audience || "",
         classroom: item.classroom || "",
+        course: item.course || "",
       });
     }
   });

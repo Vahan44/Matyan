@@ -1,26 +1,42 @@
 import { useState, useEffect } from "react";
-import { useSelector , useDispatch} from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { FaPlus } from "react-icons/fa";
-import { fetchStudents } from "../../../Redux/StudentSlice";
-import "./Course.css"
-const Courses = () => {
+import { fetchSchedule, saveSchedule, updateClass, addClass, removeClass } from "../../../Redux/SheduleSlice.js";
+
+import "./Schedules.css";
+
+const Schedules = () => {
   const navigate = useNavigate();
-  
-  const students = useSelector((state) => state.students?.list);
   const dispatch = useDispatch();
   useEffect(() => {
-      dispatch(fetchStudents());
-    }, [dispatch]);
-  // Ստանում ենք առկա կուրսերի ցանկը
-  const uniqueCourses = [...new Set(students.map(student => student.course))].sort((a, b) => a - b);
-  
+    dispatch(fetchSchedule());
+  }, [dispatch]);
+  // Օգտագործում ենք schedule աղյուսակից course դաշտը
+  const schedule = useSelector((state) => state.schedule.schedule);
+
+ console.log('asdasdasdasd', schedule)
+
+  const uniqueCourses = getUniqueCourses(schedule)
+console.log('unique courses', uniqueCourses)
+function getUniqueCourses(schedule) {
+    const courses = new Set();
+
+    schedule.forEach(lesson => {
+      if (lesson.course) {
+        courses.add(lesson.course);
+    }
+    });
+
+    return Array.from(courses);
+}
+  console.log(uniqueCourses)
   const [addingCourse, setAddingCourse] = useState(false);
   const [newCourse, setNewCourse] = useState("");
 
   const handleAddCourse = () => {
-    if (newCourse.trim() && !uniqueCourses.includes(parseInt(newCourse))) {
-      navigate(`/Students/${newCourse}`); // Տեղափոխում ենք նոր կուրսի էջը
+    if (newCourse.trim() && !uniqueCourses.includes(newCourse)) {
+      navigate(`/Schedule/${newCourse}`); // Նոր կուրսի էջ
     }
     setNewCourse("");
     setAddingCourse(false);
@@ -28,11 +44,10 @@ const Courses = () => {
 
   return (
     <div className="course-container">
-     
       <div className="course-list">
         {uniqueCourses.map((course) => (
           <div key={course} className="course-item">
-            <Link className="course-link" to={`/Students/${course}`}>
+            <Link className="course-link" to={`/Schedule/${course}`}>
               <h4>{course}</h4>
             </Link>
           </div>
@@ -57,7 +72,7 @@ const Courses = () => {
           </div>
         ) : (
           <button className="create-btn" onClick={() => setAddingCourse(true)}>
-            Ավելացնել նոր կուրս<FaPlus className="plus-icon" />
+            Ավելացնել նոր կուրս <FaPlus className="plus-icon" />
           </button>
         )}
       </div>
@@ -65,4 +80,4 @@ const Courses = () => {
   );
 };
 
-export default Courses;
+export default Schedules;

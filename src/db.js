@@ -39,7 +39,7 @@ db.connect((err) => {
       UserID INT AUTO_INCREMENT PRIMARY KEY,
       FirstName VARCHAR(100) NOT NULL,
       LastName VARCHAR(100) NOT NULL,
-      InstituteID INT NOT NULL,
+      Institute VARCHAR(100) NOT NULL,
       Role VARCHAR(50),
       Username VARCHAR(100) UNIQUE NOT NULL,
       Password VARCHAR(255) NOT NULL,
