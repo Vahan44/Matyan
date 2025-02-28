@@ -28,8 +28,8 @@ const scheduleSlice = createSlice({
       state.schedule[dayIndex].periods[periodIndex][subIndex][field] = value;
     },
     addClass: (state, action) => {
-      const { dayIndex, periodIndex } = action.payload;
-      state.schedule[dayIndex].periods[periodIndex].push({ name: "", group: "", professor: "", audience: "", classroom: "", course: "",});
+      const { dayIndex, periodIndex, course } = action.payload;
+      state.schedule[dayIndex].periods[periodIndex].push({ name: "", group_name: "", professor: "", audience: "", classroom: "", course: course,});
     },
     removeClass: (state, action) => {
       const { dayIndex, periodIndex, subIndex } = action.payload;
@@ -43,7 +43,7 @@ const scheduleSlice = createSlice({
       })
       .addCase(fetchSchedule.fulfilled, (state, action) => {
         state.loading = false;
-        state.schedule = action.payload;
+        state.schedule = transformSchedule(action.payload);
       })
       .addCase(fetchSchedule.rejected, (state, action) => {
         state.loading = false;
@@ -70,7 +70,7 @@ function transformSchedule(data) {
     if (dayEntry && item.period >= 0 && item.period < 4) {
       dayEntry.periods[item.period].push({
         name: item.name || "",
-        group: item.group_name || "",
+        group_name: item.group_name || "",
         professor: item.professor || "",
         audience: item.audience || "",
         classroom: item.classroom || "",

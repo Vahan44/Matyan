@@ -56,7 +56,7 @@ function isScheduleValid(schedule) {
     return schedule.every(day => 
         day.periods.every(period => 
             period.every(lesson => 
-                Object.values(lesson).every(value => value.trim() !== "")
+                Object.values(lesson).every(value => value !== "")
             )
         )
     );
@@ -67,6 +67,7 @@ function isScheduleValid(schedule) {
       dispatch(saveSchedule(schedule)).then(() => alert("✅ Դասացուցակը հաջողությամբ պահպանվեց!"));
     }
     else{
+      console.log(schedule)
       alert("Կան բաց թողնված տվյալներ")
     }
     
@@ -107,7 +108,16 @@ function isScheduleValid(schedule) {
 
 
 
+  function filterLessons(schedule) {
+    return schedule.map(day => ({
+      ...day,
+      periods: day.periods.map(period => 
+        period.filter(lesson => lesson.course !== "ՏՏ119")
+      )
+    }));
+  }
 
+  console.log(filterLessons(schedule))
 
   return (
     <div className="schedule-container">
@@ -144,7 +154,7 @@ function isScheduleValid(schedule) {
               </tr>
             </thead>
             <tbody>
-              {transformSchedule(scheduleData).map((day, dayIndex) => (
+              {(schedule).map((day, dayIndex) => (
                 <tr key={day.day}>
                   <td className="day-name">{day.day}</td>
                   {day.periods.map((period, periodIndex) => (
@@ -162,9 +172,9 @@ function isScheduleValid(schedule) {
                           />
                           
                           <select
-                          value={cls.group}
+                          value={cls.group_name}
                           onChange={(e) =>
-                            handleChange(dayIndex, periodIndex, subIndex, "group", e.target.value)
+                            handleChange(dayIndex, periodIndex, subIndex, "group_name", e.target.value)
                           }
                           className="schedule-input2"
                         >

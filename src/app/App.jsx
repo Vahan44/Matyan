@@ -48,7 +48,7 @@ console.log(90909909090909090,Employee)
 
             <Route path='/Schedules' element={<Schedules />} />
             <Route path='/Schedule/:course' element={<ClassShedule />} />
-            <Route path='/AdminData' element={<AdminData />} />
+            <Route path='/AdminData/' element={<AdminData />} />
             <Route path='/Course' element={<Course/>} />
             <Route path='/Institutes' element={<Institute />} />
 

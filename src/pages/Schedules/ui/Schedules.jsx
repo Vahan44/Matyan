@@ -22,14 +22,22 @@ console.log('unique courses', uniqueCourses)
 function getUniqueCourses(schedule) {
     const courses = new Set();
 
-    schedule.forEach(lesson => {
-      if (lesson.course) {
-        courses.add(lesson.course);
-    }
+    schedule.forEach(day => {
+        day.periods.forEach(period => {
+            period.forEach(lesson => {
+                if (lesson.course) {
+                    courses.add(lesson.course);
+                }
+            });
+        });
     });
 
     return Array.from(courses);
 }
+
+
+
+
   console.log(uniqueCourses)
   const [addingCourse, setAddingCourse] = useState(false);
   const [newCourse, setNewCourse] = useState("");
