@@ -121,31 +121,26 @@ function isScheduleValid(schedule) {
 
   return (
     <div className="schedule-container">
-      
-
-      
-
       {loading ? (
         <p>🔄 Բեռնվում է...</p>
       ) : (
         <div className="table-wrapper">
           <table className="schedule-table">
             <thead>
-              <tr><th colSpan="5">
-              <h1 className="title">Դասացուցակ</h1>
-                </th></tr>
+              <tr>
+                <th colSpan="5">
+                  <h1 className="title">Դասացուցակ</h1>
+                </th>
+              </tr>
               <tr className="first">
                 <th>Կուրս</th>
-                <td className="schedule-input1">
-                  {course}
-                </td>
+                <td className="schedule-input1">{course}</td>
                 <td colSpan="3">
-              <button onClick={handleSave} className="save-button">
-        Պահպանել դասացուցակը
-      </button>
-              </td>
+                  <button onClick={handleSave} className="save-button">
+                    Պահպանել դասացուցակը
+                  </button>
+                </td>
               </tr>
-              
               <tr>
                 <th>Օր</th>
                 {["1-2", "3-4", "5-6", "7-8"].map((period) => (
@@ -154,79 +149,115 @@ function isScheduleValid(schedule) {
               </tr>
             </thead>
             <tbody>
-              {(filterLessons(schedule)).map((day, dayIndex) => (
+              {schedule.map((day, dayIndex) => (
                 <tr key={day.day}>
                   <td className="day-name">{day.day}</td>
                   {day.periods.map((period, periodIndex) => (
                     <td key={periodIndex}>
-                      {period.map((cls, subIndex) => (
-                        <div key={subIndex} className="class-entry">
-                          <input
-                            type="text"
-                            placeholder="Առարկա"
-                            value={cls.name}
-                            onChange={(e) =>
-                              handleChange(dayIndex, periodIndex, subIndex, "name", e.target.value)
-                            }
-                            className="schedule-input"
-                          />
-                          
-                          <select
-                          value={cls.group_name}
-                          onChange={(e) =>
-                            handleChange(dayIndex, periodIndex, subIndex, "group_name", e.target.value)
-                          }
-                          className="schedule-input2"
-                        >
-                          <option value={null}>Ընտրել խումբը</option>
-                          {groups.map((group) => (
-                            <option key={group} value={group}>{group}</option>
-                          ))}
-                        </select>
-                          <input
-                            type="text"
-                            placeholder="Դասախոս"
-                            value={cls.professor}
-                            onChange={(e) =>
-                              handleChange(dayIndex, periodIndex, subIndex, "professor", e.target.value)
-                            }
-                            className="schedule-input"
-                          />
-                          
-                          <select
-                          value={cls.audience}
-                          onChange={(e) =>
-                            handleChange(dayIndex, periodIndex, subIndex, "audience", e.target.value)
-                          }
-                          className="schedule-input2"
-                        >
-                            <option value={null}>Ընտրել շաբաթը</option>
-
-                            <option key="Համարիչ"  value="Համարիչ">Համարիչ</option>
-                          
-                            <option key="Հայտարար" value="Հայտարար">Հայտարար</option>
-                          
-                        </select>
-
-                        <input
-                            type="text"
-                            placeholder="Լսարան"
-                            value={cls.classroom}
-                            onChange={(e) =>
-                              handleChange(dayIndex, periodIndex, subIndex, "classroom", e.target.value)
-                            }
-                            className="schedule-input"
-                          />
-                          <button
-                            onClick={() => dispatch(removeClass({ dayIndex, periodIndex, subIndex }))}
-                            className="remove-class-btn"
-                          >
-                            Ջնջել
-                          </button>
-                        </div>
-                      ))}
+                      {period.map((cls, subIndex) =>
+                        cls.course === course ? (
+                          <div key={subIndex} className="class-entry">
+                            <input
+                              type="text"
+                              placeholder="Առարկա"
+                              value={cls.name}
+                              onChange={(e) =>
+                                handleChange(
+                                  dayIndex,
+                                  periodIndex,
+                                  subIndex,
+                                  "name",
+                                  e.target.value
+                                )
+                              }
+                              className="schedule-input"
+                            />
+  
+                            <select
+                              value={cls.group_name}
+                              onChange={(e) =>
+                                handleChange(
+                                  dayIndex,
+                                  periodIndex,
+                                  subIndex,
+                                  "group_name",
+                                  e.target.value
+                                )
+                              }
+                              className="schedule-input2"
+                            >
+                              <option value="">Ընտրել խումբը</option>
+                              {groups.map((group) => (
+                                <option key={group} value={group}>
+                                  {group}
+                                </option>
+                              ))}
+                            </select>
+  
+                            <input
+                              type="text"
+                              placeholder="Դասախոս"
+                              value={cls.professor}
+                              onChange={(e) =>
+                                handleChange(
+                                  dayIndex,
+                                  periodIndex,
+                                  subIndex,
+                                  "professor",
+                                  e.target.value
+                                )
+                              }
+                              className="schedule-input"
+                            />
+  
+                            <select
+                              value={cls.audience}
+                              onChange={(e) =>
+                                handleChange(
+                                  dayIndex,
+                                  periodIndex,
+                                  subIndex,
+                                  "audience",
+                                  e.target.value
+                                )
+                              }
+                              className="schedule-input2"
+                            >
+                              <option value="">Ընտրել շաբաթը</option>
+                              <option value="Համարիչ">Համարիչ</option>
+                              <option value="Հայտարար">Հայտարար</option>
+                            </select>
+  
+                            <input
+                              type="text"
+                              placeholder="Լսարան"
+                              value={cls.classroom}
+                              onChange={(e) =>
+                                handleChange(
+                                  dayIndex,
+                                  periodIndex,
+                                  subIndex,
+                                  "classroom",
+                                  e.target.value
+                                )
+                              }
+                              className="schedule-input"
+                            />
+                            <button
+                              onClick={() =>
+                                dispatch(removeClass({ dayIndex, periodIndex, subIndex }))
+                              }
+                              className="remove-class-btn"
+                            >
+                              Ջնջել
+                            </button>
+                          </div>
+                        ) : null
+                      )}
                       <button
-                        onClick={() => dispatch(addClass({ dayIndex, periodIndex, course }))}
+                        onClick={() =>
+                          dispatch(addClass({ dayIndex, periodIndex, course }))
+                        }
                         className="add-class-btn"
                       >
                         + Ավելացնել դասաժամ
@@ -240,7 +271,7 @@ function isScheduleValid(schedule) {
         </div>
       )}
     </div>
-  );
-};
+  );}
+  
 
 export default ScheduleForm;
