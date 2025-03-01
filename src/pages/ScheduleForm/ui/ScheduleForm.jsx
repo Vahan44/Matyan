@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { shallowEqual, useDispatch, useSelector } from "react-redux";
 import { fetchSchedule, saveSchedule, updateClass, addClass, removeClass } from "../../../Redux/SheduleSlice.js";
 import "./ScheduleForm.css";
 import { useParams } from "react-router-dom";
@@ -8,7 +8,7 @@ const ScheduleForm = () => {
     const dispatch = useDispatch();
   const schedule = useSelector((state) => state.schedule.schedule);
   const loading = useSelector((state) => state.schedule.loading);
-  const [scheduleData, setScheduleData] = useState([])
+  const [scheduleShow, setScheduleShow] = useState([])
   const [newShedule, setNewShedule] = useState({
     day : "",
   period: "",
@@ -35,8 +35,8 @@ const ScheduleForm = () => {
 
 // Օրինակային տվյալներ
 useEffect(() => {
-  setScheduleData(getCourseSchedule(schedule, course))
-}, [schedule, course, setScheduleData])
+  setScheduleShow(filterLessons(schedule))
+}, [])
 
 
 const handleNewSheduleChange = (dayIndex, periodIndex, value) => {
@@ -53,7 +53,7 @@ const handleNewSheduleChange = (dayIndex, periodIndex, value) => {
 
 
 function isScheduleValid(schedule) {
-    return schedule.every(day => 
+    return  schedule.every(day => 
         day.periods.every(period => 
             period.every(lesson => 
                 Object.values(lesson).every(value => value !== "")
@@ -106,18 +106,18 @@ function isScheduleValid(schedule) {
     return defaultSchedule;
   }
 
-
-
+  
   function filterLessons(schedule) {
     return schedule.map(day => ({
       ...day,
-      periods: day.periods.map(period => 
-        period.filter(lesson => lesson.course !== "ՏՏ119")
-      )
+      periods: day.periods.map(period =>
+        period.filter(lesson => lesson.course == course)
+      ),
     }));
   }
 
   console.log(filterLessons(schedule))
+  console.log((schedule))
 
   return (
     <div className="schedule-container">
@@ -154,7 +154,7 @@ function isScheduleValid(schedule) {
               </tr>
             </thead>
             <tbody>
-              {(schedule).map((day, dayIndex) => (
+              {(filterLessons(schedule)).map((day, dayIndex) => (
                 <tr key={day.day}>
                   <td className="day-name">{day.day}</td>
                   {day.periods.map((period, periodIndex) => (
