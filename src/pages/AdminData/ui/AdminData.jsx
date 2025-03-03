@@ -11,7 +11,7 @@ const AdminData = () => {
             <img
               src={'https://static.vecteezy.com/system/resources/thumbnails/002/318/271/small/user-profile-icon-free-vector.jpg'}
               alt='' />
-            <p>{Employee.user.FirstName} {Employee.user.LastName} {Employee.user.Role === "Admin" ? "Ադմինիստրատոր" : "Դասախոս"}</p>
+            <p>{Employee.user.FirstName} {Employee.user.LastName} {Employee.user.Role === "Ադմինիստրատոր" ? "Ադմինիստրատոր" : "Դասախոս"}</p>
           </div>
           <h4>Հասանելի տվյալներ</h4>
           <hr />

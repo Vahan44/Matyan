@@ -13,6 +13,8 @@ const Students = () => {
   const { course } = useParams();
   const dispatch = useDispatch();
   const students = useSelector((state) => state.students?.list);
+  const faculties = useSelector((state) => state.faculty?.list);
+
   const [studentData, setStudentData] = useState([]);
   const [editMode, setEditMode] = useState(null);
   const [newStudent, setNewStudent] = useState({
@@ -139,8 +141,8 @@ const Students = () => {
                   <td><input value={student.firstName} onChange={(e) => handleChange(student.id, "firstName", e.target.value)} /></td>
                   <td><input value={student.lastName} onChange={(e) => handleChange(student.id, "lastName", e.target.value)} /></td>
                   <td><input value={student.patronymic} onChange={(e) => handleChange(student.id, "patronymic", e.target.value)} /></td>
-                  <td><input value={student.group_} onChange={(e) => handleChange(student.id, "group_", e.target.value)} /></td>
-                  <td><input value={student.subgroup} onChange={(e) => handleChange(student.id, "subgroup", e.target.value)} /></td>
+                  <td><input type="number" value={student.group_} onChange={(e) => handleChange(student.id, "group_", e.target.value)} /></td>
+                  <td><input type="number" value={student.subgroup} onChange={(e) => handleChange(student.id, "subgroup", e.target.value)} /></td>
                   <td><input value={student.email} onChange={(e) => handleChange(student.id, "email", e.target.value)} /></td>
                   <td>
                   
@@ -170,8 +172,8 @@ const Students = () => {
             <td><input name="firstName" value={newStudent.firstName} onChange={handleNewStudentChange} placeholder="First Name" /></td>
             <td><input name="lastName" value={newStudent.lastName} onChange={handleNewStudentChange} placeholder="Last Name" /></td>
             <td><input name="patronymic" value={newStudent.patronymic} onChange={handleNewStudentChange} placeholder="Patronymic" /></td>
-            <td><input name="group_" value={newStudent.group_} onChange={handleNewStudentChange} placeholder="Group" /></td>
-            <td><input name="subgroup" value={newStudent.subgroup} onChange={handleNewStudentChange} placeholder="Subgroup" /></td>
+            <td><input type="number" name="group_" value={newStudent.group_} onChange={handleNewStudentChange} placeholder="Group" /></td>
+            <td><input type="number" name="subgroup" value={newStudent.subgroup} onChange={handleNewStudentChange} placeholder="Subgroup" /></td>
             <td><input name="email" value={newStudent.email} onChange={handleNewStudentChange} placeholder="Email" /></td>
             <td>
               <button className="b" onClick={handleAddStudent}><FaPlus/></button>

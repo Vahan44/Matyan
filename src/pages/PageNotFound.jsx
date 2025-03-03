@@ -7,7 +7,6 @@ export default function PageNotFound() {
         justifyContent: "center",
         height: "100vh",
         textAlign: "center",
-        background: "linear-gradient(to right, #e0e0e0, #f8f9fa)"
       }}>
         <h1 style={{ fontSize: "2.5rem", fontWeight: "bold", color: "#333" }}>❌ Էջը չի գտնվել</h1>
         <p style={{ color: "#555", fontSize: "1.2rem", marginTop: "10px" }}>

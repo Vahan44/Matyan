@@ -8,7 +8,7 @@ body {
     -moz-osx-font-smoothing: grayscale;
     background-image: url("../public/photos/background5.jpg");
     background-color: rgb(234, 234, 233);
-    background-size: 30%;
+    background-size: 25%;
     overflow-y: auto;
     ::-webkit-scrollbar {
       width: 12px; 

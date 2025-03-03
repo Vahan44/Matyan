@@ -25,20 +25,13 @@ router.get("/", async (req, res) => {
 
 // Add a lesson
 router.post("/", async (req, res) => {
-  const { name, userName, facultyName } = req.body;
+  const { Name, UserID, FacultyID } = req.body;
   try {
     // Finding UserID based on userName
-    const [user] = await db.execute("SELECT UserID FROM Employees WHERE CONCAT(FirstName, ' ', LastName) = ?", [userName]);
-    if (user.length === 0) return res.status(400).json({ error: "User not found" });
+
     
-    // Finding FacultyID based on facultyName
-    const [faculty] = await db.execute("SELECT FacultyID FROM Faculty WHERE Name = ?", [facultyName]);
-    if (faculty.length === 0) return res.status(400).json({ error: "Faculty not found" });
     
-    const userID = user[0].UserID;
-    const facultyID = faculty[0].FacultyID;
-    
-    await db.execute("INSERT INTO Lesson (Name, UserID, FacultyID) VALUES (?, ?, ?)", [name, userID, facultyID]);
+    await db.execute("INSERT INTO Lesson (Name, UserID, FacultyID) VALUES (?, ?, ?)", [Name, UserID, FacultyID]);
     res.status(201).json({ message: "Lesson added successfully" });
   } catch (error) {
     res.status(500).json({ error: "Database error" });
@@ -47,19 +40,12 @@ router.post("/", async (req, res) => {
 
 // Update a lesson
 router.put("/:id", async (req, res) => {
-  const { name, userName, facultyName } = req.body;
+  const { Name, UserID, FacultyID } = req.body;
   const { id } = req.params;
   try {
-    const [user] = await db.execute("SELECT UserID FROM Employees WHERE CONCAT(FirstName, ' ', LastName) = ?", [userName]);
-    if (user.length === 0) return res.status(400).json({ error: "User not found" });
+
     
-    const [faculty] = await db.execute("SELECT FacultyID FROM Faculty WHERE Name = ?", [facultyName]);
-    if (faculty.length === 0) return res.status(400).json({ error: "Faculty not found" });
-    
-    const userID = user[0].UserID;
-    const facultyID = faculty[0].FacultyID;
-    
-    await db.execute("UPDATE Lesson SET Name = ?, UserID = ?, FacultyID = ? WHERE LessonID = ?", [name, userID, facultyID, id]);
+    await db.execute("UPDATE Lesson SET Name = ?, UserID = ?, FacultyID = ? WHERE LessonID = ?", [Name, UserID, FacultyID, id]);
     res.json({ message: "Lesson updated successfully" });
   } catch (error) {
     res.status(500).json({ error: "Database error" });

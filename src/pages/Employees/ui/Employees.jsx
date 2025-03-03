@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import { fetchEmployees, addEmployee, updateEmployee, deleteEmployee } from "../../../Redux/Employees";
+import {fetchInstitutes} from "../../../Redux/InstitutesSlice";
 import { FaPlus } from "react-icons/fa";
 import { FaPencil } from "react-icons/fa6";
 import { MdDelete } from "react-icons/md";
@@ -11,16 +12,17 @@ import "./Employees.css";
 import bcrypt from "bcryptjs";
 import PasswordChecklist from "react-password-checklist"
 const Employees = () => {
-    const { Institute } = useParams();
+    const { IdParam } = useParams();
 
     const dispatch = useDispatch();
     const employees = useSelector((state) => state.employees?.list);
+    const Institutes = useSelector((state) => state.institutes?.list);
     const [employeeData, setEmployeeData] = useState([]);
     const [editMode, setEditMode] = useState(null);
     const [newEmployee, setNewEmployee] = useState({
         FirstName: "",
         LastName: "",
-        Institute: "",
+        InstituteID: "",
         Role: "",
         Username: "",
         Password: "",
@@ -32,17 +34,17 @@ const Employees = () => {
 
     useEffect(() => {
         dispatch(fetchEmployees());
+        dispatch(fetchInstitutes());
     }, [dispatch]);
 
     useEffect(() => {
-        console.log(employees.filter((s) => s.Institute === Institute))
-        setEmployeeData(employees.filter((s) => s.Institute === Institute));
-        if (Institute) {
-            setNewEmployee(prevState => ({ ...prevState, Institute: Institute }));
+        setEmployeeData(employees.filter((s) =>(s.InstituteID) == (IdParam)));
+        if (IdParam) {
+            setNewEmployee(prevState => ({ ...prevState, InstituteID: IdParam }));
         }
-    }, [employees,Institute]);
+    }, [employees, IdParam]);
 
- 
+    
 
     const handleChange = (id, field, value) => {
         setEmployeeData((prev) =>
@@ -97,7 +99,7 @@ const Employees = () => {
                 setNewEmployee({
                     FirstName: "",
                     LastName: "",
-                    Institute: "",
+                    InstituteId: IdParam,
                     Role: "",
                     Username: "",
                     Password: "",
@@ -110,7 +112,10 @@ const Employees = () => {
         } else alert("Լռացրեք Աշխատակցի բոլոր տվյալները")
 
     };
-
+    employeeData.forEach((employee) => {
+        
+        console.log(employee)
+    })
     return (
         <div className="employees-container">
             <h2>Աշխատակիցներ</h2>
@@ -119,7 +124,7 @@ const Employees = () => {
                     <tr>
                         <th>Անուն</th>
                         <th>Ազգանուն</th>
-                        <th>Ինստիտուտ</th>
+                        {/* <th>Ինստիտուտ</th> */}
                         <th>Պաշտոն</th>
                         <th>Մուտքանուն</th>
                         <th>Գաղտնաբառ</th>
@@ -130,12 +135,19 @@ const Employees = () => {
                 </thead>
                 <tbody>
                     {employeeData.map((employee) => (
+                        
                         <tr key={employee.UserID}>
                             {editMode === employee.UserID ? (
                                 <>
                                     <td><input value={employee.FirstName} onChange={(e) => handleChange(employee.UserID, "FirstName", e.target.value)} /></td>
                                     <td><input value={employee.LastName} onChange={(e) => handleChange(employee.UserID, "LastName", e.target.value)} /></td>
-                                    <td><input value={employee.Institute} onChange={(e) => handleChange(employee.UserID, "Institute", e.target.value)} /></td>
+                                    {/* <td style= {{width: '250px'}} className="shorttd"><select onChange={(e) => handleChange(employee.UserID, "InstituteID", e.target.value)}>
+                                        <option value="">Ինստիտուտ</option>
+                                        {(Institutes).map(inst => (
+                                            <option key={inst.InstituteID} value={inst.InstituteID}>{inst.InstituteName}</option>
+                                        ))}
+                                    </select></td> */}
+                                    {/* <td><input value={employee.InstituteID} onChange={(e) => handleChange(employee.UserID, "InstituteID", e.target.value)} /></td> */}
                                     <td>
                                         <select
                                             className="custom-select"
@@ -161,7 +173,7 @@ const Employees = () => {
                                 <>
                                     <td>{employee.FirstName}</td>
                                     <td>{employee.LastName}</td>
-                                    <td>{employee.Institute}</td>
+                                    {/* <td  className="shorttd"><p style= {{width: '250px', overflow: 'hidden'}}>{Institutes.find(inst => inst.InstituteID == employee.InstituteID)?.InstituteName}</p></td> */}
                                     <td>{employee.Role}</td>
                                     <td>{employee.Username}</td>
                                     <td>*****</td>
@@ -178,7 +190,12 @@ const Employees = () => {
                     <tr>
                         <td><input name="FirstName" value={newEmployee.FirstName} onChange={handleNewEmployeeChange} placeholder="Անուն" /></td>
                         <td><input name="LastName" value={newEmployee.LastName} onChange={handleNewEmployeeChange} placeholder="Ազգանուն" /></td>
-                        <td><input name="Institute" value={newEmployee.Institute} onChange={handleNewEmployeeChange} placeholder="Ինստիտուտ" /></td>
+                        {/* <td className="shorttd"><select style= {{width: '250px'}} onChange={handleNewEmployeeChange}>
+                                        <option value="">Ինստիտուտ</option>
+                                        {(Institutes).map(inst => (
+                                            <option key={inst.InstituteID} value={inst.InstituteID}>{inst.InstituteName}</option>
+                                        ))}
+                                    </select></td> */}
                         <td><select name="Role"
                             className="custom-select"
                             value={newEmployee.Role}

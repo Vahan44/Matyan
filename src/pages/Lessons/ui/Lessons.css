@@ -139,24 +139,8 @@
   }
 }
 
-.custom-select {
-  width: 100%;
-  padding: 8px;
-  border: 2px solid #ccc;
-  border-radius: 5px;
-  font-size: 16px;
-  background-color: #fff;
-  color: #333;
-  cursor: pointer;
-  transition: border-color 0.3s, box-shadow 0.3s;
-}
+.Lessons-container select {
 
-/* Երբ select-ի վրա սեղմում ես */
-
-
-/* Dropdown-ի style */
-
-.custom-select {
   border: 1px solid #ccc;
   border-radius: 4px;
   padding: 0.3rem;

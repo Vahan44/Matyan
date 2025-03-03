@@ -3,14 +3,19 @@ import { useSelector , useDispatch} from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { FaPlus } from "react-icons/fa";
 import { fetchStudents } from "../../../Redux/StudentSlice";
+import { fetchFaculties } from "../../../Redux/LessonsSlice";
+
 import "./Course.css"
 const Courses = () => {
   const navigate = useNavigate();
   
   const students = useSelector((state) => state.students?.list);
+  const faculties = useSelector((state) => state.faculty?.list);
+
   const dispatch = useDispatch();
   useEffect(() => {
       dispatch(fetchStudents());
+      dispatch(fetchFaculties());
     }, [dispatch]);
   // Ստանում ենք առկա կուրսերի ցանկը
   const uniqueCourses = [...new Set(students.map(student => student.course))].sort((a, b) => a - b);
@@ -40,13 +45,13 @@ const Courses = () => {
       <div className="course-add">
         {addingCourse ? (
           <div className="course-add-form">
-            <input
-              type="text"
-              className="course-input"
-              value={newCourse}
-              onChange={(e) => setNewCourse(e.target.value)}
-              placeholder="Նոր կուրսի անուն"
-            />
+            
+            <select onChange={(e) => setNewCourse(e.target.value)} className="course-input">
+                      <option value="">Կուրս</option>
+                      {faculties.map(fac => (
+                        <option key={fac.FacultyID} value={fac.Course}>{fac.Course}</option>
+                      ))}
+                    </select>
             <button className="add-btn" onClick={handleAddCourse}>
               Հաստատել
             </button>

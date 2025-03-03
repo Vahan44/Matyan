@@ -1,11 +1,11 @@
-import React , {useEffect} from 'react';
+import React, { useEffect } from 'react';
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
 import styles from './App.module.css';
 import Header from '../Header/ui/Header';
 import LogInPage from '../pages/LogInPage/ui';
 import ClassShedule from '../pages/ScheduleForm/ui/ScheduleForm';
 import Dashboard from './Dashboaard';
-import { useSelector,  } from 'react-redux';
+import { useSelector, } from 'react-redux';
 //import SignUp from '../pages/SignUp/ui/SignUp';
 import Students from '../pages/Students/ui/Students';
 import { useAppDispatch } from '../hooks/useAppDispatch';
@@ -31,7 +31,7 @@ const App = () => {
     return state.Employee
   })
 
-console.log(90909909090909090,Employee)
+  console.log(90909909090909090, Employee)
 
 
 
@@ -42,21 +42,28 @@ console.log(90909909090909090,Employee)
 
       <div className={styles.App} id='app'>
         <Routes >
-        <Route path='*' element={<PageNotFound />} />
-        {Employee.isAuthenticated ? <>
-          <Route path='/' element={<AdminData />} />
-          
-         
+          <Route path='*' element={<PageNotFound />} />
+          {Employee.isAuthenticated ? <>
 
-            <Route path='/Schedules' element={<Schedules />} />
-            <Route path='/Schedule/:course' element={<ClassShedule />} />
-            <Route path='/AdminData/' element={<AdminData />} />
-            <Route path='/Course' element={<Course/>} />
-            <Route path='/Institutes' element={<Institute />} />
-            <Route path='/Lessons' element={<Lessons />} />
-            
-            <Route path='/Students/:course' element={<Students />} />
-            <Route path='/Employees/:Institute' element={<Employees />} />
+
+
+            {Employee.user.Role === 'Ադմինիստրատոր' ?
+
+              <>
+                <Route path='/' element={<AdminData />} />
+
+                <Route path='/Schedules' element={<Schedules />} />
+                <Route path='/Schedule/:course' element={<ClassShedule />} />
+                <Route path='/AdminData/' element={<AdminData />} />
+                <Route path='/Course' element={<Course />} />
+                <Route path='/Institutes' element={<Institute />} />
+                <Route path='/Lessons' element={<Lessons />} />
+
+                <Route path='/Students/:course' element={<Students />} />
+                <Route path='/Employees/:IdParam' element={<Employees />} />
+              </> : <></>
+
+            }
 
           </> : <>
             <Route path='/LogInPage' element={<LogInPage />} />
