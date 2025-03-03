@@ -10,7 +10,6 @@ import { MdCancel } from "react-icons/md";
 import "./Employees.css";
 import bcrypt from "bcryptjs";
 import PasswordChecklist from "react-password-checklist"
-
 const Employees = () => {
     const { Institute } = useParams();
 

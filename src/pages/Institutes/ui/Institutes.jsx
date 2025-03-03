@@ -31,10 +31,8 @@ const Institute = () => {
      <h1 className="workspaceHeader">Ինստիտուտներ</h1>
       <div className="course-list">
         {uniqueInstitutes.map((Institute) => (
-          <div key={Institute} className="course-item">
-            <Link className="course-link" to={`/Employees/${Institute}`}>
+          <div key={Institute} className="course-item" onClick={() => navigate(`/Employees/${Institute}`)}>
               <h4>{Institute}</h4>
-            </Link>
           </div>
         ))}
       </div>

@@ -31,10 +31,9 @@ const Courses = () => {
      
       <div className="course-list">
         {uniqueCourses.map((course) => (
-          <div key={course} className="course-item">
-            <Link className="course-link" to={`/Students/${course}`}>
+          <div key={course} className="course-item" onClick={() => navigate(`/Students/${course}`)}>
               <h4>{course}</h4>
-            </Link>
+            
           </div>
         ))}
       </div>

@@ -4,7 +4,8 @@ import db from "./db.js";
 import authRoutes from "./routes/authRoutes.js";
 import studentRoutes from "./routes/studentRoutes.js";
 import employeeRoutes from "./routes/employeeRoutes.js";
-
+import LessonsRoutes from "./routes/LessonsRoutes.js"
+import facultyRoutes from "./routes/facultyRoutes.js"
 const app = express();
 const PORT = process.env.PORT || 5000;
 
@@ -14,6 +15,8 @@ app.use(express.json());
 app.use("/students", studentRoutes);
 app.use("/api/auth", authRoutes);
 app.use("/employees", employeeRoutes);
+app.use("/lessons", LessonsRoutes);
+app.use("/faculty", facultyRoutes);
 
 // ✅ Բեռնել դասացուցակը
 app.get("/api/schedule", (req, res) => {

@@ -54,10 +54,8 @@ function getUniqueCourses(schedule) {
     <div className="course-container">
       <div className="course-list">
         {uniqueCourses.map((course) => (
-          <div key={course} className="course-item">
-            <Link className="course-link" to={`/Schedule/${course}`}>
+          <div key={course} className="course-item" onClick={() => navigate(`/Schedule/${course}`)}>
               <h4>{course}</h4>
-            </Link>
           </div>
         ))}
       </div>

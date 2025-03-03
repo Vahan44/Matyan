@@ -27,7 +27,7 @@ const AdminData = () => {
                       <h4>Դաասխոսներ</h4>
 
                   </div>
-                  <div onClick={()=> navigate('/')} className="course-item">
+                  <div onClick={()=> navigate('/lessons')} className="course-item">
                       <h4>Դասընդացներ</h4>
                     
 

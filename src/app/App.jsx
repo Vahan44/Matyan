@@ -16,6 +16,8 @@ import AdminData from '../pages/AdminData/ui/AdminData';
 import Employees from '../pages/Employees/ui/Employees';
 import Institute from '../pages/Institutes/ui/Institutes';
 import Schedules from '../pages/Schedules/ui/Schedules';
+import Lessons from '../pages/Lessons/ui/Lessons';
+
 const App = () => {
 
   const dispatch = useAppDispatch()
@@ -51,7 +53,8 @@ console.log(90909909090909090,Employee)
             <Route path='/AdminData/' element={<AdminData />} />
             <Route path='/Course' element={<Course/>} />
             <Route path='/Institutes' element={<Institute />} />
-
+            <Route path='/Lessons' element={<Lessons />} />
+            
             <Route path='/Students/:course' element={<Students />} />
             <Route path='/Employees/:Institute' element={<Employees />} />
 

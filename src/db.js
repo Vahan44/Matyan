@@ -62,6 +62,19 @@ db.connect((err) => {
   );
 `;
 
+const createLessonsTable = `
+CREATE TABLE IF NOT EXISTS Lesson (
+    LessonID INT AUTO_INCREMENT PRIMARY KEY,
+    Name VARCHAR(255) NOT NULL,
+    UserID INT NOT NULL,
+    FacultyID INT NOT NULL,
+    FOREIGN KEY (UserID) REFERENCES Employees(UserID) ON DELETE CASCADE,
+    FOREIGN KEY (FacultyID) REFERENCES Faculty(FacultyID) ON DELETE CASCADE
+);
+
+`;
+
+
   db.query(createEmployeesTable, (err) => {
     if (err) {
       console.error("❌ Error creating Employees table:", err);
@@ -84,6 +97,17 @@ db.connect((err) => {
       console.log("✅ Students table is ready!");
     }
   });
+
+  db.query(createLessonsTable, (err) => {
+    if (err) {
+      console.error("❌ Error creating Lessons table:", err);
+    } else {
+      console.log("✅ Lessons table is ready!");
+    }
+  })
+
+
+  
 });
 
 export default db;
