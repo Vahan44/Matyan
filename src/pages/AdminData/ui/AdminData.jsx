@@ -17,7 +17,7 @@ const AdminData = () => {
           <hr />
           <ul ></ul>
               <div className="course-list">
-                  <div onClick={()=> navigate('/Course')} className="course-item">
+                  <div onClick={()=> navigate(`/Course/Students`)} className="course-item">
                    
                       <h4>Ուսանողներ</h4>
                     
@@ -27,7 +27,7 @@ const AdminData = () => {
                       <h4>Դաասխոսներ</h4>
 
                   </div>
-                  <div onClick={()=> navigate('/lessons')} className="course-item">
+                  <div onClick={()=> navigate(`/Course/Lessons`)} className="course-item">
                       <h4>Դասընդացներ</h4>
                     
 

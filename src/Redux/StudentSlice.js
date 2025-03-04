@@ -19,7 +19,7 @@ export const updateStudent = createAsyncThunk("students/updateStudent", async (s
 
 export const deleteStudent = createAsyncThunk("students/deleteStudent", async (id) => {
     await axios.delete(`http://localhost:5000/students/${id}`);
-    return id;  // Վերադարձնում ենք ջնջված ուսանողի ID-ն
+    return id;  
   });
 
 const studentSlice = createSlice({

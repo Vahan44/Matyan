@@ -1,5 +1,6 @@
 /* Container styling for Employees component */
 .employees-container {
+  max-width: 1200px;
   display: flex;
   flex-direction: column;
   margin: auto;
@@ -7,8 +8,6 @@
   margin-bottom: 50px;
   justify-content: center;
   align-items: center;
-  width: 100%;
-  max-width: 1450px;
   padding: 1rem;
   font-family: Arial, sans-serif;
   background-color: #ffffff;
@@ -33,8 +32,6 @@
 
 /* Table */
 .employees-container table {
-  width: 100%;
-  max-width: 800px;
   border-collapse: collapse;
   margin-bottom: 1rem;
   background: #fff;

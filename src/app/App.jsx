@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
 import styles from './App.module.css';
 import Header from '../Header/ui/Header';
-import LogInPage from '../pages/LogInPage/ui';
+import LogInPage from '../pages/LogInPage/ui/LogInPage';
 import ClassShedule from '../pages/ScheduleForm/ui/ScheduleForm';
 import Dashboard from './Dashboaard';
 import { useSelector, } from 'react-redux';
@@ -17,7 +17,10 @@ import Employees from '../pages/Employees/ui/Employees';
 import Institute from '../pages/Institutes/ui/Institutes';
 import Schedules from '../pages/Schedules/ui/Schedules';
 import Lessons from '../pages/Lessons/ui/Lessons';
-
+import TeacherInterface from '../pages/TeacherInterface/ui/TeacherInterface';
+import EmployeeSchedule from '../pages/EmployeeSchedule/ui/EmployeeSchedule';
+import PublicSchedule from '../pages/PublicSchedule/ui/PublicSchedule';
+import Matyan from '../pages/Matyan/ui/Matyan';
 const App = () => {
 
   const dispatch = useAppDispatch()
@@ -43,6 +46,10 @@ const App = () => {
       <div className={styles.App} id='app'>
         <Routes >
           <Route path='*' element={<PageNotFound />} />
+          <Route path='/' element={<Matyan />} />
+          <Route path='PublicSchedule/:course' element={<PublicSchedule />} />
+          <Route path='/Schedules' element={<Schedules />} />
+
           {Employee.isAuthenticated ? <>
 
 
@@ -55,13 +62,18 @@ const App = () => {
                 <Route path='/Schedules' element={<Schedules />} />
                 <Route path='/Schedule/:course' element={<ClassShedule />} />
                 <Route path='/AdminData/' element={<AdminData />} />
-                <Route path='/Course' element={<Course />} />
+                <Route path='/Course/:page' element={<Course />} />
                 <Route path='/Institutes' element={<Institute />} />
-                <Route path='/Lessons' element={<Lessons />} />
-
+                <Route path='/Lessons/:course' element={<Lessons />} />
                 <Route path='/Students/:course' element={<Students />} />
                 <Route path='/Employees/:IdParam' element={<Employees />} />
-              </> : <></>
+
+
+              </> : <>
+              <Route path='/' element={<TeacherInterface/>} />
+              <Route path='/EmployeeSchedule' element={<EmployeeSchedule />} />
+
+              </>
 
             }
 

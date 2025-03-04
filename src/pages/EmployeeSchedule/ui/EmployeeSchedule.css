@@ -1,0 +1,152 @@
+.schedule-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    overflow-x: auto;
+    text-align: center;
+    padding: 20px;
+  }
+  
+  .title {
+    font-size: 34px;
+    text-align: center;
+  }
+  
+  .table-wrapper {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    overflow-x: auto;
+  }
+  
+  .schedule-table {
+    background-color: #ffffff;
+    align-items: center;
+    border-collapse: collapse;
+    table-layout: fixed;
+    margin: auto; /* Centers the table */
+  }
+  
+  .first{
+    width: 100%;
+  }
+  
+  .schedule-table th,
+  .schedule-table td {
+    align-items: center;
+  
+    border: 1px solid #ccc;
+    padding: 10px;
+    text-align: center;
+    vertical-align: top;
+    word-wrap: break-word;
+  }
+  
+  .day-name {
+    font-weight: bold;
+    width: 120px;
+    text-align: center;
+  }
+  
+  .class-entry {
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+    align-items: center;
+    border: 1px solid #000000;
+    border-radius: 10px;
+    padding-bottom: 10px;
+  }
+  .class-entry p{
+    padding: 0;
+    margin-bottom: -5px;
+  }
+
+  .schedule-input {
+    width: 90%;
+    margin: 5px 0;
+    padding: 5px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 14px;
+  }
+  .schedule-input1 {
+    
+    margin: 5px 0;
+    padding: 5px;
+    text-align: center;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-family: monospace;
+    font-size: 24px;
+  }
+  
+  .schedule-input2 {
+    width: 95%;
+    margin: 5px 0;
+    padding: 5px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 14px;
+  }
+  
+  .add-class-btn {
+    width: 95%;
+    height: 50px;
+    margin-top: 5px;
+    padding: 5px 10px;
+    font-size: 14px;
+    border: none;
+    cursor: pointer;
+    border-radius: 4px;
+  }
+  
+  
+  .remove-class-btn {
+    width: 95%;
+    margin-top: 5px;
+    padding: 5px 10px;
+    font-size: 14px;
+    border: none;
+    cursor: pointer;
+    border-radius: 4px;
+  }
+  
+  .add-class-btn {
+    background-color: #9fb0c3;
+    color: white;
+  }
+  
+  .add-class-btn:hover {
+    background-color: #0056b3;
+  }
+  
+  .remove-class-btn {
+    background-color: red;
+    color: white;
+  }
+  
+  .remove-class-btn:hover {
+    background-color: darkred;
+  }
+  
+  
+  .save-button {
+    background-color: #28a745;
+    color: white;
+    font-size: 16px;
+    padding: 8px ;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-bottom: 10px;
+    width: 95%;
+  }
+  
+  .save-button:hover {
+    background-color: #218838;
+  }
+  

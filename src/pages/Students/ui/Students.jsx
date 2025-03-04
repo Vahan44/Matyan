@@ -29,7 +29,6 @@ const Students = () => {
   });
 
 
-  console.log(students)
   useEffect(() => {
     dispatch(fetchStudents());
   }, [dispatch]);

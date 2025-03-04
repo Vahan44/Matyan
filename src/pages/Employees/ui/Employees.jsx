@@ -56,7 +56,6 @@ const Employees = () => {
 
     const handleSave = async (id) => {
         const updatedEmployee = employeeData.find((employee) => employee.UserID === id);
-        console.log('asd', updatedEmployee)
         if (isObjectComplete(updatedEmployee)) {
             try {
                 const hashedPassword = await Hashing(updatedEmployee.Password);
@@ -65,7 +64,6 @@ const Employees = () => {
                 dispatch(updateEmployee(hashedNewEmployee));
                 setEditMode(null);
             } catch (error) {
-                console.error("Error hashing password:", error);
             }
         }
         else alert('"Լռացրեք Աշխատակցի բոլոր տվյալները"')
@@ -112,10 +110,7 @@ const Employees = () => {
         } else alert("Լռացրեք Աշխատակցի բոլոր տվյալները")
 
     };
-    employeeData.forEach((employee) => {
-        
-        console.log(employee)
-    })
+    
     return (
         <div className="employees-container">
             <h2>Աշխատակիցներ</h2>

@@ -18,9 +18,8 @@ const LogInPage = () => {
 
   const handleLogin = async () => {
     const response = await logIn(dispatch, { username, password });
-     console.log(Employee)
     if (response.success) {
-      navigate("/MainPage");
+      navigate("/");
     } else {
       setError(response.message);
     }
@@ -35,7 +34,7 @@ const LogInPage = () => {
   return (
     <div onKeyDown={handleKeyDown} className={styles.container}>
       <h1>
-        Matyan
+        Մատյան
               <FaBookOpen style={{marginLeft: "5p", marginBottom: '-5px', fontSize: '28px'}}/>
       </h1>
       <div className={styles.body}>
@@ -60,7 +59,7 @@ const LogInPage = () => {
         />
 
         <button className={styles.button} onClick={handleLogin}>
-          Log in
+          Մուտք գործել
         </button>
       </div>
     </div>

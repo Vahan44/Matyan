@@ -69,30 +69,56 @@ const Header = () => {
           <li>
             <Link className={styles.link} to='/'>
 
-              <h1>Matyan</h1>
+              <h1>Մատյան</h1>
               <FaBookOpen style={{marginLeft: "5p", marginBottom: '-5px', fontSize: '18px'}}/>
             </Link>
           </li>
-          {user.isAuthenticated ? <li>
+          {user.isAuthenticated ? user.user.Role === "Ադմինիստրատոր" ? <><li>
             <Link className={styles.link} to='/AdminData'>
               <h3 >Տվյալներ</h3>
-              <RiArrowDropDownLine />
+              
             </Link>
-          </li> : null}
+          </li> 
           <li>
-            {user.isAuthenticated ? <Link className={styles.button} to='/MainPage?creatingBoard=true'>
-              Create
-            </Link> : null}
+            <Link className={styles.link} to='/Course/Students'>
+              <h4 >Ուսանողներ</h4>
+            </Link>
           </li>
+          <li>
+            <Link className={styles.link} to='/Institutes'>
+              <h4 >Դաասխոսներ</h4>
+            </Link>
+          </li>
+          <li>
+            <Link className={styles.link} to='/Course/Lessons'>
+              <h4 >Դասընդացներ</h4>
+            </Link>
+          </li>
+          <li>
+            <Link className={styles.link} to='/Schedules'>
+              <h4 >Դասացուցակ</h4>
+            </Link>
+          </li></>
+          : 
+          <li>
+          <Link className={styles.link} to='/EmployeeSchedule'>
+            <h4 >Դասացուցակ</h4>
+          </Link>
+        </li> : 
+        
+        <li>
+          <Link className={styles.link} to='/Schedules'>
+        <h4 >Դասացուցակ</h4>
+      </Link>
+        </li>
+        }
           <li>
           </li>
         </ul>
 
 
         <div className={styles.userContainer}>
-          <Link to='https://github.com/Vahan44' className={styles.questiones}>
-            <AiOutlineQuestionCircle />
-          </Link>
+          
           {user.isAuthenticated ? (
             <>
               <input onChange={onSearch} onClick={() => setIsSearching(true)} className={styles.search} type="text" placeholder="search" />
@@ -114,12 +140,12 @@ const Header = () => {
                     <ul>
                       <li>
                         <Link style={{ textDecoration: "none", color: "inherit" }} to='/'>
-                          Matyan
+                          Մատյան
                           <FaBookOpen style={{marginLeft: "5p", marginBottom: '-5px', fontSize: '18px'}}/>
                         </Link>
                       </li>
                       <li>
-                        <Link style={{ textDecoration: "none", color: "inherit" }} to='/Schedule'>
+                        <Link style={{ textDecoration: "none", color: "inherit" }} to='/Schedules'>
                           Դասացուցակ
                         </Link >
                       </li>
@@ -137,7 +163,7 @@ const Header = () => {
             </>
           ) : (
             <div className={styles.registers}>
-              <Link className={styles.button} to='/logInPage'>Log in</Link>
+              <Link className={styles.button} to='/logInPage'>Մուտք գործել</Link>
               {/* <Link className={styles.button} to='/SignUpPage'>Sign Up</Link> */}
 
             </div>

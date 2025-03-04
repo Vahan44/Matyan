@@ -11,11 +11,10 @@ const Dashboard = () => {
     
 
 
-    // console.log(workspaces)
       const navigate = useNavigate()
 
         
-    Employee.isAuthenticated ? navigate('/MainPage') : navigate('/LogInPage')
+    Employee.isAuthenticated ? navigate('/') : navigate('/LogInPage')
       return (
         <h1 style={{color: 'white'}}>
             Loading ...

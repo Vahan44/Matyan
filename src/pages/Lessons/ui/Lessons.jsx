@@ -4,10 +4,12 @@ import { fetchLessons, addLesson, updateLesson, deleteLesson, fetchFaculties } f
 import { FaPlus, FaPencil } from "react-icons/fa6";
 import { MdDelete, MdSave, MdCancel } from "react-icons/md";
 import { fetchEmployees } from "../../../Redux/Employees";
+import {  useParams } from "react-router-dom";
 
 import "./Lessons.css";
 
 const Lesson = () => {
+  const {course} = useParams()
   const dispatch = useDispatch();
   const lessons = useSelector((state) => state.lesson?.lessons);
   const employees = useSelector((state) => state.employees?.list);
@@ -28,7 +30,7 @@ const Lesson = () => {
   }, [dispatch]);
 
   useEffect(() => {
-    setLessonData(lessons);
+    setLessonData(lessons.filter(lesson => faculties.find(fac => fac.FacultyID === lesson.FacultyID)?.Course == course));
   }, [lessons]);
 
   const handleChange = (id, field, value) => {

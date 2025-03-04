@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { FaPlus } from "react-icons/fa";
 import { fetchSchedule, saveSchedule, updateClass, addClass, removeClass } from "../../../Redux/SheduleSlice.js";
-
+import { fetchFaculties } from "../../../Redux/LessonsSlice";
 import "./Schedules.css";
 
 const Schedules = () => {
@@ -11,14 +11,14 @@ const Schedules = () => {
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(fetchSchedule());
+    dispatch(fetchFaculties());
   }, [dispatch]);
   // Օգտագործում ենք schedule աղյուսակից course դաշտը
   const schedule = useSelector((state) => state.schedule.schedule);
-
- console.log('asdasdasdasd', schedule)
+  const faculties = useSelector((state) => state.faculty?.list);
+  const Employee = useSelector((state) => state.Employee)
 
   const uniqueCourses = getUniqueCourses(schedule)
-console.log('unique courses', uniqueCourses)
 function getUniqueCourses(schedule) {
     const courses = new Set();
 
@@ -38,12 +38,12 @@ function getUniqueCourses(schedule) {
 
 
 
-  console.log(uniqueCourses)
   const [addingCourse, setAddingCourse] = useState(false);
   const [newCourse, setNewCourse] = useState("");
 
   const handleAddCourse = () => {
     if (newCourse.trim() && !uniqueCourses.includes(newCourse)) {
+      
       navigate(`/Schedule/${newCourse}`); // Նոր կուրսի էջ
     }
     setNewCourse("");
@@ -54,21 +54,21 @@ function getUniqueCourses(schedule) {
     <div className="course-container">
       <div className="course-list">
         {uniqueCourses.map((course) => (
-          <div key={course} className="course-item" onClick={() => navigate(`/Schedule/${course}`)}>
+          <div key={course} className="course-item" onClick={() => Employee.isAuthenticated ? navigate(`/Schedule/${course}`) : navigate(`/PublicSchedule/${course}`)}>
               <h4>{course}</h4>
           </div>
         ))}
       </div>
       <div className="course-add">
-        {addingCourse ? (
+        {Employee.isAuthenticated ? (addingCourse ? (
           <div className="course-add-form">
-            <input
-              type="text"
-              className="course-input"
-              value={newCourse}
-              onChange={(e) => setNewCourse(e.target.value)}
-              placeholder="Նոր կուրսի անուն"
-            />
+            
+            <select onChange={(e) => setNewCourse(e.target.value)} className="course-input">
+                      <option value="">Կուրս</option>
+                      {faculties.map(fac => (
+                        <option key={fac.FacultyID} value={fac.Course}>{fac.Course}</option>
+                      ))}
+                    </select>
             <button className="add-btn" onClick={handleAddCourse}>
               Հաստատել
             </button>
@@ -80,7 +80,7 @@ function getUniqueCourses(schedule) {
           <button className="create-btn" onClick={() => setAddingCourse(true)}>
             Ավելացնել նոր կուրս <FaPlus className="plus-icon" />
           </button>
-        )}
+        )) : null}
       </div>
     </div>
   );
