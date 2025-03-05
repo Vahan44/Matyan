@@ -7,6 +7,7 @@ import employeeRoutes from "./routes/employeeRoutes.js";
 import LessonsRoutes from "./routes/LessonsRoutes.js"
 import facultyRoutes from "./routes/facultyRoutes.js"
 import institutesRoutes from "./routes/institutesRoutes.js"
+import attendanceRoutes from "./routes/AttendanceRoutes.js"
 const app = express();
 const PORT = process.env.PORT || 5000;
 
@@ -19,7 +20,7 @@ app.use("/employees", employeeRoutes);
 app.use("/lessons", LessonsRoutes);
 app.use("/faculty", facultyRoutes);
 app.use("/institutes", institutesRoutes);
-
+app.use("/api/attendance", attendanceRoutes);
 
 // ✅ Բեռնել դասացուցակը
 app.get("/api/schedule", (req, res) => {

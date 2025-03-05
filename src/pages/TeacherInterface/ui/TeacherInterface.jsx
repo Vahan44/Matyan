@@ -43,14 +43,16 @@ const TeacherInterface = () => {
             <h4 className={styles.h4}>Ձեր առարկաները</h4>
             <hr />
             <ul className={styles.boards}>
-                {lessonsData.map(( {LessonID, Name, FacultyID} ) => (
+                {lessonsData.map(( {LessonID, Name, FacultyID, group_} ) => (
                     <>
                         
                         <li key = {LessonID} className={styles.Bli}>
                             
-                            <Link className={styles.board} to={`/lesson/${LessonID}`}>
+                            <Link className={styles.board} to={`/Matyan/${LessonID}`}>
                                 <h3>{Name}</h3>
-                                <h4>{faculties.find(fac => fac.FacultyID === FacultyID)?.Course}</h4>
+                                <h4>{faculties.find(fac => fac.FacultyID === FacultyID)?.Course + '   ' + group_}    
+                              
+                                </h4>
                             </Link>
                         </li>
                     </>

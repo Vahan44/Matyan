@@ -15,6 +15,9 @@
   box-shadow: 2px 1px 15px rgba(0, 0, 0, 0.1);
 }
 
+thead tr{
+  background-color: #0056b3;
+}
 /* Headings */
 .employees-container h2 {
   text-align: center;
@@ -42,10 +45,9 @@
 
 .employees-container thead {
   background-color: #007bff;
-  color: white;
+  color: rgb(0, 0, 0);
 }
 
-.employees-container th,
 .employees-container td {
   border: 1px solid #ddd;
   padding: 0.4rem 0.6rem;

@@ -37,10 +37,10 @@
 
 .Lessons-container thead {
   background-color: #007bff;
-  color: white;
+  color: rgb(0, 0, 0);
 }
 
-.Lessons-container th,
+
 .Lessons-container td {
   border: 1px solid #ddd;
   padding: 0.4rem 0.6rem;
@@ -48,9 +48,7 @@
   white-space: nowrap;
 }
 
-.Lessons-container tr:nth-child(even) {
-  background-color: #f9f9f9;
-}
+
 
 .Lessons-container tr:hover {
   background-color: #e9f5ff;

@@ -46,7 +46,6 @@ const App = () => {
       <div className={styles.App} id='app'>
         <Routes >
           <Route path='*' element={<PageNotFound />} />
-          <Route path='/' element={<Matyan />} />
           <Route path='PublicSchedule/:course' element={<PublicSchedule />} />
           <Route path='/Schedules' element={<Schedules />} />
 
@@ -72,6 +71,7 @@ const App = () => {
               </> : <>
               <Route path='/' element={<TeacherInterface/>} />
               <Route path='/EmployeeSchedule' element={<EmployeeSchedule />} />
+              <Route path='/Matyan/:data' element={<Matyan />} />
 
               </>
 

@@ -16,11 +16,7 @@ export const fetchLessons = createAsyncThunk("lessons/fetchLessons", async () =>
   return response.data;
 });
 
-// Fetch Users
-export const fetchUsers = createAsyncThunk("users/fetchUsers", async () => {
-  const response = await axios.get("http://localhost:5000/employees");
-  return response.data;
-});
+
 
 // Fetch Faculties
 export const fetchFaculties = createAsyncThunk("faculties/fetchFaculties", async () => {
@@ -58,9 +54,7 @@ const lessonSlice = createSlice({
       .addCase(fetchLessons.fulfilled, (state, action) => {
         state.lessons = action.payload;
       })
-      .addCase(fetchUsers.fulfilled, (state, action) => {
-        state.users = action.payload;
-      })
+     
       .addCase(fetchFaculties.fulfilled, (state, action) => {
         state.faculties = action.payload;
       })

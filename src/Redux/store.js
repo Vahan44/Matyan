@@ -6,6 +6,7 @@ import EmployeeSlice from "./Employees"
 import lessonReducer from "./LessonsSlice";
 import facultySlice from "./FacultySlice";
 import institutesSlice from "./InstitutesSlice";
+import AttendanceSlice from "./AttendanceSlice"; 
 //import blogSlice from "./blogSlice";
 
 export const store = configureStore({
@@ -17,6 +18,7 @@ export const store = configureStore({
         employees: EmployeeSlice,
         lesson: lessonReducer,
         faculty: facultySlice,
-        institutes: institutesSlice
+        institutes: institutesSlice,
+        attendance: AttendanceSlice
     }
 });
