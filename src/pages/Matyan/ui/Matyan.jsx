@@ -211,11 +211,22 @@ const Matyan = () => {
                     </tr>
                 </thead>
                 <tbody>
-                    {students.map((student) => (
+                    {students.map((student) => {
+                        let count =  attendanceList.reduce((acc, attendance) => {
+                            if (attendance.StudentID === student.id && attendance.Status === 'բացակա') {
+                                return acc + 1;
+                            }
+                            return acc;
+                        }, 0)
+                        return (
                         student.course === course && filterStudents(student.group_, student.subgroup) && (
                             <tr key={student.recordNumber}>
-                                <td style={{ textAlign: 'center' }}>{student.recordNumber}</td>
-                                <td>{student.firstName} {student.lastName} {student.patronymic}</td>
+                                <td style={{ textAlign: 'center', backgroundColor: count > 120 ? 'red' : '' }}>{student.recordNumber}</td>
+                                <td>{student.firstName} {student.lastName} {student.patronymic} 
+                                   <small> {'(' + count
+                                        + ')'
+                                    }</small>
+                                </td>
                                 {filteredDays.map((day, index) => {
                                     let attendanceRecord = attendanceList.find((attendance) =>
                                         attendance.StudentID === student.id &&
@@ -239,20 +250,13 @@ const Matyan = () => {
 
                                                     toggleStatus(student.id, year, month, day, lesson?.UserID, lesson.LessonID, newStatus);
                                                 }}
+                                                className='but'
                                                 style={{
-                                                    width: '40px', // Ավելի հարմար չափ
-                                                    height: '40px',
-                                                    padding: "10px",
-                                                    fontSize: "16px",
-                                                    fontWeight: "bold",
-                                                    border: "none",
-                                                    borderRadius: "8px",
-                                                    cursor: "pointer",
-                                                    color: "white",
-                                                    backgroundColor: status1 === "ներկա" ? "green" : status1 === "բացակա" ? "red" : "gray"
+                                                    
+                                                    backgroundColor: status1 === "ներկա" ? "rgb(50, 171, 13)" : status1 === "բացակա" ? "rgb(255, 27, 27)" : "rgb(193, 193, 193)"
                                                 }}
                                             >
-                                                {status1 == 'ներկա' ? '+' : status1 == 'բացակա' ? '*': '' } {/* Ցուցադրում է "?" եթե դատարկ է */}
+                                                {status1 == 'ներկա' ? '+' : status1 == 'բացակա' ? '-': '' } {/* Ցուցադրում է "?" եթե դատարկ է */}
                                             </button>
                                         </td>
                                     );
@@ -260,7 +264,7 @@ const Matyan = () => {
 
                             </tr>
                         )
-                    ))}
+                    )})}
                 </tbody>
             </table>
         </div>
