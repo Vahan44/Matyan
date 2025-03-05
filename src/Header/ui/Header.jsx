@@ -10,6 +10,7 @@ import { useAppDispatch } from "../../hooks/useAppDispatch";
 import { logout } from "../../Redux/userSlice";
 import { server } from "typescript";
 import { FaBookOpen } from "react-icons/fa"
+import Employees from "../../pages/Employees/ui/Employees";
 const Header = () => {
 
   const user = useSelector((state) => {
@@ -91,7 +92,7 @@ const Header = () => {
           </li>
           <li>
             <Link className={styles.link} to='/Course/Lessons'>
-              <h4 >Դասընդացներ</h4>
+              <h4 >Դասընթացներ</h4>
             </Link>
           </li>
           <li>
@@ -121,10 +122,10 @@ const Header = () => {
           
           {user.isAuthenticated ? (
             <>
-              <input onChange={onSearch} onClick={() => setIsSearching(true)} className={styles.search} type="text" placeholder="search" />
+              {/* <input onChange={onSearch} onClick={() => setIsSearching(true)} className={styles.search} type="text" placeholder="search" />
               {isSearching ? <div className={styles.results}>
 
-              </div> : null}
+              </div> : null} */}
 
 
               <img onClick={toggleUserMenu}
@@ -145,10 +146,15 @@ const Header = () => {
                         </Link>
                       </li>
                       <li>
-                        <Link style={{ textDecoration: "none", color: "inherit" }} to='/Schedules'>
+                      <Link style={{ textDecoration: "none", color: "inherit" }} to={ user.user.Role === "Ադմինիստրատոր"  ? '/Schedules' : '/EmployeeSchedule'}>
                           Դասացուցակ
                         </Link >
                       </li>
+                      { user.user.Role === "Ադմինիստրատոր" ?   <li>
+                        <Link style={{ textDecoration: "none", color: "inherit" }} to='/AdminData'>
+                          Տվյալներ
+                        </Link>
+                      </li> :  <></> }
                       <li>
                         <Link style={{ textDecoration: "none", color: "inherit" }} to='/AdminData'>
                           Տվյալներ

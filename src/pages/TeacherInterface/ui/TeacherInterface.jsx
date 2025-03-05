@@ -43,7 +43,7 @@ const TeacherInterface = () => {
             <h4 className={styles.h4}>Ձեր առարկաները</h4>
             <hr />
             <ul className={styles.boards}>
-                {lessonsData.map(( {LessonID, Name, FacultyID, group_} ) => (
+                {lessonsData.map(( {LessonID,UserID, Name, FacultyID, group_} ) => (
                     <>
                         
                         <li key = {LessonID} className={styles.Bli}>

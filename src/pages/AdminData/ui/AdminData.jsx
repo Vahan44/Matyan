@@ -28,7 +28,7 @@ const AdminData = () => {
 
                   </div>
                   <div onClick={()=> navigate(`/Course/Lessons`)} className="course-item">
-                      <h4>Դասընդացներ</h4>
+                      <h4>Դասընթացներ</h4>
                     
 
                   </div>

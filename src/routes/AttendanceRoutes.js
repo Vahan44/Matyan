@@ -26,7 +26,7 @@ router.get("/", async (req, res) => {
 router.get("/:studentId", async (req, res) => {
     const studentId = req.params.studentId;
     try {
-        const [results] = await db.query("SELECT * FROM Attendance WHERE StudentID = ?", [studentId]);
+        const [results] = await db.query("SELECT * FROM Attendance ", [studentId]);
         res.json(results);
     } catch (err) {
         return res.status(500).json({ error: "Database error", details: err });
@@ -35,11 +35,11 @@ router.get("/:studentId", async (req, res) => {
 
 // ✅ Ավելացնել նոր ներկայություն
 router.post("/", async (req, res) => {
-    const { StudentID, UserID, Date, LessonID, Status } = req.body;
+    const { StudentID, UserID, year, month, day, LessonID, Status } = req.body;
     try {
         const [result] = await db.query(
-            "INSERT INTO Attendance (StudentID, UserID, Date, LessonID, Status) VALUES (?, ?, ?, ?, ?)",
-            [StudentID, UserID, Date, LessonID, Status]
+            "INSERT INTO Attendance (StudentID, UserID, LessonID, Status,  year, month, day) VALUES (?, ?, ?, ?, ?, ?, ?)",
+            [StudentID, UserID, LessonID, Status, year, month, day]
         );
         res.json({ message: "Attendance added successfully", id: result.insertId });
     } catch (err) {

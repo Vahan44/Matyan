@@ -55,6 +55,7 @@ const EmployeeSchedule = () => {
 
     return (
         <div className="schedule-container">
+            <h2>Ձեր զբաղվածության գրաֆիկը</h2>
             {loading ? (
                 <p>🔄 Բեռնվում է...</p>
             ) : (

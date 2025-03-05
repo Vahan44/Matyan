@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { shallowEqual, useDispatch, useSelector } from "react-redux";
 import { fetchSchedule, saveSchedule, updateClass, addClass, removeClass } from "../../../Redux/SheduleSlice.js";
+import { fetchEmployees } from "../../../Redux/Employees.js";
 import "./ScheduleForm.css";
 import { useParams } from "react-router-dom";
 const ScheduleForm = () => {
@@ -8,6 +9,7 @@ const ScheduleForm = () => {
     const dispatch = useDispatch();
   const schedule = useSelector((state) => state.schedule.schedule);
   const loading = useSelector((state) => state.schedule.loading);
+  const employees = useSelector((state) => state.employees?.list);
 
 
   const groups = ["Դաս", "Լաբ 1", "Լաբ 2", "Լաբ 3", "Լաբ 4", "Լաբ 5", "Լաբ 6", "Գործ 1", "Գործ 2", "Գործ 3", "Գործ 4", "ԿԱ 1", "ԿԱ 2", "ԿԱ 3", "ԿԱ 4"];
@@ -15,6 +17,7 @@ const ScheduleForm = () => {
   // ✅ Բեռնել դասացուցակը MySQL-ից, երբ էջը բացվում է
   useEffect(() => {
     dispatch(fetchSchedule());
+    dispatch(fetchEmployees())
   }, [dispatch]);
 
  
@@ -128,11 +131,8 @@ function isScheduleValid(schedule) {
                               ))}
                             </select>
   
-                            <input
-                              type="text"
-                              placeholder="Դասախոս"
-                              value={cls.professor}
-                              onChange={(e) =>
+                           
+                            <select value = {cls.professor}onChange={(e) =>
                                 handleChange(
                                   dayIndex,
                                   periodIndex,
@@ -140,10 +140,12 @@ function isScheduleValid(schedule) {
                                   "professor",
                                   e.target.value
                                 )
-                              }
-                              className="schedule-input"
-                            />
-  
+                              } className="schedule-input2">
+                      <option key="op1" value="">Դասախոս</option>
+                      {employees.map(emp => (
+                        <option key={emp.UserID} value={emp.LastName + ' ' + emp.FirstName}>{emp.LastName + ' ' + emp.FirstName}</option>
+                      ))}
+                    </select>
                             <select
                               value={cls.audience}
                               onChange={(e) =>
