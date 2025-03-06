@@ -7,6 +7,7 @@ import lessonReducer from "./LessonsSlice";
 import facultySlice from "./FacultySlice";
 import institutesSlice from "./InstitutesSlice";
 import AttendanceSlice from "./AttendanceSlice"; 
+import AssignmentsSlice from "./AssignmentsSlice";
 //import blogSlice from "./blogSlice";
 
 export const store = configureStore({
@@ -19,6 +20,7 @@ export const store = configureStore({
         lesson: lessonReducer,
         faculty: facultySlice,
         institutes: institutesSlice,
-        attendance: AttendanceSlice
+        attendance: AttendanceSlice,
+        assignment: AssignmentsSlice
     }
 });

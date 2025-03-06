@@ -155,11 +155,7 @@ const Header = () => {
                           Տվյալներ
                         </Link>
                       </li> :  <></> }
-                      <li>
-                        <Link style={{ textDecoration: "none", color: "inherit" }} to='/AdminData'>
-                          Տվյալներ
-                        </Link>
-                      </li>
+                      
                       <button className={styles.signOutButton} onClick={logOut}>Sign Out</button>
                     </ul>
 
