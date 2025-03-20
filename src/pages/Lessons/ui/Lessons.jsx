@@ -21,7 +21,10 @@ const Lesson = () => {
     Name: "",
     UserID: 0,
     FacultyID: 0,
+    group_: ""
   });
+
+  const groups = ["Դաս", "Լաբ 1", "Լաբ 2", "Լաբ 3", "Լաբ 4", "Լաբ 5", "Լաբ 6", "Գործ 1", "Գործ 2", "Գործ 3", "Գործ 4", "ԿԱ 1", "ԿԱ 2", "ԿԱ 3", "ԿԱ 4"];
 
   useEffect(() => {
     dispatch(fetchLessons());
@@ -31,7 +34,7 @@ const Lesson = () => {
 
   useEffect(() => {
     setLessonData(lessons.filter(lesson => faculties.find(fac => fac.FacultyID === lesson.FacultyID)?.Course == course));
-  }, [lessons]);
+  }, [course, faculties, lessons]);
 
   const handleChange = (id, field, value) => {
     setLessonData((prev) =>
@@ -53,13 +56,15 @@ const Lesson = () => {
   };
 
   const handleNewLessonChange = (e) => {
+    
     const { name, value } = e.target;
     setNewLesson({ ...newLesson, [name]: name.includes("ID") ? parseInt(value, 10) || 0 : value });
   };
 
   const handleAddLesson = () => {
+    
     dispatch(addLesson(newLesson));
-    setNewLesson({ Name: "", UserID: 0, FacultyID: 0 });
+    setNewLesson({ Name: "", UserID: 0, FacultyID: 0, group_: "" });
   };
 
   return (
@@ -71,6 +76,7 @@ const Lesson = () => {
             <th>Առարկա</th>
             <th>Դասախոս</th>
             <th>Կուրս</th>
+            <th>Խումբ</th>
             <th></th>
           </tr>
         </thead>
@@ -97,6 +103,16 @@ const Lesson = () => {
                     </select>
                   </td>
                   <td>
+                    <select onChange={(e) => handleChange(lesson.LessonID, "group_", e.target.value)}>
+                      <option value="">Խումբ</option>
+                      {groups.map((group) => (
+                                <option key={group} value={group}>
+                                  {group}
+                                </option>
+                              ))}
+                    </select>
+                  </td>
+                  <td>
                     <button onClick={() => handleSave(lesson.LessonID)}><MdSave /></button>
                     <button onClick={() => setEditMode(null)}><MdCancel /></button>
                   </td>
@@ -106,6 +122,7 @@ const Lesson = () => {
                   <td>{lesson.Name}</td>
                   <td>{employees.find(emp => emp.UserID === lesson.UserID)?.FirstName} {employees.find(emp => emp.UserID === lesson.UserID)?.LastName}</td>
                   <td>{faculties.find(fac => fac.FacultyID === lesson.FacultyID)?.Course}</td>
+                  <td>{lesson.group_}</td>
                   <td>
                     <button onClick={() => setEditMode(lesson.LessonID)}><FaPencil /></button>
                     <button onClick={() => handleDelete(lesson.LessonID)}><MdDelete /></button>
@@ -130,6 +147,16 @@ const Lesson = () => {
                 {faculties.map(fac => (
                   <option key={fac.FacultyID} value={fac.FacultyID}>{fac.Course}</option>
                 ))}
+              </select>
+            </td>
+            <td>
+            <select name="group_" onChange={handleNewLessonChange} >
+                <option value="">Խումբ</option>
+                {groups.map((group) => (
+                                <option key={group} value={group}>
+                                  {group}
+                                </option>
+                              ))}
               </select>
             </td>
             <td>

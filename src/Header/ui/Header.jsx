@@ -74,12 +74,7 @@ const Header = () => {
               <FaBookOpen style={{marginLeft: "5p", marginBottom: '-5px', fontSize: '18px'}}/>
             </Link>
           </li>
-          {user.isAuthenticated ? user.user.Role === "Ադմինիստրատոր" ? <><li>
-            <Link className={styles.link} to='/AdminData'>
-              <h3 >Տվյալներ</h3>
-              
-            </Link>
-          </li> 
+          {user.isAuthenticated ? user.user.Role === "Ադմինիստրատոր" ? <>
           <li>
             <Link className={styles.link} to='/Course/Students'>
               <h4 >Ուսանողներ</h4>
@@ -140,23 +135,34 @@ const Header = () => {
                   <div onClick={toggleUserMenu} className={styles.userMenu}>
                     <ul>
                       <li>
+                        <h4 style={{color: 'gray',fontSize: '15px', marginTop: '8px'}} >{user?.user?.LastName + ' ' + user?.user?.FirstName }</h4>
+                        <h4 style={{color: 'gray',fontSize: '13px',marginBottom: '-10px', marginTop: '-18px'}} >{user?.user?.Role}</h4>
+                        
+                      </li>
+                      
+                        <hr />
+                      <li>
                         <Link style={{ textDecoration: "none", color: "inherit" }} to='/'>
                           Մատյան
                           <FaBookOpen style={{marginLeft: "5p", marginBottom: '-5px', fontSize: '18px'}}/>
                         </Link>
                       </li>
+                      {user.user.Role ==! "Ադմինիստրատոր"  ? 
                       <li>
                       <Link style={{ textDecoration: "none", color: "inherit" }} to={ user.user.Role === "Ադմինիստրատոր"  ? '/Schedules' : '/EmployeeSchedule'}>
                           Դասացուցակ
                         </Link >
-                      </li>
-                      { user.user.Role === "Ադմինիստրատոր" ?   <li>
-                        <Link style={{ textDecoration: "none", color: "inherit" }} to='/AdminData'>
-                          Տվյալներ
+                      </li>: <></>}
+                      { user.user.Role === "Դասախոս" ?   <li>
+                        <Link style={{ textDecoration: "none", color: "inherit" }} to={`/Employees/${user.user.InstituteID}`}>
+                        Անձնական տվյալներ
                         </Link>
                       </li> :  <></> }
-                      
+                      <li>
                       <button className={styles.signOutButton} onClick={logOut}>Sign Out</button>
+
+                      </li>
+                      
                     </ul>
 
                   </div>

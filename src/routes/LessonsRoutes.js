@@ -25,13 +25,13 @@ router.get("/", async (req, res) => {
 
 // Add a lesson
 router.post("/", async (req, res) => {
-  const { Name, UserID, FacultyID } = req.body;
+  const { Name, UserID, FacultyID, group_ } = req.body;
   try {
     // Finding UserID based on userName
 
     
     
-    await db.execute("INSERT INTO Lesson (Name, UserID, FacultyID) VALUES (?, ?, ?)", [Name, UserID, FacultyID]);
+    await db.execute("INSERT INTO Lesson (Name, UserID, FacultyID, group_) VALUES (?, ?, ?, ?)", [Name, UserID, FacultyID, group_]);
     res.status(201).json({ message: "Lesson added successfully" });
   } catch (error) {
     res.status(500).json({ error: "Database error" });
@@ -40,12 +40,12 @@ router.post("/", async (req, res) => {
 
 // Update a lesson
 router.put("/:id", async (req, res) => {
-  const { Name, UserID, FacultyID } = req.body;
+  const { Name, UserID, FacultyID, group_ } = req.body;
   const { id } = req.params;
   try {
 
     
-    await db.execute("UPDATE Lesson SET Name = ?, UserID = ?, FacultyID = ? WHERE LessonID = ?", [Name, UserID, FacultyID, id]);
+    await db.execute("UPDATE Lesson SET Name = ?, UserID = ?, FacultyID = ?, group_ = ? WHERE LessonID = ?", [Name, UserID, FacultyID, group_, id]);
     res.json({ message: "Lesson updated successfully" });
   } catch (error) {
     res.status(500).json({ error: "Database error" });

@@ -8,11 +8,30 @@ import { fetchLessons, fetchFaculties } from "../../../Redux/LessonsSlice";
 import { fetchAssignment, addAssignmentRecord, updateAssignmentRecord, deleteAssignmentRecord } from '../../../Redux/AssignmentsSlice.js';
 
 import "./Matyan.css"; // Import the CSS file
+import { RiFontFamily } from 'react-icons/ri';
 
 const Matyan = () => {
     const { data } = useParams();
     const dispatch = useDispatch();
+    const [position, setPosition] = useState(0)
+    useEffect(() => {
+        const handleScroll = () => {
+            setPosition(window.scrollY);
+        };
 
+        window.addEventListener('scroll', handleScroll);
+        return () => window.removeEventListener('scroll', handleScroll);
+    }, []);
+
+    // Վերականգնում ենք scroll դիրքը
+    useEffect(() => {
+        const savedScrollPosition = position;
+        if (savedScrollPosition !== null) {
+            setTimeout(() => {
+                window.scrollTo(0, parseInt(savedScrollPosition, 10));
+            }, 100); // Ավելացնում ենք մի փոքր ուշացում՝ բովանդակության բեռնմանը սպասելու համար
+        }
+    }, []);
     // Redux state-ները
     const lessons = useSelector((state) => state.lesson?.lessons);
     const attendanceList = useSelector((state) => state.attendance.attendanceList);
@@ -26,10 +45,13 @@ const Matyan = () => {
 
     // State-եր
     const [year, setYear] = useState(new Date().getFullYear());
-    const [month, setMonth] = useState(2);
+    const [month, setMonth] = useState(new Date().getMonth() + 1);
     const [lesson, setLesson] = useState(null);
+    const [attendanceData, setAttendanceData] = useState([])
 //JSON.parse(localStorage.getItem('month'))
-    const course = "ՏՏ119";
+
+
+  
 
         
     useEffect(() => {
@@ -40,25 +62,28 @@ const Matyan = () => {
         
         dispatch(fetchLessons()); // Ավելացված fetch
         dispatch(fetchAttendance());
+
+        
     }, [dispatch]);
 
     useEffect(() => {
-        dispatch(fetchAttendance());
         if (lessons.length > 0) {
             const selectedLesson = lessons.find(lesson => lesson.LessonID == data);
             setLesson(selectedLesson || {});
         }
+
     }, [lessons, data]); // Ավելացված dependency
 
     const days = () => {
         let dayOfWeek = new Set();
         schedule.forEach((day) => {
-            day.periods.forEach((period) => {
+            day.periods.forEach((period, i) => {
                 period.forEach((cls) => {
                     if (cls.professor === `${Employee.user.LastName} ${Employee.user.FirstName}`
                         && cls.course == faculties?.find(f => f.FacultyID === lesson?.FacultyID)?.Course
                         && cls.group_name === lesson?.group_) {
-                        dayOfWeek.add(day.day);
+                            
+                        dayOfWeek.add(day.day+' '+(i+1));
                     }
                 });
             });
@@ -82,9 +107,12 @@ const Matyan = () => {
         for (let day = 1; day <= daysInMonth; day++) {
             const date = new Date(year, month, day);
             const dayName = weekDays[date.getDay()];
-            if (dayOfWeek.includes(dayName)) {
-                filteredDays.push(day);
+            for(let i = 0; i < dayOfWeek.length; i++) {
+                if (dayOfWeek[i].split(' ')[0] == dayName) {
+                    filteredDays.push(day+' '+dayOfWeek[i].split(' ')[1]);
+                }
             }
+            
         }
         return filteredDays;
     };
@@ -108,44 +136,25 @@ const Matyan = () => {
 
 
 
+    const change = () => {
+
+    }
 
 
-    const toggleStatus = (studentId, year, month, day, userId, lessonId, newStatus) => {
-
-        const attendance = attendanceList.find((attendance) => {
-
-
-            debugger
-            return (
-                attendance.StudentID == studentId &&
-                attendance.UserID == userId &&
-                attendance.LessonID == lessonId &&
-                attendance.year == year &&
-                attendance.month == month + 1 &&
-                attendance.day == day
-            )
-        })
-
-
-
-        if (!attendance) {
-            // Եթե գրառում չկա, ավելացնում ենք
-            dispatch(addAttendanceRecord({
-                StudentID: studentId,
-                UserID: userId,
-                LessonID: lessonId,
-                Status: newStatus,
-                year: year,
-                month: month + 1,
-                day: day
-            }));
-        } else {
-            // Եթե գրառումը կա, ապա կամ փոխում ենք կամ ջնջում
-            if (newStatus === "") {
-                dispatch(deleteAttendanceRecord(attendance.AttID));
-            } else {
-                dispatch(updateAttendanceRecord({ // Թարմացնում ենք առկա գրառումը
-                    id: attendance.AttID, 
+    const toggleStatus = async (studentId, year, month, day, userId, lessonId, newStatus) => {
+        try {
+            const attendance = attendanceList.find((att) =>
+                att.StudentID == studentId &&
+                att.UserID == userId &&
+                att.LessonID == lessonId &&
+                att.year == year &&
+                att.month == month + 1 &&
+                att.day == day
+            );
+    
+            if (!attendance) {
+                // Եթե գրառում չկա, ավելացնում ենք
+                await dispatch(addAttendanceRecord({
                     StudentID: studentId,
                     UserID: userId,
                     LessonID: lessonId,
@@ -153,17 +162,36 @@ const Matyan = () => {
                     year: year,
                     month: month + 1,
                     day: day
-                }));
+                })).unwrap(); 
+            } else {
+                // Եթե գրառումը կա, ապա կամ փոխում ենք կամ ջնջում
+                if (newStatus === "") {
+                    await dispatch(deleteAttendanceRecord(attendance.AttID)).unwrap();
+                } else {
+                    await dispatch(updateAttendanceRecord({ 
+                        id: attendance.AttID, 
+                        StudentID: studentId,
+                        UserID: userId,
+                        LessonID: lessonId,
+                        Status: newStatus,
+                        year: year,
+                        month: month + 1,
+                        day: day
+                    })).unwrap();
+                }
             }
-        
+    
+            // Դասընթացների բեռնումը նորից
+            await dispatch(fetchAttendance()).unwrap();
+    
+        } catch (error) {
+            console.error("Error updating attendance:", error);
         }
-        window.location.reload();
-
     };
-
+    
 
     const filteredDays = getFilteredDays(year, month, days());
-
+    
     return (
         <div className='container'>
             <div style={{ padding: "24px", borderRadius: "12px" }}>
@@ -210,9 +238,11 @@ const Matyan = () => {
                     <tr>
                         <th style={{ width: '20px' }}>№</th>
                         <th style={{ width: '250px' }}>Ազգանուն Անուն Հայրանուն</th>
-                        {filteredDays.map((day) => (
-                            <th key={day}>{day}/{month}/{year - 2000}</th>
-                        ))}
+                        {filteredDays.map((day) =>{
+                            const jam = ['1/2', '3/4', '5/6', '7/8']
+                            return (
+                            <th key={day.split(' ')[0]}>{day.split(' ')[0]}/{month}/{year - 2000} <p style={{fontSize: '14px', marginTop: '0px',height: '0px'}}> {`\n` + jam[day.split(' ')[1]] }</p></th>
+                        )})}
                     </tr>
                 </thead>
                 <tbody>
@@ -224,13 +254,11 @@ const Matyan = () => {
                             return acc;
                         }, 0)
                         return (
-                        student.course === course && filterStudents(student.group_, student.subgroup) && (
+                        student.course === faculties.find(fac => fac.FacultyID === lesson?.FacultyID)?.Course && filterStudents(student.group_, student.subgroup) && (
                             <tr key={student.recordNumber}>
                                 <td style={{ textAlign: 'center', backgroundColor: count > 120 ? 'red' : '' }}>{student.recordNumber}</td>
                                 <td>{student.firstName} {student.lastName} {student.patronymic} 
-                                   <small> {'(' + count
-                                        + ')'
-                                    }</small>
+                                   <h9 style = {{ textAlign: 'center'}} > {count  }</h9>
                                 </td>
                                 {filteredDays.map((day, index) => {
                                     let attendanceRecord = attendanceList.find((attendance) =>
@@ -239,7 +267,7 @@ const Matyan = () => {
                                         attendance.LessonID === lesson.LessonID &&
                                         attendance.year === year &&
                                         attendance.month === month +1    &&
-                                        attendance.day === day
+                                        attendance.day == day.split(' ')[0]
                                     );
 
                                     let status1 = attendanceRecord?.Status || ""; // Եթե չկա գրառում, թող լինի ""
@@ -254,7 +282,7 @@ const Matyan = () => {
                                                     else if (status1 === "բացակա") newStatus = "ներկա";
                                                     else newStatus = "";
 
-                                                    toggleStatus(student.id, year, month, day, lesson?.UserID, lesson.LessonID, newStatus);
+                                                    toggleStatus(student.id, year, month, day.split(' ')[0], lesson?.UserID, lesson.LessonID, newStatus);
                                                 }}
                                                 className='but'
                                                 style={{

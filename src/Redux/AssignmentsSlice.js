@@ -2,17 +2,18 @@ import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 
 // Ստանալ բոլոր ներկայությունները
 export const fetchAssignment = createAsyncThunk(
-    'attendance/fetchAttendance',
+    'assignment/fetchAssignment',
     async () => {
+      
       const response = await fetch('http://localhost:5000/api/assignment');
       
-      const text = await response.text(); // Ստանալու ամբողջ պատասխան
+      const text = await response.text(); 
       
       try {
-        const data = JSON.parse(text); // Փորձում ենք JSON-ով parse անել
+        const data = JSON.parse(text); 
         return data;
       } catch (err) {
-        console.error("Response is not valid JSON:", text); // Դիտել HTML կամ այլ պատասխան
+        console.error("Response is not valid JSON:", text); 
         throw new Error("Response is not valid JSON");
       }
     }

@@ -72,6 +72,7 @@ const App = () => {
               <Route path='/' element={<TeacherInterface/>} />
               <Route path='/EmployeeSchedule' element={<EmployeeSchedule />} />
               <Route path='/Matyan/:data' element={<Matyan />} />
+              <Route path='/Employees/:IdParam' element={<Employees />} />
 
               </>
 

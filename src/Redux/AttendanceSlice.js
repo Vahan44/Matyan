@@ -1,30 +1,21 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+import axios from 'axios';
 
 // Ստանալ բոլոր ներկայությունները
 export const fetchAttendance = createAsyncThunk(
-    'attendance/fetchAttendance',
-    async () => {
-      const response = await fetch('http://localhost:5000/api/attendance');
-      
-      const text = await response.text(); // Ստանալու ամբողջ պատասխան
-      
-      try {
-        const data = JSON.parse(text); // Փորձում ենք JSON-ով parse անել
-        return data;
-      } catch (err) {
-        console.error("Response is not valid JSON:", text); // Դիտել HTML կամ այլ պատասխան
-        throw new Error("Response is not valid JSON");
-      }
-    }
-  );
+  'attendance/fetchAttendance',
+  async () => {
+    const response = await axios.get('http://localhost:5000/api/attendance');
+    return response.data;
+  }
+);
 
 // Ստանալ տվյալ ուսանողի ներկայությունները
 export const fetchStudentAttendance = createAsyncThunk(
   'attendance/fetchStudentAttendance',
   async (studentId) => {
-    const response = await fetch(`/api/attendance/${studentId}`);
-    const data = await response.json();
-    return data;
+    const response = await axios.get(`/api/attendance/${studentId}`);
+    return response.data;
   }
 );
 
@@ -32,15 +23,8 @@ export const fetchStudentAttendance = createAsyncThunk(
 export const addAttendanceRecord = createAsyncThunk(
   'attendance/addAttendanceRecord',
   async (attendanceData) => {
-    const response = await fetch('http://localhost:5000/api/attendance', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(attendanceData),
-    });
-    const data = await response.json();
-    return data;
+    const response = await axios.post('http://localhost:5000/api/attendance', attendanceData);
+    return response.data;
   }
 );
 
@@ -48,15 +32,8 @@ export const addAttendanceRecord = createAsyncThunk(
 export const updateAttendanceRecord = createAsyncThunk(
   'attendance/updateAttendanceRecord',
   async (attendanceData) => {
-    const response = await fetch(`http://localhost:5000/api/attendance/${attendanceData.id}`, {
-      method: 'PUT',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(attendanceData),
-    });
-    const data = await response.json();
-    return data;
+    const response = await axios.put(`http://localhost:5000/api/attendance/${attendanceData.id}`, attendanceData);
+    return response.data;
   }
 );
 
@@ -64,11 +41,8 @@ export const updateAttendanceRecord = createAsyncThunk(
 export const deleteAttendanceRecord = createAsyncThunk(
   'attendance/deleteAttendanceRecord',
   async (attendanceId) => {
-    const response = await fetch(`http://localhost:5000/api/attendance/${attendanceId}`, {
-      method: 'DELETE',
-    });
-    const data = await response.json();
-    return data;
+    const response = await axios.delete(`http://localhost:5000/api/attendance/${attendanceId}`);
+    return response.data;
   }
 );
 

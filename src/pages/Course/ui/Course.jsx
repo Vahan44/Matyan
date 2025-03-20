@@ -28,7 +28,7 @@ const Courses = () => {
 
   const handleAddCourse = () => {
     if (newCourse.trim() && !uniqueCourses.includes(parseInt(newCourse))) {
-      navigate(`/Students/${newCourse}`); // Տեղափոխում ենք նոր կուրսի էջը
+      page === 'Students' ?  navigate(`/Students/${newCourse}`) : navigate(`/Lessons/${newCourse}`) // Տեղափոխում ենք նոր կուրսի էջը
     }
     setNewCourse("");
     setAddingCourse(false);

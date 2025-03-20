@@ -35,7 +35,6 @@ app.get("/api/schedule", (req, res) => {
   });
 });
 
-// ✅ Պահպանել դասացուցակը (ջնջել, ապա ավելացնել նոր տվյալներ)
 app.post("/api/schedule", (req, res) => {
   const schedule = req.body;
 
@@ -50,17 +49,17 @@ app.post("/api/schedule", (req, res) => {
     }
 
     const values = schedule.flatMap((day) => {
-      if (!day || !Array.isArray(day.periods)) return []; // ✅ Ստուգում ենք `periods`-ի գոյությունը
+      if (!day || !Array.isArray(day.periods)) return [];
 
       return day.periods.flatMap((period, periodIndex) => {
-        if (!Array.isArray(period)) return []; // ✅ Ստուգում ենք, որ `period`-ը զանգված լինի
+        if (!Array.isArray(period)) return []; 
 
         return period.map((cls) => [
           day.day || "",
           periodIndex,
           cls.course || "",
           cls.name || "",
-          cls.group_name || "", // ✅ `cls.group` փոխարինվել է `cls.group_name`
+          cls.group_name || "",
           cls.professor || "",
           cls.audience || "",
           cls.classroom || "",
