@@ -18,6 +18,7 @@ router.get("/", async (req, res) => {
         const [results] = await db.query("SELECT * FROM Attendance");
         res.json(results);
     } catch (err) {
+        console.error("Database error:", err);
         return res.status(500).json({ error: "Database error", details: err });
     }
 });
@@ -26,9 +27,10 @@ router.get("/", async (req, res) => {
 router.get("/:studentId", async (req, res) => {
     const studentId = req.params.studentId;
     try {
-        const [results] = await db.query("SELECT * FROM Attendance ", [studentId]);
+        const [results] = await db.query("SELECT * FROM Attendance WHERE StudentID = ?", [studentId]);
         res.json(results);
     } catch (err) {
+        console.error("Database error:", err);
         return res.status(500).json({ error: "Database error", details: err });
     }
 });
@@ -38,11 +40,12 @@ router.post("/", async (req, res) => {
     const { StudentID, UserID, year, month, day, LessonID, Status } = req.body;
     try {
         const [result] = await db.query(
-            "INSERT INTO Attendance (StudentID, UserID, LessonID, Status,  year, month, day) VALUES (?, ?, ?, ?, ?, ?, ?)",
+            "INSERT INTO Attendance (StudentID, UserID, LessonID, Status, year, month, day) VALUES (?, ?, ?, ?, ?, ?, ?)",
             [StudentID, UserID, LessonID, Status, year, month, day]
         );
         res.json({ message: "Attendance added successfully", id: result.insertId });
     } catch (err) {
+        console.error("Database error:", err);
         return res.status(500).json({ error: "Database error", details: err });
     }
 });
@@ -54,6 +57,7 @@ router.put("/:id", async (req, res) => {
         await db.query("UPDATE Attendance SET Status = ? WHERE AttID = ?", [Status, req.params.id]);
         res.json({ message: "Attendance updated successfully" });
     } catch (err) {
+        console.error("Database error:", err);
         return res.status(500).json({ error: "Database error", details: err });
     }
 });
@@ -64,6 +68,7 @@ router.delete("/:id", async (req, res) => {
         await db.query("DELETE FROM Attendance WHERE AttID = ?", [req.params.id]);
         res.json({ message: "Attendance deleted successfully" });
     } catch (err) {
+        console.error("Database error:", err);
         return res.status(500).json({ error: "Database error", details: err });
     }
 });

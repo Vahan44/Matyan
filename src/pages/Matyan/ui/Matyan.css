@@ -8,19 +8,32 @@
   font-size: 24px;
   font-weight: bold;
 }
-.save{
+.savebut{
+  background-color: #a855f7;
+  color: white;
+  font-size: 15px;
+  border: none;
+  height: 60px;
+  width: 300px;
+  padding: 20px ;
+  cursor: pointer;
+  border-radius: 15px;
   border-color: #9802de;
+  transition: 0.5s;
+
 }
-.save:hover {
-  box-shadow: 0px 3px 5px #969090;
-  background: #9b00e3;
+.savebut:hover {
+  background: #11f42c;
+  color: #444444;
+  border: 1px solid #444444;
+  font-size: 18px;
 }
 .subtitle {
   font-size: 18px;
   color: #666;
 }
 
-.filter-button {
+.savebuthfgc {
   background-color: purple;
   color: white;
   border: none;
@@ -97,11 +110,11 @@ tr:nth-child(odd) {
   display: flex;
   justify-content: center;
   text-align: center;
-  
+  transition: 0.2s;
+
 }
 
 .but:hover{
-  transition: 0.2s;
   box-shadow: 0px 0px 15px  #667;
   width: 41px;
   height: 41;
