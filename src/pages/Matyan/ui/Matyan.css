@@ -2,6 +2,8 @@
   text-align: left;
   padding: 20px;
   margin-top: -40px;
+  box-shadow: 0px 0px 15px 5px rgba(1, 1, 33, 0.1);
+
 }
 
 .title {
@@ -9,7 +11,7 @@
   font-weight: bold;
 }
 .savebut{
-  background-color: #a855f7;
+  background-color: #5983bd;
   color: white;
   font-size: 15px;
   border: none;
@@ -18,13 +20,12 @@
   padding: 20px ;
   cursor: pointer;
   border-radius: 15px;
-  border-color: #9802de;
+  border:1px solid #121265;
   transition: 0.5s;
-
 }
 .savebut:hover {
-  background: #11f42c;
-  color: #444444;
+  background: #121265;
+  color: #ffffff;
   border: 1px solid #444444;
   font-size: 18px;
 }
@@ -57,40 +58,41 @@
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
-label {
+.container label {
   font-weight: bold;
   display: block;
   margin-bottom: 5px;
 }
 
-select {
+.container select {
   width: 100%;
   padding: 8px;
   border: 1px solid #00a0e3;
   border-radius: 5px;
   cursor: pointer;
 }
-table {
+.container table {
   width: 100%;
+  border: 2px solid #000;
   border-collapse: collapse;
   margin-top: 20px;
 }
 
-th {
+.container th {
   padding: 10px;
   text-align: center;
-  border: 1px solid #ddd;
+  border: 1px solid #000000;
   background-color: #f4f4f4;
   font-weight: bold;
   
   align-items: center;
 }
 
-tr:nth-child(even) {
+.container tr:nth-child(even) {
   background-color: #f9f9f9;
 }
 
-tr:nth-child(odd) {
+.container tr:nth-child(odd) {
   background-color: #ffffff;
 }
 

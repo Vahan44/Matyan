@@ -36,7 +36,7 @@ const Courses = () => {
 
   return (
     <div className="course-container">
-     
+      <h1 className="workspaceHeader">Ընտրեք կուրսը</h1>
       <div className="course-list">
         {uniqueCourses.map((course) => (
           <div key={course} className="course-item" onClick={() => page === 'Students' ?  navigate(`/Students/${course}`) : navigate(`/Lessons/${course}`)}>

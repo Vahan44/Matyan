@@ -12,12 +12,10 @@
   font-family: Arial, sans-serif;
   background-color: #ffffff;
   border-radius: 8px;
-  box-shadow: 2px 1px 15px rgba(0, 0, 0, 0.1);
+  box-shadow: 0px 0px 15px 5px rgba(1, 1, 33, 0.1);
 }
 
-thead tr{
-  background-color: #0056b3;
-}
+
 /* Headings */
 .employees-container h2 {
   text-align: center;
@@ -35,10 +33,11 @@ thead tr{
 
 /* Table */
 .employees-container table {
+  border-radius: 6px;
+
   border-collapse: collapse;
   margin-bottom: 1rem;
   background: #fff;
-  border-radius: 6px;
   overflow: hidden;
   font-size: 0.9rem;
 }
@@ -46,6 +45,14 @@ thead tr{
 .employees-container thead {
   background-color: #007bff;
   color: rgb(0, 0, 0);
+  border: 1px solid #ddd;
+  height: 30px;
+
+}
+.employees-container thead th{
+  border: 1px solid #ddd;
+
+
 }
 
 .employees-container td {
@@ -126,7 +133,9 @@ thead tr{
 
   .employees-container th,
   .employees-container td {
-      padding: 0.3rem 0.4rem;
+      padding: 20px;
+      border: 1px solid #000000;
+
   }
 }
 

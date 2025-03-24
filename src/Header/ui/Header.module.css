@@ -1,5 +1,5 @@
 .header {
-    background-color: #0b0434;
+    background-color: #070125;
     width: 100%;
     position: fixed;
     border-bottom: 1px solid rgb(123, 123, 123);
@@ -7,10 +7,10 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    clear: both;
     margin: 0;
     height: 60px;
     margin-bottom: 100px;
+    
   }
 
   .menu {
@@ -24,7 +24,7 @@
   
   .link {
     text-decoration: none;
-    color: #929292;
+    color: #b7b7b7;
   }
   
   .mainMenu a:hover {

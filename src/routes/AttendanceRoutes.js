@@ -37,11 +37,12 @@ router.get("/:studentId", async (req, res) => {
 
 // ✅ Ավելացնել նոր ներկայություն
 router.post("/", async (req, res) => {
-    const { StudentID, UserID, year, month, day, LessonID, Status } = req.body;
+    debugger
+    const { StudentID, UserID, year, month, day, periud, LessonID, Status } = req.body;
     try {
         const [result] = await db.query(
-            "INSERT INTO Attendance (StudentID, UserID, LessonID, Status, year, month, day) VALUES (?, ?, ?, ?, ?, ?, ?)",
-            [StudentID, UserID, LessonID, Status, year, month, day]
+            "INSERT INTO Attendance (StudentID, UserID, LessonID, Status, year, month, day, periud) VALUES (?, ?, ?, ?, ?, ?, ?, ?)",
+            [StudentID, UserID, LessonID, Status, year, month, day, periud]
         );
         res.json({ message: "Attendance added successfully", id: result.insertId });
     } catch (err) {

@@ -34,7 +34,7 @@ const Institute = () => {
 
   return (
     <div className="course-container">
-      <h1 className="workspaceHeader">Ինստիտուտներ</h1>
+      <h1 className="workspaceHeader">Ընտրեք ինստիտուտը</h1>
       <div className="course-list">
         {uniqueInstitutes.map((id) => (
           <div key={id} className="course-item" onClick={() => navigate(`/Employees/${id}`)}>
@@ -52,7 +52,7 @@ const Institute = () => {
             >
               <option value="">Ընտրեք Ինստիտուտը</option>
                       {(Institutes).map(inst => (
-                        <option key={inst.InstituteName} value={inst.InstituteName}>{inst.InstituteName}</option>
+                        <option key={inst.InstituteName} value={inst.InstituteID}>{inst.InstituteName}</option>
                       ))}
 
             </select>

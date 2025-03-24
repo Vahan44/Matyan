@@ -46,14 +46,14 @@ const TeacherInterface = () => {
                 {lessonsData.map(( {LessonID,UserID, Name, FacultyID, group_} ) => (
                     <>
                         
-                        <li key = {LessonID} className={styles.Bli}>
+                        <li key = {LessonID} className={styles.Bli} onClick={() => navigate(`/Matyan/${LessonID}`)}>
                             
-                            <Link className={styles.board} to={`/Matyan/${LessonID}`}>
+                            <div className={styles.board} >
                                 <h3>{Name}</h3>
                                 <h4>{faculties.find(fac => fac.FacultyID === FacultyID)?.Course + '   ' + group_}    
                               
                                 </h4>
-                            </Link>
+                            </div>
                         </li>
                     </>
                 ))}

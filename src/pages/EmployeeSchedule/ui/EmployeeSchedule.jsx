@@ -54,15 +54,18 @@ const EmployeeSchedule = () => {
 
 
     return (
-        <div className="schedule-container">
-            <h2>Ձեր զբաղվածության գրաֆիկը</h2>
+        <div className="employee-schedule-container">
             {loading ? (
                 <p>🔄 Բեռնվում է...</p>
             ) : (
-                <div className="table-wrapper">
-                    <table className="schedule-table">
+                <div className="employee-table-wrapper">
+                    <table className="employee-schedule-table">
                         <thead>
-
+                            <tr >
+                                <th colSpan={5}>                            
+                                    <h2>Ձեր զբաղվածության գրաֆիկը</h2>
+                                </th>
+                            </tr>
                             <tr>
                                 <th>Օր</th>
                                 {["1-2", "3-4", "5-6", "7-8"].map((period) => (
@@ -73,7 +76,7 @@ const EmployeeSchedule = () => {
                         <tbody>
                             {schedule.map((day, dayIndex) => (
                                 <tr key={day.day}>
-                                    <td className="day-name">{day.day}</td>
+                                    <td className="day-name" ><p className="vertical1">{day.day}</p></td>
                                     {day.periods.map((period, periodIndex) => (
                                         <td key={periodIndex}>
                                             {period.map((cls, subIndex) =>

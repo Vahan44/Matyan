@@ -4,7 +4,6 @@ import { Link, useNavigate } from "react-router-dom";
 import { FaPlus } from "react-icons/fa";
 import { fetchSchedule, saveSchedule, updateClass, addClass, removeClass } from "../../../Redux/SheduleSlice.js";
 import { fetchFaculties } from "../../../Redux/LessonsSlice";
-import "./Schedules.css";
 
 const Schedules = () => {
   const navigate = useNavigate();
@@ -52,6 +51,8 @@ function getUniqueCourses(schedule) {
 
   return (
     <div className="course-container">
+            <h1 className="workspaceHeader">Ընտրեք կուրսը</h1>
+
       <div className="course-list">
         {uniqueCourses.map((course) => (
           <div key={course} className="course-item" onClick={() => Employee.isAuthenticated ? navigate(`/Schedule/${course}`) : navigate(`/PublicSchedule/${course}`)}>

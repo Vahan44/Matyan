@@ -1,4 +1,4 @@
-.schedule-container {
+.public-schedule-container {
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -6,6 +6,8 @@
     overflow-x: auto;
     text-align: center;
     padding: 20px;
+    box-shadow: 0px 0px 15px 5px rgba(1, 1, 33, 0.1);
+
   }
   
   .title {
@@ -13,42 +15,54 @@
     text-align: center;
   }
   
-  .table-wrapper {
+  .public-table-wrapper {
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
     width: 100%;
     overflow-x: auto;
+    border-radius: 16px;
+  border: 1px solid #949494;
   }
   
-  .schedule-table {
+  .public-schedule-table {
     background-color: #ffffff;
     align-items: center;
     border-collapse: collapse;
     table-layout: fixed;
     margin: auto; /* Centers the table */
+
   }
   
   .first{
     width: 100%;
   }
   
-  .schedule-table th,
-  .schedule-table td {
+  .public-schedule-table th,
+  .public-schedule-table td {
     align-items: center;
   
-    border: 1px solid #ccc;
+    border: 1px solid #000000;
     padding: 10px;
     text-align: center;
     vertical-align: top;
     word-wrap: break-word;
   }
-  
+  .public-schedule-table td{
+    min-height: 180px;
+    min-width: 200px;
+  }
   .day-name {
     font-weight: bold;
     width: 120px;
     text-align: center;
+    writing-mode: vertical-rl; 
+    vertical-align: center;
+    transform: rotate(180deg);
+
+    align-items: center;
+    font-size: large;
   }
   
   .class-entry12 {
@@ -57,9 +71,11 @@
     border: 1px solid #000000;
     border-radius: 8px;
     padding: 5px;
-    padding-bottom: 10px;
+    padding: 10px;
     margin: 10px;
-    min-width: 100px;
+    min-width: 120px;
+    max-width: 250px;
+    background-color: #d4d5e6;
   }
   .class-entry p{
     padding: 0;
@@ -151,12 +167,3 @@
     background-color: #218838;
   }
   
-  .vertical{
-    writing-mode: vertical-rl; 
-  text-orientation: mixed;
-  transform: rotate(180deg);
-  align-items: center;
-  text-align: center;
-margin-top: 150px;
-font-size: large;
-  }

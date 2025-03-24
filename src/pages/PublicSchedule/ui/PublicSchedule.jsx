@@ -53,12 +53,14 @@ const PublicSchedule = () => {
 
 
     return (
-        <div className="schedule-container">
+        <div className="public-schedule-container">
+                  <h1 className="workspaceHeader">Ընտրեք կուրսը</h1>
+
             {loading ? (
                 <p>🔄 Բեռնվում է...</p>
             ) : (
-                <div className="table-wrapper">
-                    <table className="schedule-table">
+                <div className="public-table-wrapper">
+                    <table className="public-schedule-table">
                         <thead>
 
                             <tr>
@@ -71,7 +73,7 @@ const PublicSchedule = () => {
                         <tbody>
                             {schedule.map((day, dayIndex) => (
                                 <tr className="v1" key={day.day}>
-                                    <td className="day-name"><p className="vertical">{day.day}</p></td>
+                                    <td className="day-name"><p >{day.day}</p></td>
                                     {day.periods.map((period, periodIndex) => (
                                         <td key={periodIndex}>
                                             {period.map((cls, subIndex) =>

@@ -37,10 +37,13 @@ const LogInPage = () => {
         Մատյան
               <FaBookOpen style={{marginLeft: "5p", marginBottom: '-5px', fontSize: '28px'}}/>
       </h1>
+      <hr style={{width: '350px'}}/>
       <div className={styles.body}>
         <h4>Մուտք գործեք շարունակելու համար</h4>
 
-        {error && <p className={styles.error}>{error}</p>}
+        {error && <p className={styles.error}>{error == "User not found" ? 'Օգտագործող չի գտնվել' : 'Սխալ'
+
+}</p>}
 
         <input
           className={styles.email_input}

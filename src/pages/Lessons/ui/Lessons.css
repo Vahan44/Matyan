@@ -12,7 +12,7 @@
   font-family: Arial, sans-serif;
   background-color: #ffffff;
   border-radius: 8px;
-  box-shadow: 2px 1px 15px rgba(0, 0, 0, 0.1);
+  box-shadow: 0px 0px 15px 5px rgba(1, 1, 33, 0.1);
 }
 
 /* Headings */
@@ -29,10 +29,11 @@
   border-collapse: collapse;
   margin-bottom: 1rem;
   background: #fff;
-  border-radius: 6px;
   overflow: hidden;
   font-size: 0.9rem;
   padding-bottom: 200px;
+  border-radius: 10px;
+
 }
 
 .Lessons-container thead {
@@ -40,6 +41,11 @@
   color: rgb(0, 0, 0);
 }
 
+.Lessons-container thead th{
+  border: 1px solid #ddd;
+height: 30px;
+color: #000000;
+}
 
 .Lessons-container td {
   border: 1px solid #ddd;
@@ -116,6 +122,7 @@
   .Lessons-container th,
   .Lessons-container td {
       padding: 0.3rem 0.4rem;
+      
   }
 }
 

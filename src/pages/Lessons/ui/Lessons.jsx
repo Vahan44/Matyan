@@ -65,6 +65,10 @@ const Lesson = () => {
     
     dispatch(addLesson(newLesson));
     setNewLesson({ Name: "", UserID: 0, FacultyID: 0, group_: "" });
+    setTimeout(() => {
+      dispatch(fetchLessons())
+
+    }, 200)
   };
 
   return (
