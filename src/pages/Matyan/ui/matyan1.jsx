@@ -6,13 +6,13 @@ import { fetchStudents } from "../../../Redux/StudentSlice";
 import { useParams } from 'react-router-dom';
 import { fetchLessons, fetchFaculties } from "../../../Redux/LessonsSlice";
 import { fetchAssignment, addAssignmentRecord, updateAssignmentRecord, deleteAssignmentRecord } from '../../../Redux/AssignmentsSlice.js';
-import "./Matyan.css"; // Import the CSS file
+import "./Matyan.css"; 
 
 const Matyan = () => {
     const { data } = useParams();
     const dispatch = useDispatch();
 
-    // Redux state-ները
+
     const lessons = useSelector((state) => state.lesson?.lessons);
     const status = useSelector((state) => state.attendance.status);
     const error = useSelector((state) => state.attendance.error);
@@ -21,7 +21,7 @@ const Matyan = () => {
     const schedule = useSelector((state) => state.schedule.schedule);
     const faculties = useSelector((state) => state.faculty?.list);
     const assignmentList = useSelector((state) => state.assignment.assignmentList)
-    // State-եր
+
     const [year, setYear] = useState(new Date().getFullYear());
     const [month, setMonth] = useState(1);
     const [lesson, setLesson] = useState(null);
@@ -33,7 +33,7 @@ const Matyan = () => {
         dispatch(fetchFaculties());
         dispatch(fetchSchedule());
         dispatch(fetchStudents());
-        dispatch(fetchLessons()); // Ավելացված fetch
+        dispatch(fetchLessons());
         dispatch(fetchAssignment())
     }, [dispatch]);
 
@@ -42,7 +42,7 @@ const Matyan = () => {
             const selectedLesson = lessons.find(lesson => lesson.LessonID == data);
             setLesson(selectedLesson || {});
         }
-    }, [lessons, data]); // Ավելացված dependency
+    }, [lessons, data]);
 
     const days = () => {
         let dayOfWeek = new Set();
@@ -101,7 +101,7 @@ const Matyan = () => {
 
 
     const toggleAssStatus = (studentId, year, month, day, userId, lessonId, grade, newStatus) => {
-        // Փնտրում ենք գոյություն ունեցող գրառումը
+
         const attendance = assignmentList.find((attendance) => {
             return (
                 attendance.StudentID === studentId &&
@@ -114,7 +114,7 @@ const Matyan = () => {
         });
     
         if (!attendance) {
-            // Եթե գրառում չկա, ավելացնում ենք
+
             dispatch(addAssignmentRecord({
                 StudentID: studentId,
                 UserID: userId,
@@ -126,8 +126,8 @@ const Matyan = () => {
                 day: day
             }));
         } else {
-            // Եթե գրառումը կա, որոշում ենք՝ ջնջել, թե թարմացնել
-            if (0) { // Օրինակ, եթե newStatus-ը նշանակում է ջնջում
+
+            if (0) {
                 dispatch(deleteAttendanceRecord(attendance.AttID));
             } else {
                 dispatch(updateAssignmentRecord({
@@ -144,9 +144,9 @@ const Matyan = () => {
             }
         }
     
-        // Ավելի լավ է էջը չվերաթարմացնել, այլ թարմացնել state-ը
+
         setTimeout(() => {
-            dispatch(fetchAssignment()); // Կրկին բեռնել տվյալները API-ից
+            dispatch(fetchAssignment());
         }, 500);
     };
     

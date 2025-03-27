@@ -7,33 +7,16 @@ import { useParams } from 'react-router-dom';
 import { fetchLessons, fetchFaculties } from "../../../Redux/LessonsSlice";
 import { fetchAssignment, addAssignmentRecord, updateAssignmentRecord, deleteAssignmentRecord } from '../../../Redux/AssignmentsSlice.js';
 import { CheckCircle, XCircle } from "lucide-react";
-
+import { useNavigate } from 'react-router-dom';
 import "./Matyan.css"; // Import the CSS file
 import { RiFontFamily } from 'react-icons/ri';
 
 const Matyan = () => {
     const { data } = useParams();
     const dispatch = useDispatch();
-    const [position, setPosition] = useState(0)
-    useEffect(() => {
-        const handleScroll = () => {
-            setPosition(window.scrollY);
-        };
+    const navigate = useNavigate()
 
-        window.addEventListener('scroll', handleScroll);
-        return () => window.removeEventListener('scroll', handleScroll);
-    }, []);
 
-    // Վերականգնում ենք scroll դիրքը
-    useEffect(() => {
-        const savedScrollPosition = position;
-        if (savedScrollPosition !== null) {
-            setTimeout(() => {
-                window.scrollTo(0, parseInt(savedScrollPosition, 10));
-            }, 100); // Ավելացնում ենք մի փոքր ուշացում՝ բովանդակության բեռնմանը սպասելու համար
-        }
-    }, []);
-    // Redux state-ները
     const lessons = useSelector((state) => state.lesson?.lessons);
     const attendanceList = useSelector((state) => state.attendance.attendanceList);
     const status = useSelector((state) => state.attendance.status);
@@ -44,7 +27,6 @@ const Matyan = () => {
     const faculties = useSelector((state) => state.faculty?.list);
     const assignmentList = useSelector((state) => state.assignment.assignmentList)
 
-    // State-եր
     const [year, setYear] = useState(new Date().getFullYear());
     const [month, setMonth] = useState(new Date().getMonth() + 1);
     const [lesson, setLesson] = useState(null);
@@ -61,7 +43,7 @@ const Matyan = () => {
         dispatch(fetchSchedule());
         dispatch(fetchStudents());
 
-        dispatch(fetchLessons()); // Ավելացված fetch
+        dispatch(fetchLessons());
         dispatch(fetchAttendance());
         dispatch(fetchAssignment())
 
@@ -73,7 +55,7 @@ const Matyan = () => {
             setLesson(selectedLesson || {});
         }
 
-    }, [lessons, data]); // Ավելացված dependency
+    }, [lessons, data]);
 
     const days = () => {
 
@@ -152,7 +134,7 @@ const Matyan = () => {
         );
 
         if (!attendance) {
-            // Եթե գրառում չկա, ավելացնում ենք
+
             setAttendanceData(
                 (prev) => [...prev, {
                     StudentID: studentId,
@@ -166,7 +148,7 @@ const Matyan = () => {
                 }]
             )
         } else {
-            // Եթե գրառումը կա, ապա փոխում ենք
+
 
             setAttendanceData((prev) =>
                 prev.map((att) => {
@@ -203,7 +185,6 @@ const Matyan = () => {
 
         const promises = attendanceData.map(async (attData) => {
             const attendance = attendanceList.find((att) => {
-                debugger
                 return (
                     att.StudentID == attData.StudentID &&
                     att.UserID == attData.UserID &&
@@ -217,7 +198,7 @@ const Matyan = () => {
 
             try {
                 if (!attendance && attData.Status !== "") {
-                    // Եթե գրառում չկա, ավելացնում ենք
+
                     await dispatch(addAttendanceRecord({
                         StudentID: attData.StudentID,
                         UserID: attData.UserID,
@@ -229,7 +210,7 @@ const Matyan = () => {
                         periud: +attData.periud
                     })).unwrap();
                 } else if (attendance) {
-                    // Եթե գրառումը կա, ապա կամ փոխում ենք կամ ջնջում
+
                     if (attData.Status === "") {
                         await dispatch(deleteAttendanceRecord(attendance.AttID)).unwrap();
                     } else {
@@ -251,22 +232,22 @@ const Matyan = () => {
             }
         });
 
-        // Սպասում ենք բոլոր գործողությունների ավարտին
+
         await Promise.all(promises);
 
-        // Վերջում բեռնում ենք թարմացված տվյալները
+
         await dispatch(fetchAttendance()).unwrap();
     };
 
     function getWeekType(day, month, year) {
-        // Սահմանում ենք ուսումնական շրջանի սահմանները
+
         const startDates = [
-            new Date(year, 8, 1),  // Սեպտեմբերի 1 (համարիչ)
-            new Date(year, 1, 10)  // Փետրվարի 10 (համարիչ)
+            new Date(year, 8, 1),
+            new Date(year, 1, 10)
         ];
         const endDates = [
-            new Date(year, 11, 30), // Դեկտեմբերի 30
-            new Date(year, 4, 30)   // Մայիսի 30
+            new Date(year, 11, 30),
+            new Date(year, 4, 30)
         ];
 
         const targetDate = new Date(year, month - 1, day);
@@ -281,10 +262,37 @@ const Matyan = () => {
         return "Ուսումնական շրջանից դուրս";
     }
 
-    // Օրինակներ
 
+    const semester = (day, month, year) => {
 
+        const yearNow = new Date().getFullYear()
+        const monthNow = new Date().getMonth()
 
+        if (yearNow == year) {
+
+            if (monthNow <= 4) {
+                if (month <= 4 && month >= 1) {
+                    if (month === 1) {
+                        if (day >= 10) {
+                            return true
+                        }
+                    }
+
+                    return true
+                }
+            }
+            else if (monthNow >= 8) {
+                if (month <= 11 && month >= 8) {
+
+                    return true
+
+                }
+            }
+        }
+        return false
+    }
+
+    console.log(semester(9, 3, 2025));
     const filteredDays = getFilteredDays(year, month, days());
 
     return (
@@ -310,23 +318,23 @@ const Matyan = () => {
                             Տարի
                         </label>
                         <select onChange={(e) => setYear(parseInt(e.target.value))} style={{ width: "100%", border: "1px solid #60a5fa", borderRadius: "8px", padding: "8px" }}>
-                            <option value={2025}>2025</option>
-                            <option value={2024}>2024</option>
+                            <option value={year}>{year}</option>
+
                         </select>
                     </div>
                     <div style={{ backgroundColor: "white", padding: "16px", borderRadius: "8px", boxShadow: "0 2px 6px rgba(0,0,0,0.1)" }}>
                         <label style={{ display: "block", color: "#374151", fontSize: "14px", fontWeight: "600", marginBottom: "8px" }}>
                             Ամիս
                         </label>
-                        <select value={month} onChange={(e) => { localStorage.setItem('month', JSON.stringify(e.target.value)); setMonth(parseInt(e.target.value)) }} style={{ width: "100%", border: "1px solid #60a5fa", borderRadius: "8px", padding: "8px" }}>
-                            <option value={2}>Փետրվար</option>
-                            <option value={3}>Մարտ</option>
-                            <option value={4}>Ապրիլ</option>
-                            <option value={5}>Մայիս</option>
-                            <option value={9}>Սեպտեմբեր</option>
-                            <option value={10}>Հոկտեմբեր</option>
-                            <option value={11}>Նոյեմբեր</option>
-                            <option value={12}>Դեկտեմբեր</option>
+                        <select value={month} onChange={(e) => { setMonth(parseInt(e.target.value)) }} style={{ width: "100%", border: "1px solid #60a5fa", borderRadius: "8px", padding: "8px" }}>
+                            {semester(15, 1, year) ? <option value={2}>Փետրվար</option> : <></>}
+                            {semester(15, 2, year) ? <option value={3}>Մարտ</option> : <></>}
+                            {semester(15, 3, year) ? <option value={4}>Ապրիլ</option> : <></>}
+                            {semester(15, 4, year) ? <option value={5}>Մայիս</option> : <></>}
+                            {semester(15, 8, year) ? <option value={9}>Սեպտեմբեր</option> : <></>}
+                            {semester(15, 9, year) ? <option value={10}>Հոկտեմբեր</option> : <></>}
+                            {semester(15, 10, year) ? <option value={11}>Նոյեմբեր</option> : <></>}
+                            {semester(15, 11, year) ? <option value={12}>Դեկտեմբեր</option> : <></>}
                         </select>
                     </div>
                 </div>
@@ -338,11 +346,15 @@ const Matyan = () => {
                         <th style={{ width: '20px' }}>№</th>
                         <th style={{ width: '250px' }}>Ազգանուն Անուն Հայրանուն</th>
                         {filteredDays.map((day) => {
-                            debugger
+
                             const jam = [0, '1/2', '3/4', '5/6', '7/8']
-                            return (
-                                <th key={day.split(' ')[0]}>{day.split(' ')[0]}/{month}/{year - 2000} <p style={{ fontSize: '14px', marginTop: '0px', height: '0px' }}> {`\n` + jam[day.split(' ')[1]]}</p></th>
-                            )
+
+                            if (semester(Number(day.split(' ')[0]), month - 1, year)) {
+                                return (
+                                    <th key={day.split(' ')[0]}>{day.split(' ')[0]}/{month}/{year - 2000} <p style={{ fontSize: '14px', marginTop: '0px', height: '0px' }}> {`\n` + jam[day.split(' ')[1]]}</p></th>
+                                )
+                            }
+                            else { navigate('not_found') }
                         })}
                         <th style={{ width: '10px', backgroundColor: 'rgb(192, 192, 192)', borderLeft: '2px solid black' }}>Ընդ. բաց.</th>
                     </tr>
@@ -359,71 +371,73 @@ const Matyan = () => {
                             student.course === faculties.find(fac => fac.FacultyID === lesson?.FacultyID)?.Course && filterStudents(student.group_, student.subgroup) && (
                                 <tr key={student.recordNumber}>
                                     <td style={{ textAlign: 'center' }}>{student.recordNumber}</td>
-                                    <td>{student.firstName} {student.lastName} {student.patronymic}  </td>
+                                    <td style={{ paddingLeft: '15px' }}>{student.firstName} {student.lastName} {student.patronymic}  </td>
                                     {filteredDays.map((day, index) => {
+                                        if (semester(Number(day.split(' ')[0]), month - 1, year)) {
 
-                                        let attendanceRecord = (attendanceData?.find((attData) => {
-
-
-                                            return (
-                                                attData.StudentID === student.id &&
-                                                attData.UserID === lesson?.UserID &&
-                                                attData.LessonID === lesson.LessonID &&
-                                                attData.year === year &&
-                                                attData.month === month + 1 &&
-                                                attData.day == day.split(' ')[0] &&
-                                                attData.periud == 1 + Number(day.split(' ')[1])
-                                            )
-                                        }
-                                        )) ??
-                                            (attendanceList.find((attendanceL) => {
-
+                                            let attendanceRecord = (attendanceData?.find((attData) => {
 
 
                                                 return (
-                                                    attendanceL.StudentID === student.id &&
-                                                    attendanceL.UserID === lesson?.UserID &&
-                                                    attendanceL.LessonID === lesson.LessonID &&
-                                                    attendanceL.year === year &&
-                                                    attendanceL.month === month + 2 &&
-                                                    attendanceL.day == day.split(' ')[0] &&
-                                                    attendanceL.periud == 1 + Number(day.split(' ')[1])
-
+                                                    attData.StudentID === student.id &&
+                                                    attData.UserID === lesson?.UserID &&
+                                                    attData.LessonID === lesson.LessonID &&
+                                                    attData.year === year &&
+                                                    attData.month === month + 1 &&
+                                                    attData.day == day.split(' ')[0] &&
+                                                    attData.periud == 1 + Number(day.split(' ')[1])
                                                 )
                                             }
-                                            ))
-
-                                        let status1 = attendanceRecord?.Status || ""; // Եթե չկա գրառում, թող լինի ""
-
-                                        return (
-                                            <td key={index}>
-                                                <div className='box'>
-                                                    <button
-                                                        onClick={() => {
-                                                            let newStatus;
-                                                            if (status1 === "") newStatus = "բացակա";
-                                                            else if (status1 === "բացակա") newStatus = "ներկա";
-                                                            else newStatus = "";
-
-                                                            attChange(student.id, year, month, day.split(' ')[0], 1 + Number(day.split(' ')[1]), lesson?.UserID, lesson.LessonID, newStatus);
-                                                        }}
-                                                        className='but'
-                                                        style={{
-                                                            fontSize: '15px',
-                                                            backgroundColor: status1 === "ներկա" ? "rgb(50, 171, 13)" : status1 === "բացակա" ? "rgb(255, 27, 27)" : "rgb(193, 193, 193)"
-                                                        }}
-                                                    >
-                                                        {status1 == 'ներկա' ? 'Ն' : status1 == 'բացակա' ? 'Բ' : ''} {/* Ցուցադրում է "?" եթե դատարկ է */}
-                                                        {/* <CheckCircle />                 <XCircle /> */}
-                                                    </button></div>
+                                            )) ??
+                                                (attendanceList.find((attendanceL) => {
 
 
 
+                                                    return (
+                                                        attendanceL.StudentID === student.id &&
+                                                        attendanceL.UserID === lesson?.UserID &&
+                                                        attendanceL.LessonID === lesson.LessonID &&
+                                                        attendanceL.year === year &&
+                                                        attendanceL.month === month + 2 &&
+                                                        attendanceL.day == day.split(' ')[0] &&
+                                                        attendanceL.periud == 1 + Number(day.split(' ')[1])
 
-                                            </td>
-                                        );
+                                                    )
+                                                }
+                                                ))
+
+                                            let status1 = attendanceRecord?.Status || ""; // Եթե չկա գրառում, թող լինի ""
+
+                                            return (
+                                                <td key={index}>
+                                                    <div className='box'>
+                                                        <button
+                                                            onClick={() => {
+                                                                let newStatus;
+                                                                if (status1 === "") newStatus = "բացակա";
+                                                                else if (status1 === "բացակա") newStatus = "ներկա";
+                                                                else newStatus = "";
+
+                                                                attChange(student.id, year, month, day.split(' ')[0], 1 + Number(day.split(' ')[1]), lesson?.UserID, lesson.LessonID, newStatus);
+                                                            }}
+                                                            className='but'
+                                                            style={{
+                                                                fontSize: '15px',
+                                                                backgroundColor: status1 === "ներկա" ? "rgb(50, 171, 13)" : status1 === "բացակա" ? "rgb(255, 27, 27)" : "rgb(193, 193, 193)"
+                                                            }}
+                                                        >
+                                                            {status1 == 'ներկա' ? 'Ն' : status1 == 'բացակա' ? 'Բ' : ''} {/* Ցուցադրում է "?" եթե դատարկ է */}
+                                                            {/* <CheckCircle />                 <XCircle /> */}
+                                                        </button></div>
+
+
+
+
+                                                </td>
+                                            );
+                                        }
                                     })}
-                                    <td style={{ borderLeft: '2px solid black', fontWeight: 'bold', textAlign: 'center', backgroundColor: count > 120 ? 'red' : 'rgb(192, 192, 192)' }}>{count}</td>
+                                    <td style={{ borderLeft: '2px solid black', fontWeight: 'bold', textAlign: 'center', backgroundColor: count * 2 > 120 ? 'red' : (count * 2 > 100 ? 'rgb(244, 79, 145)' : (count * 2 > 80 ? 'rgb(186, 92, 92)' : (count * 2 > 60 ? 'rgb(49, 108, 244)' : 'rgb(192, 192, 192)'))) }}>{2 * count}</td>
                                 </tr>
                             )
                         )

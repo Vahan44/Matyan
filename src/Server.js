@@ -24,7 +24,6 @@ app.use("/institutes", institutesRoutes);
 app.use("/api/attendance", attendanceRoutes);
 app.use("/api/assignment", Assignment);
 
-// ✅ Բեռնել դասացուցակը
 app.get("/api/schedule", (req, res) => {
   db.query("SELECT * FROM schedule", (err, results) => {
     if (err) {

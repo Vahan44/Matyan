@@ -101,6 +101,7 @@
   .create-btn {
     background: #007bff;
     color: white;
+    height: 50px;
   }
   
   .create-btn:hover {

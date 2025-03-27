@@ -12,7 +12,7 @@ const Schedules = () => {
     dispatch(fetchSchedule());
     dispatch(fetchFaculties());
   }, [dispatch]);
-  // Օգտագործում ենք schedule աղյուսակից course դաշտը
+
   const schedule = useSelector((state) => state.schedule.schedule);
   const faculties = useSelector((state) => state.faculty?.list);
   const Employee = useSelector((state) => state.Employee)
@@ -43,7 +43,7 @@ function getUniqueCourses(schedule) {
   const handleAddCourse = () => {
     if (newCourse.trim() && !uniqueCourses.includes(newCourse)) {
       
-      navigate(`/Schedule/${newCourse}`); // Նոր կուրսի էջ
+      navigate(`/Schedule/${newCourse}`);
     }
     setNewCourse("");
     setAddingCourse(false);

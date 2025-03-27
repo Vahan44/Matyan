@@ -1,7 +1,7 @@
 import mysql from "mysql2";
 import dotenv from "dotenv";
 
-dotenv.config(); // ✅ Կարդում է .env ֆայլի պարամետրերը
+dotenv.config(); 
 
 const db = mysql.createConnection({
   host: process.env.DB_HOST,
@@ -17,8 +17,6 @@ db.connect((err) => {
     return;
   }
   console.log("✅ Connected to MySQL!");
-
-  // Ստեղծենք աղյուսակը, եթե այն գոյություն չունի
   const createTableQuery = `
     CREATE TABLE IF NOT EXISTS schedule (
       ClassScheduleID INT AUTO_INCREMENT PRIMARY KEY,
@@ -33,7 +31,6 @@ db.connect((err) => {
     );
   `;
 
-    // Ստեղծում ենք Employees աղյուսակը, եթե այն դեռ չկա
     const createEmployeesTable = `
     CREATE TABLE IF NOT EXISTS Employees (
       UserID INT AUTO_INCREMENT PRIMARY KEY,

@@ -16,7 +16,6 @@ const ScheduleForm = () => {
 
   const groups = ["Դաս", "Լաբ 1", "Լաբ 2", "Լաբ 3", "Լաբ 4", "Լաբ 5", "Լաբ 6", "Գործ 1", "Գործ 2", "Գործ 3", "Գործ 4", "ԿԱ 1", "ԿԱ 2", "ԿԱ 3", "ԿԱ 4"];
 
-  // ✅ Բեռնել դասացուցակը MySQL-ից, երբ էջը բացվում է
   useEffect(() => {
     dispatch(fetchSchedule());
     dispatch(fetchEmployees())
@@ -36,7 +35,6 @@ const ScheduleForm = () => {
       )
     );
   }
-  // ✅ Պահպանել դասացուցակը MySQL-ում
   const handleSave = () => {
     if (isScheduleValid(schedule)) {
       dispatch(saveSchedule(schedule)).then(() => alert("✅ Դասացուցակը հաջողությամբ պահպանվեց!"));
@@ -47,7 +45,6 @@ const ScheduleForm = () => {
 
   };
 
-  // ✅ Input փոփոխելու ֆունկցիա
   const handleChange = (dayIndex, periodIndex, subIndex, field, value) => {
     dispatch(updateClass({ dayIndex, periodIndex, subIndex, field, value }));
   };

@@ -17,7 +17,7 @@ const Institute = () => {
     dispatch(fetchEmployees());
     dispatch(fetchInstitutes())
   }, [dispatch]);
-  // Ստանում ենք առկա կուրսերի ցանկը
+
   const uniqueInstitutes = [...new Set(employees.map(employees => employees.InstituteID))].sort((a, b) => a - b);
 
   const [addingInstitute, setAddingInstitute] = useState(false);
@@ -26,7 +26,7 @@ const Institute = () => {
 
   const handleAddInstitute = () => {
     if (newInstitute.trim() && !uniqueInstitutes.includes(parseInt(newInstitute))) {
-      navigate(`/Employees/${newInstitute}`); // Տեղափոխում ենք նոր կուրսի էջը
+      navigate(`/Employees/${newInstitute}`); 
     }
     setNewInstitute("");
     setAddingInstitute(false);

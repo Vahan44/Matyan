@@ -19,7 +19,6 @@ const Courses = () => {
       dispatch(fetchFaculties());
       dispatch(fetchLessons());
     }, [dispatch]);
-  // Ստանում ենք առկա կուրսերի ցանկը
   const uniqueCourses =( page === "Students" ? [...new Set(students.map(student => student.course))].sort((a, b) => a - b):
   [...new Set(lessons.map(lesson => faculties.find(fac => fac.FacultyID === lesson.FacultyID)?.Course))].sort((a, b) => a - b))
   
@@ -28,7 +27,7 @@ const Courses = () => {
 
   const handleAddCourse = () => {
     if (newCourse.trim() && !uniqueCourses.includes(parseInt(newCourse))) {
-      page === 'Students' ?  navigate(`/Students/${newCourse}`) : navigate(`/Lessons/${newCourse}`) // Տեղափոխում ենք նոր կուրսի էջը
+      page === 'Students' ?  navigate(`/Students/${newCourse}`) : navigate(`/Lessons/${newCourse}`)
     }
     setNewCourse("");
     setAddingCourse(false);

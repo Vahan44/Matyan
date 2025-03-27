@@ -1,6 +1,5 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 
-// Ստանալ բոլոր ներկայությունները
 export const fetchAssignment = createAsyncThunk(
     'assignment/fetchAssignment',
     async () => {

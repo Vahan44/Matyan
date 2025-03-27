@@ -6,7 +6,6 @@ import LogInPage from '../pages/LogInPage/ui/LogInPage';
 import ClassShedule from '../pages/ScheduleForm/ui/ScheduleForm';
 import Dashboard from './Dashboaard';
 import { useSelector, } from 'react-redux';
-//import SignUp from '../pages/SignUp/ui/SignUp';
 import Students from '../pages/Students/ui/Students';
 import { useAppDispatch } from '../hooks/useAppDispatch';
 import { autoLogIn } from '../Redux/userSlice';

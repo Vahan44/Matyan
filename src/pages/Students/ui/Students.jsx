@@ -38,7 +38,7 @@ const Students = () => {
       const index = studentData.findIndex(student => student.id === prevState.id);
       return { ...prevState, recordNumber: index !== -1 ? index : null };
     });
-  }, [studentData]); // ✅ Ավելացրու կախվածության մեջ
+  }, [studentData]);
   
 
   useEffect(() => {
@@ -48,8 +48,8 @@ const Students = () => {
       setNewStudent(prevState => ({ ...prevState, course: course }));
     }  }, [students, course]);
 
-  // 🔹 Սորտավորման ֆունկցիա (նախ ազգանուն, ապա անուն)
-  const sortStudents = (students) => {
+
+    const sortStudents = (students) => {
     
     return [...students].sort((a, b) => {
         return a.recordNumber - (b.recordNumber);
