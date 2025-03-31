@@ -1,6 +1,34 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
 
+const semester = (day, month, year) => {
+
+  const yearNow = new Date().getFullYear()
+  const monthNow = new Date().getMonth()
+
+  if (yearNow == year) {
+
+      if (monthNow <= 4) {
+          if (month <= 4 && month >= 1) {
+              if (month === 1) {
+                  if (day >= 10) {
+                      return true
+                  }
+              }
+
+              return true
+          }
+      }
+      else if (monthNow >= 8) {
+          if (month <= 11 && month >= 8) {
+
+              return true
+
+          }
+      }
+  }
+  return false
+}
 // Ստանալ բոլոր ներկայությունները
 export const fetchAttendance = createAsyncThunk(
   'attendance/fetchAttendance',

@@ -2,12 +2,14 @@
 .workspaces{
     width: 80%;
     max-width: 1000px;
-    margin: 20px auto;
+    min-width: 350px;
+    margin: auto;
     padding: 15px;
     border-radius: 10px;
     background: #ffffff;
     box-shadow: 0px 0px 15px 5px rgba(1, 1, 33, 0.1);
     padding-bottom: 100px;
+    margin-bottom: 20px;
 }
 .workspaceHeader{
     text-align: center;
@@ -39,11 +41,11 @@ hr{
    
 }
 .boards {
-    width: 90%;
-    padding: 50px;
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(150px, 150px));
-    gap: 150px;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 220px));
+    gap: 100px;
+    justify-content: space-around;
+    padding-right: 100PX;
 }
 .Bli{
     display: flex;
@@ -51,14 +53,14 @@ hr{
     align-items: center;
     padding: 20px;
     list-style: none;
-    width: 250px; 
+        width: 250px; 
     min-height: 100px;
     background-color: #5983bd;
      color: rgb(250, 250, 250);
     border-radius: 5px;
-    margin-bottom: -100px;
+    margin-bottom: -75px;
     transition: 1s;
-    border: 2px solid #050527;
+    border: 1px solid #050527;
 }
 .Bli:hover{
     background-color: #121265;

@@ -4,7 +4,7 @@ import db from "../db.js";
 
 const router = express.Router();
 
-router.post("/login", (req, res) => { // ✅ Ուղին ուղղվել է
+router.post("/login", (req, res) => { 
   const { username, password } = req.body;
 
   if (!username || !password) {

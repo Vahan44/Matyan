@@ -33,7 +33,7 @@ const App = () => {
     return state.Employee
   })
 
-  console.log(90909909090909090, Employee)
+  console.log('UserData', Employee)
 
 
 
@@ -59,7 +59,6 @@ const App = () => {
 
                 <Route path='/Schedules' element={<Schedules />} />
                 <Route path='/Schedule/:course' element={<ClassShedule />} />
-                <Route path='/AdminData/' element={<AdminData />} />
                 <Route path='/Course/:page' element={<Course />} />
                 <Route path='/Institutes' element={<Institute />} />
                 <Route path='/Lessons/:course' element={<Lessons />} />
@@ -80,13 +79,14 @@ const App = () => {
           </> : <>
             <Route path='/LogInPage' element={<LogInPage />} />
             <Route path='/' element={<LogInPage />} />
-            {/* <Route path='/SignUpPage' element={<SignUp />} /> */}
+            
           </>
           }
 
 
         </Routes>
       </div>
+     
     </BrowserRouter>
   );
 }

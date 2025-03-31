@@ -28,7 +28,6 @@ const Matyan = () => {
 
     const course = "ՏՏ119";
 
-    console.log(assignmentList)
     useEffect(() => {
         dispatch(fetchFaculties());
         dispatch(fetchSchedule());

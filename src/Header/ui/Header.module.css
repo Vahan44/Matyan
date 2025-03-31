@@ -10,7 +10,7 @@
     margin: 0;
     height: 60px;
     margin-bottom: 100px;
-    
+    z-index: 9999;
   }
 
   .menu {
@@ -25,6 +25,31 @@
   .link {
     text-decoration: none;
     color: #b7b7b7;
+  }
+
+
+  .linkS {
+    text-decoration: none;
+    color: #b7b7b7;
+
+  }
+
+  @media (max-width: 670px) {
+    .linkS {
+      display: none !important;
+  
+    }
+
+     
+  }
+
+  @media (max-width: 540px) {
+
+
+      .userImage {
+
+    margin-right: 75px;
+  }
   }
   
   .mainMenu a:hover {
@@ -65,7 +90,6 @@
     width: 40px;
     height: 40px;
     border-radius: 50%;
-    border: 1px solid #ccc;
   }
   
 

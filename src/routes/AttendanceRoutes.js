@@ -15,7 +15,7 @@ const db = await mysql.createConnection({
 // ✅ Ստանալ բոլոր ներկայությունները
 router.get("/", async (req, res) => {
     try {
-        const [results] = await db.query("SELECT * FROM Attendance");
+        const [results] = await db.query("SELECT  * FROM Attendance ");
         res.json(results);
     } catch (err) {
         console.error("Database error:", err);

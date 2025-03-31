@@ -46,7 +46,6 @@ const EmployeeSchedule = () => {
 
 
 
-    console.log(Employee.user.LastName + ' ' + Employee.user.FirstName)
 
 
     return (
@@ -58,7 +57,7 @@ const EmployeeSchedule = () => {
                     <table className="employee-schedule-table">
                         <thead>
                             <tr >
-                                <th colSpan={5}>                            
+                                <th colSpan={5}>
                                     <h2>Ձեր զբաղվածության գրաֆիկը</h2>
                                 </th>
                             </tr>
@@ -78,17 +77,16 @@ const EmployeeSchedule = () => {
                                             {period.map((cls, subIndex) =>
                                                 cls.professor === Employee.user.LastName + ' ' + Employee.user.FirstName ? (
                                                     <div key={subIndex} className="class-entry">
-                                                        <p>{cls.name}</p>
-                                                        <p>{cls.course}</p>
-                                                        <p>{cls.group_name}</p>
-                                                        <p>{cls.professor}</p>
-                                                        <p>{cls.audience}</p>
-                                                        <p>{cls.classroom}</p>
-                                                        
+                                                      <p>{cls.name}</p>
+                                                      <p>{cls.course}</p>
+                                                      <p>{cls.group_name}</p>
+                                                      <p>{cls.professor}</p>
+                                                      <p>{cls.audience}</p>
+                                                      <p>{cls.classroom}</p>
                                                     </div>
                                                 ) : null
                                             )}
-                                           
+
                                         </td>
                                     ))}
                                 </tr>

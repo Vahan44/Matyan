@@ -72,6 +72,7 @@ const Matyan = () => {
                 });
             });
         });
+        console.log([...dayOfWeek]);
         return [...dayOfWeek];
     };
 
@@ -79,7 +80,6 @@ const Matyan = () => {
     if (status === 'failed') return <p>Error: {error}</p>;
 
 
-    console.log(assignmentList)
 
 
 
@@ -292,7 +292,6 @@ const Matyan = () => {
         return false
     }
 
-    console.log(semester(9, 3, 2025));
     const filteredDays = getFilteredDays(year, month, days());
 
     return (

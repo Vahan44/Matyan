@@ -75,23 +75,24 @@ const Header = () => {
             </Link>
           </li>
           {user.isAuthenticated ? user.user.Role === "Ադմինիստրատոր" ? <>
+         
           <li>
-            <Link className={styles.link} to='/Course/Students'>
+            <Link className={styles.linkS} to='/Course/Students'>
               <h4 >Ուսանողներ</h4>
             </Link>
           </li>
           <li>
-            <Link className={styles.link} to='/Institutes'>
+            <Link className={styles.linkS} to='/Institutes'>
               <h4 >Դաասխոսներ</h4>
             </Link>
           </li>
           <li>
-            <Link className={styles.link} to='/Course/Lessons'>
+            <Link className={styles.linkS} to='/Course/Lessons'>
               <h4 >Դասընթացներ</h4>
             </Link>
           </li>
           <li>
-            <Link className={styles.link} to='/Schedules'>
+            <Link className={styles.linkS} to='/Schedules'>
               <h4 >Դասացուցակ</h4>
             </Link>
           </li></>

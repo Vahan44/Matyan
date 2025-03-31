@@ -73,13 +73,12 @@
     align-items: center;
     border: 1px solid #000000;
     border-radius: 5px;
-
-    padding: 30px;
+    padding: 25px;
     margin-bottom: 10px;
     max-width: 200px;
     min-width: 120px;
-    background-color: #d4d5e6;
-  }
+    background-color: #5983bd;
+    color: rgb(255, 255, 255);  }
   .class-entry p{
     padding: 0;
     margin-bottom: -5px;
