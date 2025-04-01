@@ -22,12 +22,18 @@
   border:1px solid #121265;
   transition: 0.5s;
 }
+
+
 .savebut:hover {
   background: #121265;
   color: #ffffff;
   border: 1px solid #444444;
   font-size: 18px;
+
 }
+
+
+
 .subtitle {
   font-size: 18px;
   color: #666;
@@ -117,6 +123,11 @@
   align-items: center;
 }
 
+
+.container th p{
+  height: 3px;
+  margin-top: 5px;
+}
 .container tr:nth-child(even) {
   background-color: #f9f9f9;
 }
@@ -155,3 +166,82 @@
   display: flex;
   justify-content: center;
 }
+
+.thDate{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+}
+
+.thDate:hover{
+  justify-content: space-around;
+}
+
+.thDate:hover{
+  background-color: rgb(214, 214, 206);
+}
+
+.hanznumBut{
+  margin-left: 10%;
+  border: none;
+  background-color: #1b89cd;
+  /* box-shadow: 0px 0px 5px 1px #f2f4f5; */
+  width: 55px;
+  height: 50px;
+  border-radius: 0 0 10px 10px;
+  font-size: 25px;
+  color: #ffffff;
+  padding-top: 0%;
+  font-size: 15px;
+  transition: 0.3s;
+  transform: scale(0.8);
+
+}
+
+.katarumBut{
+  border: none;
+  background-color: #cdcd1b;
+  /* box-shadow: 0px 0px 5px 1px #ffffff; */
+  width: 57px;
+  height: 50px;
+  font-size: 25px;
+  color: #000000;
+  border-radius: 0 0 10px 10px;
+  padding-top: 0%;
+  font-size: 14px;
+  font-weight: 600;
+  transition: 0.3s;
+  transform: scale(0.8);
+}
+.katarumBut:hover, .hanznumBut:hover {
+  width: 55px;
+  height: 55px;
+}
+
+.arrow-down {
+  width: 0; 
+  height: 0; 
+  border-left: 35px solid transparent;
+  border-right: 35px solid transparent;
+  
+  border-top: 20px solid #1b9ecd;
+
+  margin-top: -12px;
+  margin-left: 8px;
+  transform: scale(0.8);
+}       
+
+
+.arrow-down2 {
+  width: 0; 
+  height: 0; 
+  border-left: 37px solid transparent;
+  border-right: 37px solid transparent;
+  
+  border-top: 20px solid #cdbb1b;
+
+  margin-top: -12px;
+  margin-left: 1px;
+  transform: scale(0.8);
+}       

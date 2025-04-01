@@ -9,7 +9,7 @@ import { fetchAssignment, addAssignmentRecord, updateAssignmentRecord, deleteAss
 import { CheckCircle, XCircle } from "lucide-react";
 import { useNavigate } from 'react-router-dom';
 import "./Matyan.css"; // Import the CSS file
-import { RiFontFamily } from 'react-icons/ri';
+import { RiArrowDropDownLine } from 'react-icons/ri';
 
 const Matyan = () => {
     const { data } = useParams();
@@ -31,7 +31,12 @@ const Matyan = () => {
     const [month, setMonth] = useState(new Date().getMonth() + 1);
     const [lesson, setLesson] = useState(null);
     const [attendanceData, setAttendanceData] = useState([])
+    const [assignmentData, setAssignmentData] = useState([])
     //JSON.parse(localStorage.getItem('month'))
+    const [katarum, setKatarum] = useState()
+    const [handznum, setHandznum] = useState()
+    const [handznumBut, setHandznumBut] = useState()
+
 
 
 
@@ -80,19 +85,19 @@ const Matyan = () => {
     if (status === 'failed') return <p>Error: {error}</p>;
 
 
-
+    const weekDaysP = ['Կիրակի', 'Երկուշաբթի', 'Երեքշաբթի', 'Չորեքշաբթի', 'Հինգշաբթի', 'Ուրբաթ', 'Շաբաթ'];
 
 
     const getFilteredDays = (year, month, dayOfWeek) => {
         const filteredDays = [];
-        const daysInMonth = new Date(year, month + 1, 0).getDate();
+        const daysInMonth = new Date(year, month, 0).getDate();
         const weekDays = ['Կիրակի', 'Երկուշաբթի', 'Երեքշաբթի', 'Չորեքշաբթի', 'Հինգշաբթի', 'Ուրբաթ', 'Շաբաթ'];
 
         for (let day = 1; day <= daysInMonth; day++) {
-            const date = new Date(year, month, day);
-            const dayName = weekDays[date.getDay() - 3 < 0 ? date.getDay() + 4 : date.getDay() - 3];
+            const date = new Date(year, month - 1, day);
+            const dayName = date.getDay()
             for (let i = 0; i < dayOfWeek.length; i++) {
-                if (dayOfWeek[i].split(' ')[0] == dayName && (dayOfWeek[i].split(' ')[2] === 'Ամբողջական' || getWeekType(day, month, year) === dayOfWeek[i].split(' ')[2])) {
+                if (dayOfWeek[i].split(' ')[0] == weekDays[dayName] && (dayOfWeek[i].split(' ')[2] === 'Ամբողջական' || getWeekType(day, month, year) === dayOfWeek[i].split(' ')[2])) {
 
                     filteredDays.push(day + ' ' + dayOfWeek[i].split(' ')[1]);
                 }
@@ -119,7 +124,7 @@ const Matyan = () => {
     };
 
 
-
+    console.log(assignmentList)
 
     const attChange = (studentId, year, month, day, periud, userId, lessonId, newStatus) => {
 
@@ -180,6 +185,7 @@ const Matyan = () => {
     };
 
 
+    
     const handleSave = async () => {
 
 
@@ -304,7 +310,6 @@ const Matyan = () => {
                     </span>
                 </p>
                 <div style={{ display: 'flex', justifyContent: 'end' }}>
-
                     <button className='savebut' onClick={handleSave}>Պահպանել</button>
                 </div>
 
@@ -346,11 +351,22 @@ const Matyan = () => {
                         <th style={{ width: '250px' }}>Ազգանուն Անուն Հայրանուն</th>
                         {filteredDays.map((day) => {
 
-                            const jam = [0, '1/2', '3/4', '5/6', '7/8']
+                            const jam = [0, '1-2', '3-4', '5-6', '7-8']
 
                             if (semester(Number(day.split(' ')[0]), month - 1, year)) {
+                                let date = `${year}-${month}-${day.split(' ')[0]}`
+                                const dayOfWeek = new Date(date).getDay()
                                 return (
-                                    <th key={day.split(' ')[0]}>{day.split(' ')[0]}/{month}/{year - 2000} <p style={{ fontSize: '14px', marginTop: '0px', height: '0px' }}> {`\n` + jam[day.split(' ')[1]]}</p></th>
+                                    <th onMouseEnter={() => setHandznumBut(`${day.split(' ')[0]}/${month}/${year - 2000}`)}
+                                        onMouseLeave={() => setHandznumBut(null)}
+                                        key={day.split(' ')[0]}><div className='thDate'>
+                                            <div className="dateA">
+                                            <p>{day.split(' ')[0]}/{month}/{year - 2000}</p> <p >{weekDaysP[dayOfWeek]} </p><p > {jam[day.split(' ')[1]]}</p>
+                                            </div>
+                                            { handznumBut === `${day.split(' ')[0]}/${month}/${year - 2000}` ?
+                                                    <div style={{display: 'flex', flexDirection: 'row'}}><div><button className='hanznumBut' onClick={()=>handznum === `${day.split(' ')[0]}/${month}/${year - 2000}` ? setHandznum(null) : setHandznum(`${day.split(' ')[0]}/${month}/${year - 2000}`)}>{`Հանձ\nնում`}</button>  <div class="arrow-down"></div></div>
+                                                    <div><button className='katarumBut' onClick={()=>katarum === `${day.split(' ')[0]}/${month}/${year - 2000}` ? setKatarum(null) : setKatarum(`${day.split(' ')[0]}/${month}/${year - 2000}`)}>{`Կատա\nրում`}</button><div class="arrow-down2"></div></div></div> : <></>}
+                                        </div> </th>
                                 )
                             }
                             else { navigate('not_found') }
@@ -422,12 +438,16 @@ const Matyan = () => {
                                                             className='but'
                                                             style={{
                                                                 fontSize: '15px',
+                                                                margin: '3px',
                                                                 backgroundColor: status1 === "ներկա" ? "rgb(50, 171, 13)" : status1 === "բացակա" ? "rgb(255, 27, 27)" : "rgb(193, 193, 193)"
                                                             }}
                                                         >
                                                             {status1 == 'ներկա' ? 'Ն' : status1 == 'բացակա' ? 'Բ' : ''} {/* Ցուցադրում է "?" եթե դատարկ է */}
                                                             {/* <CheckCircle />                 <XCircle /> */}
-                                                        </button></div>
+                                                        </button>
+                                                        {handznum === `${day.split(' ')[0]}/${month}/${year - 2000}` ?<> <button style={{backgroundColor: '#1b89cd', margin: '3px'}}className='but'></button></>                                                                                                                      : <></>}
+                                                        {katarum === `${day.split(' ')[0]}/${month}/${year - 2000}` ? <button style={{backgroundColor: '#cdcd1b', margin: '3px'}}className='but'></button> : <></>}
+                                                    </div>
 
 
 
