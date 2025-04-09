@@ -6,7 +6,7 @@ import { fetchStudents } from "../../../Redux/StudentSlice";
 import { useParams } from 'react-router-dom';
 import { fetchLessons, fetchFaculties } from "../../../Redux/LessonsSlice";
 import { fetchAssignment, addAssignmentRecord, updateAssignmentRecord, deleteAssignmentRecord } from '../../../Redux/AssignmentsSlice.js';
-import { CheckCircle, XCircle } from "lucide-react";
+import { CheckCircle, User, XCircle } from "lucide-react";
 import { useNavigate } from 'react-router-dom';
 import "./Matyan.css"; // Import the CSS file
 import { RiArrowDropDownLine } from 'react-icons/ri';
@@ -77,7 +77,6 @@ const Matyan = () => {
                 });
             });
         });
-        console.log([...dayOfWeek]);
         return [...dayOfWeek];
     };
 
@@ -124,7 +123,6 @@ const Matyan = () => {
     };
 
 
-    console.log(assignmentList)
 
     const attChange = (studentId, year, month, day, periud, userId, lessonId, newStatus) => {
 
@@ -184,9 +182,292 @@ const Matyan = () => {
         }
     };
 
+    const assChange = (studentId, year, month, day, periud, userId, lessonId, newStatus1, Grade) => {
 
-    
+        const assignment = assignmentData?.find((ass) =>
+            ass.StudentID === studentId &&
+            ass.UserID === userId &&
+            ass.LessonID === lessonId &&
+            ass.year == year &&
+            ass.month == month + 1 &&
+            ass.day == day &&
+            ass.periud == periud &&
+            ass.Grade == '-1'
+
+        );
+
+        if (!assignment) {
+
+            setAssignmentData(
+                (prev) => [...prev, {
+                    StudentID: studentId,
+                    UserID: userId,
+                    LessonID: lessonId,
+                    Grade: '-1',
+                    Status: newStatus1,
+                    year: year,
+                    month: month + 1,
+                    day: day,
+                    periud: periud
+                }]
+            )
+        } else {
+
+
+            setAssignmentData((prev) =>
+                prev.map((ass) => {
+
+                    if (ass.StudentID === studentId &&
+                        ass.UserID === userId &&
+                        ass.LessonID === lessonId &&
+                        ass.year == year &&
+                        ass.month == month + 1 &&
+                        ass.day == day &&
+                        ass.periud == periud &&
+                        ass.Grade == '-1') {
+                        return {
+                            StudentID: studentId,
+                            UserID: userId,
+                            LessonID: lessonId,
+                            Status: newStatus1,
+                            Grade: '-1',
+                            year: year,
+                            month: month + 1,
+                            day: day,
+                            periud: periud
+                        }
+                    } else return ass
+                }
+                )
+
+            )
+
+        }
+    };
+
+
+
+    const assChange2 = (studentId, year, month, day, periud, userId, lessonId, newStatus, Grade) => {
+        if (Grade >= 0 && Grade <= 16) {
+            const assignment = assignmentData?.find((ass) =>
+                ass.StudentID === studentId &&
+                ass.UserID === userId &&
+                ass.LessonID === lessonId &&
+                ass.year == year &&
+                ass.month == month + 1 &&
+                ass.day == day &&
+                ass.periud == periud &&
+                ass.Status == 'հանձնված' &&
+                ass.Grade !== '-1'
+            );
+
+            if (!assignment) {
+
+                setAssignmentData(
+                    (prev) => [...prev, {
+                        StudentID: studentId,
+                        UserID: userId,
+                        LessonID: lessonId,
+                        Status: 'հանձնված',
+                        Grade: +Grade,
+                        year: year,
+                        month: month + 1,
+                        day: day,
+                        periud: periud
+                    }]
+                )
+            } else {
+
+
+                setAssignmentData((prev) =>
+                    prev.map((ass) => {
+
+                        if (ass.StudentID === studentId &&
+                            ass.UserID === userId &&
+                            ass.LessonID === lessonId &&
+                            ass.year == year &&
+                            ass.month == month + 1 &&
+                            ass.day == day &&
+                            ass.Status == 'հանձնված' &&
+                            ass.Grade !== '-1' &&
+                            ass.periud == periud) {
+                            return {
+                                StudentID: studentId,
+                                UserID: userId,
+                                LessonID: lessonId,
+                                Status: 'հանձնված',
+                                Grade: +Grade,
+                                year: year,
+                                month: month + 1,
+                                day: day,
+                                periud: periud
+                            }
+                        } else return ass
+                    }
+                    )
+
+                )
+
+            }
+        } else (alert('Գնահատականը կարող է լինել 0 - 16'))
+    };
+
+
     const handleSave = async () => {
+        const attendancePromises = attendanceData.map(async (attData) => {
+            const attendance = attendanceList.find((att) => {
+                return (
+                    att.StudentID == attData.StudentID &&
+                    att.UserID == attData.UserID &&
+                    att.LessonID == attData.LessonID &&
+                    att.year == attData.year &&
+                    att.month == attData.month + 1 &&
+                    att.day == +attData.day &&
+                    att.periud == attData.periud)
+            }
+            );
+
+            try {
+                if (!attendance && attData.Status !== "") {
+
+                    await dispatch(addAttendanceRecord({
+                        StudentID: attData.StudentID,
+                        UserID: attData.UserID,
+                        LessonID: attData.LessonID,
+                        Status: attData.Status,
+                        year: attData.year,
+                        month: attData.month + 1,
+                        day: +attData.day,
+                        periud: +attData.periud
+                    })).unwrap();
+                } else if (attendance) {
+
+                    if (attData.Status === "") {
+                        await dispatch(deleteAttendanceRecord(attendance.AttID)).unwrap();
+                    } else {
+                        await dispatch(updateAttendanceRecord({
+                            id: attendance.AttID,
+                            StudentID: attData.StudentID,
+                            UserID: attData.UserID,
+                            LessonID: attData.LessonID,
+                            Status: attData.Status,
+                            year: attData.year,
+                            month: attData.month + 1,
+                            day: +attData.day,
+                            periud: +attData.periud
+                        })).unwrap();
+                    }
+                }
+            } catch (error) {
+                console.error("Error updating attendance:", error);
+            }
+        });
+
+        const assignmentPromises1 = assignmentData.map(async (assData) => {
+            if (assData.Status === "կատարված" || assData.Status === '') {
+                const assignment = assignmentList.find((ass) => {
+                    return (
+                        ass.StudentID == assData.StudentID &&
+                        ass.UserID == assData.UserID &&
+                        ass.LessonID == assData.LessonID &&
+                        ass.year == assData.year &&
+                        ass.month == assData.month &&
+                        ass.day == +assData.day &&
+                        ass.periud == assData.periud &&
+                        ass.Grade == '-1' &&
+                        ass.Status === "կատարված")
+                }
+                );
+
+                try {
+                    if (!assignment && assData.Status !== "") {
+
+                        await dispatch(addAssignmentRecord({
+                            StudentID: assData.StudentID,
+                            UserID: assData.UserID,
+                            LessonID: assData.LessonID,
+                            Grade: -1,
+                            Status: "կատարված",
+                            year: +assData.year,
+                            month: +assData.month,
+                            day: +assData.day,
+                            periud: +assData.periud,
+                        })).unwrap();
+                    } else if (assignment) {
+
+                        if (assData.Status === "") {
+                            await dispatch(deleteAssignmentRecord(assignment.AssignmentID)).unwrap();
+
+                        }
+                    }
+                } catch (error) {
+                    console.error("Error updating attendance:", error);
+                }
+            }
+        })
+
+
+        const assignmentPromises2 = assignmentData.map(async (assData) => {
+            if (assData.Status === "հանձնված") {
+                const assignment = assignmentList.find((ass) => {
+                    return (
+                        ass.StudentID == assData.StudentID &&
+                        ass.UserID == assData.UserID &&
+                        ass.LessonID == assData.LessonID &&
+                        ass.year == assData.year &&
+                        ass.month == assData.month &&
+                        ass.day == +assData.day &&
+                        ass.periud == assData.periud &&
+                        ass.Grade !== '-1' &&
+                        ass.Status === "հանձնված")
+                }
+                );
+
+                try {
+                    if (!assignment) {
+
+                        await dispatch(addAssignmentRecord({
+                            StudentID: assData.StudentID,
+                            UserID: assData.UserID,
+                            LessonID: assData.LessonID,
+                            Grade: +assData?.Grade,
+                            Status: "հանձնված",
+                            year: +assData.year,
+                            month: +assData.month,
+                            day: +assData.day,
+                            periud: +assData.periud,
+                        })).unwrap();
+                    } else if (assignment) {
+
+
+                        await dispatch(updateAssignmentRecord({
+                            id: assignment.AssignmentID,
+                            StudentID: assData.StudentID,
+                            UserID: assData.UserID,
+                            LessonID: assData.LessonID,
+                            Status: 'հանձնված',
+                            Grade: +assData.Grade,
+                            year: assData.year,
+                            month: assData.month,
+                            day: +assData.day,
+                            periud: +assData.periud
+                        })).unwrap();
+
+                    }
+                } catch (error) {
+                    console.error("Error updating attendance:", error);
+                }
+            }
+        });
+
+        await Promise.all([...attendancePromises, ...assignmentPromises1, ...assignmentPromises2]);
+
+        await dispatch(fetchAttendance()).unwrap();
+        await dispatch(fetchAssignment()).unwrap();
+    };
+
+    console.log(assignmentData)
+    const handleSave1 = async () => {
 
 
         const promises = attendanceData.map(async (attData) => {
@@ -300,6 +581,61 @@ const Matyan = () => {
 
     const filteredDays = getFilteredDays(year, month, days());
 
+
+    const closeHandznum = async (day, month, year, LessonID, UserID, periud) => {
+        const promises = [];
+            
+        for (const ass of assignmentList) {
+            if (
+                ass.UserID == UserID &&
+                ass.LessonID == LessonID &&
+                ass.year == year &&
+                ass.month == 1 + month &&
+                ass.day == +day &&
+                ass.periud == periud &&
+                ass.Grade !== "-1" &&
+                ass.Status === "հանձնված"
+            ) {
+                const promise = dispatch(deleteAssignmentRecord(ass.AssignmentID)).catch((error) => {
+                    console.error("Ջնջելու ընթացքում սխալ:", error);
+                });
+                promises.push(promise);
+            }
+        }
+        setHandznum(null)
+    
+        await Promise.all(promises);
+        dispatch(fetchAssignment());
+    };
+
+
+    const closeKatarum = async (day, month, year, LessonID, UserID, periud) => {
+        const promises = [];
+            
+        for (const ass of assignmentList) {
+            if (
+                ass.UserID == UserID &&
+                ass.LessonID == LessonID &&
+                ass.year == year &&
+                ass.month == 1 + month &&
+                ass.day == +day &&
+                ass.periud == periud &&
+                ass.Status === "կատարված"
+            ) {
+                const promise = dispatch(deleteAssignmentRecord(ass.AssignmentID)).catch((error) => {
+                    console.error("Ջնջելու ընթացքում սխալ:", error);
+                });
+                promises.push(promise);
+            }
+        }
+        setKatarum(null)
+    
+        await Promise.all(promises);
+        dispatch(fetchAssignment());
+    };
+    
+    
+    
     return (
         <div className='container'>
             <div style={{ padding: "24px", borderRadius: "12px" }}>
@@ -356,16 +692,48 @@ const Matyan = () => {
                             if (semester(Number(day.split(' ')[0]), month - 1, year)) {
                                 let date = `${year}-${month}-${day.split(' ')[0]}`
                                 const dayOfWeek = new Date(date).getDay()
+
+                                const handznumCase = handznum ||
+                                    assignmentList.find((assList) => {
+                                        return (
+                                            assList.UserID === lesson?.UserID &&
+                                            assList.LessonID === lesson.LessonID &&
+                                            assList.year === year &&
+                                            assList.month === month + 1 &&
+                                            assList.day == day.split(' ')[0] &&
+                                            assList.periud == Number(day.split(' ')[1]) &&
+                                            assList.Status === "հանձնված" &&
+                                            assList.Grade !== '-1'
+
+                                        )
+                                    })
+
+
+
+                                    const katarumCase = katarum ||
+                                    assignmentList.find((assList) => {
+                                        return (
+                                            assList.UserID === lesson?.UserID &&
+                                            assList.LessonID === lesson.LessonID &&
+                                            assList.year === year &&
+                                            assList.month === month + 1 &&
+                                            assList.day == day.split(' ')[0] &&
+                                            assList.periud == Number(day.split(' ')[1]) &&
+                                            assList.Status === "կատարված"
+
+                                        )
+                                    })    
+
                                 return (
                                     <th onMouseEnter={() => setHandznumBut(`${day.split(' ')[0]}/${month}/${year - 2000}`)}
                                         onMouseLeave={() => setHandznumBut(null)}
                                         key={day.split(' ')[0]}><div className='thDate'>
                                             <div className="dateA">
-                                            <p>{day.split(' ')[0]}/{month}/{year - 2000}</p> <p >{weekDaysP[dayOfWeek]} </p><p > {jam[day.split(' ')[1]]}</p>
+                                                <p>{day.split(' ')[0]}/{month}/{year - 2000}</p> <p >{weekDaysP[dayOfWeek]} </p><p > {jam[day.split(' ')[1]]}</p>
                                             </div>
-                                            { handznumBut === `${day.split(' ')[0]}/${month}/${year - 2000}` ?
-                                                    <div style={{display: 'flex', flexDirection: 'row'}}><div><button className='hanznumBut' onClick={()=>handznum === `${day.split(' ')[0]}/${month}/${year - 2000}` ? setHandznum(null) : setHandznum(`${day.split(' ')[0]}/${month}/${year - 2000}`)}>{`Հանձ\nնում`}</button>  <div class="arrow-down"></div></div>
-                                                    <div><button className='katarumBut' onClick={()=>katarum === `${day.split(' ')[0]}/${month}/${year - 2000}` ? setKatarum(null) : setKatarum(`${day.split(' ')[0]}/${month}/${year - 2000}`)}>{`Կատա\nրում`}</button><div class="arrow-down2"></div></div></div> : <></>}
+                                            {handznumBut === `${day.split(' ')[0]}/${month}/${year - 2000}` && lesson.group_ !== 'Դաս' ?                             //closeHandznum = (day, month, year, LessonID, UserID,periud )
+                                                <div style={{ display: 'flex', flexDirection: 'row' }}><div><button className='hanznumBut' onClick={() =>{ handznumCase ? closeHandznum(day.split(' ')[0], month, year, lesson.LessonID, lesson.UserID, day.split(' ')[1]) : setHandznum(`${day.split(' ')[0]}/${month}/${year - 2000}`)}}>{`Հանձ\nնում`}</button>  <div class="arrow-down"></div></div>
+                                                    <div><button className='katarumBut' onClick={() => katarumCase ? closeKatarum(day.split(' ')[0], month, year, lesson.LessonID, lesson.UserID, day.split(' ')[1]) : setKatarum(`${day.split(' ')[0]}/${month}/${year - 2000}`)}>{`Կատա\nրում`}</button><div class="arrow-down2"></div></div></div> : <></>}
                                         </div> </th>
                                 )
                             }
@@ -420,9 +788,136 @@ const Matyan = () => {
                                                     )
                                                 }
                                                 ))
+                                            let status1 = attendanceRecord?.Status || "";
+                                            let katarumRecord
+                                            let handznumRecord
+                                            let assignmentsColumn
+                                            let assignmentsColumn2
+                                            let assColumn
+                                            let assColumn2
+                                            if (lesson.group_ !== 'Դաս') {
 
-                                            let status1 = attendanceRecord?.Status || ""; // Եթե չկա գրառում, թող լինի ""
 
+                                                katarumRecord = assignmentData.find((assData) => {
+                                                    return (
+                                                        assData.StudentID === student.id &&
+                                                        assData.UserID === lesson?.UserID &&
+                                                        assData.LessonID === lesson.LessonID &&
+                                                        assData.year === year &&
+                                                        assData.month === month + 1 &&
+                                                        assData.day == day.split(' ')[0] &&
+                                                        assData.periud == Number(day.split(' ')[1]) &&
+                                                        assData.Grade == '-1'
+                                                    )
+                                                }) ??
+                                                    assignmentList.find((assList) => {
+                                                        return (
+                                                            assList.StudentID === student.id &&
+                                                            assList.UserID === lesson?.UserID &&
+                                                            assList.LessonID === lesson.LessonID &&
+                                                            assList.year === year &&
+                                                            assList.month === month + 1 &&
+                                                            assList.day == day.split(' ')[0] &&
+                                                            assList.periud == Number(day.split(' ')[1]) &&
+                                                            assList.Status === "կատարված" &&
+                                                            assList.Grade == '-1'
+
+                                                        )
+                                                    })
+
+
+                                                handznumRecord = assignmentData.find((assData) => {
+                                                    return (
+                                                        assData.StudentID === student.id &&
+                                                        assData.UserID === lesson?.UserID &&
+                                                        assData.LessonID === lesson.LessonID &&
+                                                        assData.year === year &&
+                                                        assData.month === month + 1 &&
+                                                        assData.day == day.split(' ')[0] &&
+                                                        assData.periud == Number(day.split(' ')[1]) &&
+                                                        assData.Status == 'հանձնված' &&
+                                                        assData.Grade !== '-1'
+                                                    )
+                                                }) ??
+                                                    assignmentList.find((assList) => {
+                                                        return (
+                                                            assList.StudentID === student.id &&
+                                                            assList.UserID === lesson?.UserID &&
+                                                            assList.LessonID === lesson.LessonID &&
+                                                            assList.year === year &&
+                                                            assList.month === month + 1 &&
+                                                            assList.day == day.split(' ')[0] &&
+                                                            assList.periud == Number(day.split(' ')[1]) &&
+                                                            assList.Status === "հանձնված" &&
+                                                            assList.Grade !== '-1'
+
+                                                        )
+                                                    })
+
+
+
+                                                assignmentsColumn = assignmentData.find((assData) => {
+                                                    return (
+                                                        assData.UserID === lesson?.UserID &&
+                                                        assData.LessonID === lesson.LessonID &&
+                                                        assData.year === year &&
+                                                        assData.month === month + 1 &&
+                                                        assData.day == day.split(' ')[0] &&
+                                                        assData.periud == 1 + Number(day.split(' ')[1]) &&
+                                                        assData.Status === "կատարված" &&
+                                                        assData.Grade == '-1'
+
+                                                    )
+                                                }) ??
+                                                    assignmentList.find((assList) => {
+
+                                                        return (
+                                                            assList.UserID === lesson?.UserID &&
+                                                            assList.LessonID === lesson.LessonID &&
+                                                            assList.year === year &&
+                                                            assList.month === month + 1 &&
+                                                            assList.day == day.split(' ')[0] &&
+                                                            assList.periud == Number(day.split(' ')[1]) &&
+                                                            assList.Status === "կատարված" &&
+                                                            assList.Grade == '-1'
+                                                        )
+                                                    })
+
+
+
+                                                assignmentsColumn2 = assignmentData.find((assData) => {
+                                                    return (
+                                                        assData.UserID === lesson?.UserID &&
+                                                        assData.LessonID === lesson.LessonID &&
+                                                        assData.year === year &&
+                                                        assData.month === month + 1 &&
+                                                        assData.day == day.split(' ')[0] &&
+                                                        assData.periud == 1 + Number(day.split(' ')[1]) &&
+                                                        assData.Status === "հանձնված" &&
+                                                        assData.Grade !== '-1'
+
+                                                    )
+                                                }) ??
+                                                    assignmentList.find((assList) => {
+
+                                                        return (
+                                                            assList.UserID === lesson?.UserID &&
+                                                            assList.LessonID === lesson.LessonID &&
+                                                            assList.year === year &&
+                                                            assList.month === month + 1 &&
+                                                            assList.day == day.split(' ')[0] &&
+                                                            assList.periud == Number(day.split(' ')[1]) &&
+                                                            assList.Status === "հանձնված" &&
+                                                            assList.Grade !== '-1'
+                                                        )
+                                                    })
+
+
+
+                                                assignmentsColumn ? assColumn = true : assColumn = false
+                                                assignmentsColumn2 ? assColumn2 = true : assColumn2 = false
+
+                                            }
                                             return (
                                                 <td key={index}>
                                                     <div className='box'>
@@ -439,14 +934,47 @@ const Matyan = () => {
                                                             style={{
                                                                 fontSize: '15px',
                                                                 margin: '3px',
-                                                                backgroundColor: status1 === "ներկա" ? "rgb(50, 171, 13)" : status1 === "բացակա" ? "rgb(255, 27, 27)" : "rgb(193, 193, 193)"
+                                                                backgroundColor: status1 === "ներկա" ? "rgb(91, 181, 63)" : status1 === "բացակա" ? "rgb(255, 70, 70)" : "rgb(193, 193, 193)"
                                                             }}
                                                         >
                                                             {status1 == 'ներկա' ? 'Ն' : status1 == 'բացակա' ? 'Բ' : ''} {/* Ցուցադրում է "?" եթե դատարկ է */}
                                                             {/* <CheckCircle />                 <XCircle /> */}
                                                         </button>
-                                                        {handznum === `${day.split(' ')[0]}/${month}/${year - 2000}` ?<> <button style={{backgroundColor: '#1b89cd', margin: '3px'}}className='but'></button></>                                                                                                                      : <></>}
-                                                        {katarum === `${day.split(' ')[0]}/${month}/${year - 2000}` ? <button style={{backgroundColor: '#cdcd1b', margin: '3px'}}className='but'></button> : <></>}
+
+
+
+
+
+                                                        {(handznum === `${day.split(' ')[0]}/${month}/${year - 2000}` || assColumn2) && lesson.group_ !== 'Դաս' ? (
+                                                            <input
+                                                                style={{ margin: '3px', fontSize: '12px' }}
+                                                                className='grade'
+                                                                min="0" max="16"
+                                                                type='number'
+                                                                value={handznumRecord?.Grade}
+                                                                onChange={(e) => {
+                                                                    assChange2(student.id, year, month, day.split(' ')[0], Number(day.split(' ')[1]), lesson?.UserID, lesson.LessonID, 'հանձնված', e.target.value);
+                                                                }}
+                                                            >
+
+                                                            </input>
+                                                        ) : <></>}
+
+                                                        {(katarum === `${day.split(' ')[0]}/${month}/${year - 2000}` || assColumn) && lesson.group_ !== 'Դաս' ?
+
+                                                            <button style={{ backgroundColor: katarumRecord?.Status === 'կատարված' ? "rgb(124, 211, 97)" : "rgb(199, 177, 177)", color: katarumRecord?.Status === 'կատարված' ? "green" : "red", margin: '3px' }}
+                                                                className='but1'
+
+                                                                onClick={() => {
+                                                                    let katarum1
+                                                                    if (katarumRecord?.Status == 'կատարված') {
+                                                                        katarum1 = ''
+                                                                    }
+                                                                    else { katarum1 = 'կատարված' }
+
+                                                                    assChange(student.id, year, month, day.split(' ')[0], Number(day.split(' ')[1]), lesson?.UserID, lesson.LessonID, katarum1, '-1');
+
+                                                                }}>{katarumRecord?.Status == 'կատարված' ? '+' : '-'}</button> : <></>}
                                                     </div>
 
 

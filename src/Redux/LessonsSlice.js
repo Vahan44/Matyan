@@ -30,14 +30,12 @@ export const addLesson = createAsyncThunk("lessons/addLesson", async (lesson) =>
   const response = await axios.post("http://localhost:5000/lessons", lesson);
   return response.data;
 });
-
-// Update Lesson
 export const updateLesson = createAsyncThunk("lessons/updateLesson", async (lesson) => {
-  
-  const response = await axios.put(`http://localhost:5000/lessons/${lesson.id}`, lesson);
-  debugger
+  // օգտագործենք lesson.LessonID
+  const response = await axios.put(`http://localhost:5000/lessons/${lesson.LessonID}`, lesson);
   return response.data;
 });
+
 
 // Delete Lesson
 export const deleteLesson = createAsyncThunk("lessons/deleteLesson", async (id) => {

@@ -12,10 +12,10 @@ const facultySlice = createSlice({
   name: 'faculties',
   initialState: {
     list: [],
-    status: 'idle', // 'idle' | 'loading' | 'succeeded' | 'failed'
+    status: 'idle',
     error: null,
   },
-  reducers: {}, // Եթե տեղական աքշններ են պետք, ավելացրեք այստեղ
+  reducers: {}, 
   extraReducers: (builder) => {
     builder
       .addCase(fetchFaculties.pending, (state) => {

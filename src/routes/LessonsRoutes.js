@@ -41,16 +41,20 @@ router.post("/", async (req, res) => {
 // Update a lesson
 router.put("/:id", async (req, res) => {
   const { Name, UserID, FacultyID, group_ } = req.body;
-  const { id } = req.params;
-  try {
+  const { id } = req.params; // վերականգնվում ենք `id`-ին, որը ուղարկվում է URL-ում
 
-    
-    await db.execute("UPDATE Lesson SET Name = ?, UserID = ?, FacultyID = ?, group_ = ? WHERE LessonID = ?", [Name, UserID, FacultyID, group_, id]);
+  try {
+    await db.execute(
+      "UPDATE Lesson SET Name = ?, UserID = ?, FacultyID = ?, group_ = ? WHERE LessonID = ?",
+      [Name, UserID, FacultyID, group_, id]
+    );
     res.json({ message: "Lesson updated successfully" });
   } catch (error) {
+    console.error("Database error:", error);
     res.status(500).json({ error: "Database error" });
   }
 });
+
 
 // Delete a lesson
 router.delete("/:id", async (req, res) => {

@@ -49,6 +49,7 @@ const Lesson = () => {
     dispatch(updateLesson(updatedLesson));
     setEditMode(null);
   };
+  
 
   const handleDelete = (id) => {
     dispatch(deleteLesson(id));

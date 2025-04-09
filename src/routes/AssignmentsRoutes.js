@@ -35,11 +35,11 @@ router.get("/:studentId", async (req, res) => {
 
 // ✅ Ավելացնել նոր ներկայություն
 router.post("/", async (req, res) => {
-    const { StudentID, UserID, Year, Month, Day, LessonID, Grade, Status } = req.body;
+    const { StudentID, UserID, year, month, day, LessonID, Grade, Status, periud } = req.body;
     try {
         const [result] = await db.query(
-            "INSERT INTO assignmentcompletions (StudentID, UserID, LessonID, Grade, Status,  Year, Month, Day) VALUES (?, ?, ?, ?, ?, ?, ?, ?)",
-            [StudentID, UserID, LessonID,Grade, Status, Year, Month, Day]
+            "INSERT INTO assignmentcompletions (StudentID, UserID, LessonID, Grade, Status,  month, day, year, periud) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)",
+            [StudentID, UserID, LessonID, Grade, Status, month, day, year,  periud]
         );
         res.json({ message: "assignmentcompletions added successfully", id: result.insertId });
     } catch (err) {
@@ -49,14 +49,19 @@ router.post("/", async (req, res) => {
 
 // ✅ Թարմացնել ներկայությունը
 router.put("/:id", async (req, res) => {
-    const { Status } = req.body;
+    const { Status, Grade } = req.body;
     try {
-        await db.query("UPDATE assignmentcompletions SET Status = ?, SET Grade = ? WHERE AssignmentID = ?", [Status, req.params.id]);
+        await db.query(
+            "UPDATE assignmentcompletions SET Status = ?, Grade = ? WHERE AssignmentID = ?",
+            [Status, Grade, req.params.id]
+        );
         res.json({ message: "assignmentcompletions updated successfully" });
     } catch (err) {
+        console.error(err); 
         return res.status(500).json({ error: "Database error", details: err });
     }
 });
+
 
 // ✅ Ջնջել ներկայությունը
 router.delete("/:id", async (req, res) => {

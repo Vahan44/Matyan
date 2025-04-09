@@ -162,6 +162,52 @@
   height: 41;
 }
 
+.but1{
+  width: 40px;
+  height: 40px;
+  font-size: 26px;
+  font-weight: bold;
+  border: 1px solid #cdcd1b;
+  border-radius: 2px;
+  color: rgb(0, 0, 0);
+  align-items: center;
+  display: flex;
+  justify-content: sp;
+  text-align: center;
+  transition: 0.2s;
+  padding-left: 12px;
+  border-right: 5px solid #cdcd1b
+}
+
+.but1:hover{
+  width: 39px;
+  border: 1px solid #444444;
+  box-shadow: 0px 0px 15px  #667;
+
+}
+.grade{
+  width: 35px;
+  height: 37px;
+  font-size: 26px;
+  font-weight: bold;
+  border: 1px solid #1b89cd;
+  border-radius: 2px;
+  color: rgb(0, 0, 0);
+  align-items: center;
+  display: flex;
+  justify-content: center;
+  text-align: center;
+  transition: 0.2s;
+  border-right: 12px solid #1b89cd
+}
+
+.grade:hover{
+  box-shadow: 0px 0px 15px  #667;
+  width: 32px;
+  height: 37px;
+}
+
+
 .box{
   display: flex;
   justify-content: center;
@@ -226,7 +272,7 @@
   border-right: 35px solid transparent;
   
   border-top: 20px solid #1b9ecd;
-
+  cursor: pointer;
   margin-top: -12px;
   margin-left: 8px;
   transform: scale(0.8);
@@ -239,7 +285,7 @@
   border-left: 37px solid transparent;
   border-right: 37px solid transparent;
   
-  border-top: 20px solid #cdbb1b;
+  border-top: 20px solid #c2c214;
 
   margin-top: -12px;
   margin-left: 1px;

@@ -23,6 +23,7 @@ export const fetchAssignment = createAsyncThunk(
 export const addAssignmentRecord = createAsyncThunk(
   'attendance/addAttendanceRecord',
   async (assignmentData) => {
+    
     const response = await fetch('http://localhost:5000/api/assignment', {
       method: 'POST',
       headers: {
@@ -38,6 +39,7 @@ export const addAssignmentRecord = createAsyncThunk(
 export const updateAssignmentRecord = createAsyncThunk(
   'attendance/updateAttendanceRecord',
   async (assignmentData) => {
+    debugger
     const response = await fetch(`http://localhost:5000/api/assignment/${assignmentData.id}`, {
       method: 'PUT',
       headers: {
