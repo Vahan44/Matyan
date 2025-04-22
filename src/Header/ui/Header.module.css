@@ -34,7 +34,7 @@
 
   }
 
-  @media (max-width: 670px) {
+  @media (max-width: 900px) {
     .linkS {
       display: none !important;
   
@@ -100,20 +100,15 @@
   .userMenu {
     position: absolute;
     top: 70px;
-    right: 0;
-    margin-right: 30px;
+    right: 30px;
     background-color: #1D2125;
     color: #fff;
-    border: 1px solid #e9e9e9;
     border-radius: 5px;
     padding: 0px 10px 15px 10px;
-    height: min-content;
     width: 150px;
-    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.2);
     display: flex;
     flex-direction: column;
-    justify-content: center;
-    align-items: center;
+
   }
   
   .userMenu ul {
@@ -155,6 +150,7 @@
     text-align: center;
     cursor: pointer;
   }
+
 
 
 .search {

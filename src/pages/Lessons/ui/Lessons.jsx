@@ -62,14 +62,13 @@ const Lesson = () => {
     setNewLesson({ ...newLesson, [name]: name.includes("ID") ? parseInt(value, 10) || 0 : value });
   };
 
-  const handleAddLesson = () => {
+  const handleAddLesson = async() => {
     
-    dispatch(addLesson(newLesson));
+    await dispatch(addLesson(newLesson));
     setNewLesson({ Name: "", UserID: 0, FacultyID: 0, group_: "" });
-    setTimeout(() => {
+    
       dispatch(fetchLessons())
 
-    }, 200)
   };
 
   return (

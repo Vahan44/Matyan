@@ -37,7 +37,7 @@
 
 .students-container thead {
   background-color: #4285e4;
-  color: rgb(255, 255, 255);
+  color: rgb(0, 0, 0);
 }
 .students-container thead:hover {
   background-color: #6596dc;

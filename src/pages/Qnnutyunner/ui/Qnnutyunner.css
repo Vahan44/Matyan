@@ -1,0 +1,16 @@
+.grade2{
+    width: 35px;
+    height: 37px;
+    font-size: 26px;
+    font-weight: bold;
+    border: 2px solid #132631;
+    border-radius: 2px;
+    color: rgb(0, 0, 0);
+    align-items: center;
+    display: flex;
+    justify-content: center;
+    text-align: center;
+    transition: 0.2s;
+    width: fit-content;
+    border-radius: 5px;
+  }

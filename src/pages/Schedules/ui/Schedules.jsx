@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { FaPlus } from "react-icons/fa";
 import { fetchSchedule, saveSchedule, updateClass, addClass, removeClass } from "../../../Redux/SheduleSlice.js";
-import { fetchFaculties } from "../../../Redux/LessonsSlice";
+import { fetchLessons, fetchFaculties } from "../../../Redux/LessonsSlice";
 
 const Schedules = () => {
   const navigate = useNavigate();
@@ -11,12 +11,13 @@ const Schedules = () => {
   useEffect(() => {
     dispatch(fetchSchedule());
     dispatch(fetchFaculties());
+    dispatch(fetchLessons())
   }, [dispatch]);
 
   const schedule = useSelector((state) => state.schedule.schedule);
   const faculties = useSelector((state) => state.faculty?.list);
   const Employee = useSelector((state) => state.Employee)
-
+    const lessons = useSelector((state) => state.lesson?.lessons);
   const uniqueCourses = getUniqueCourses(schedule)
 function getUniqueCourses(schedule) {
     const courses = new Set();
@@ -42,8 +43,10 @@ function getUniqueCourses(schedule) {
 
   const handleAddCourse = () => {
     if (newCourse.trim() && !uniqueCourses.includes(newCourse)) {
-      
-      navigate(`/Schedule/${newCourse}`);
+      if((lessons.find((l) => l.FacultyID === faculties.find((f => f.Course === newCourse.trim())).FacultyID))){
+        navigate(`/Schedule/${newCourse}`);
+      }
+      else{alert(newCourse.trim()+' կուրսը չունի գրանցված դասաժամ')}
     }
     setNewCourse("");
     setAddingCourse(false);
@@ -59,8 +62,8 @@ function getUniqueCourses(schedule) {
               <h4>{course}</h4>
           </div>
         ))}
-      </div>
-      <div className="course-add">
+
+<div className="course-add">
         {Employee.isAuthenticated ? (addingCourse ? (
           <div className="course-add-form">
             
@@ -83,6 +86,8 @@ function getUniqueCourses(schedule) {
           </button>
         )) : null}
       </div>
+      </div>
+      
     </div>
   );
 };

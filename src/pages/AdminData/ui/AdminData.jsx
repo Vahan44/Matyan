@@ -38,6 +38,12 @@ const AdminData = () => {
                     
 
                   </div>
+                  <div  onClick = {()=> navigate(`/Course/daysofexams`)}className="admin-item">
+                    
+                      <h4>Քննությունների օրեր</h4>
+                    
+
+                  </div>
               </div>
               
             </div>

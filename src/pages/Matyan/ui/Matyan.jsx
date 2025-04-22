@@ -97,8 +97,17 @@ const Matyan = () => {
             const dayName = date.getDay()
             for (let i = 0; i < dayOfWeek.length; i++) {
                 if (dayOfWeek[i].split(' ')[0] == weekDays[dayName] && (dayOfWeek[i].split(' ')[2] === 'Ամբողջական' || getWeekType(day, month, year) === dayOfWeek[i].split(' ')[2])) {
+                    debugger
+                    if(month == 2){
+                        if(day >= 10){
+                            filteredDays.push(day + ' ' + dayOfWeek[i].split(' ')[1]);
+                            
+                        }
+                    }
+                    else{
+                        filteredDays.push(day + ' ' + dayOfWeek[i].split(' ')[1]);
 
-                    filteredDays.push(day + ' ' + dayOfWeek[i].split(' ')[1]);
+                    }
                 }
             }
 
@@ -563,7 +572,7 @@ const Matyan = () => {
                         if (day >= 10) {
                             return true
                         }
-                    }
+                        return false                    }
 
                     return true
                 }
@@ -578,6 +587,8 @@ const Matyan = () => {
         }
         return false
     }
+
+
 
     const filteredDays = getFilteredDays(year, month, days());
 
@@ -635,7 +646,7 @@ const Matyan = () => {
     };
     
     
-    
+    console.log(filteredDays)
     return (
         <div className='container'>
             <div style={{ padding: "24px", borderRadius: "12px" }}>
@@ -723,7 +734,8 @@ const Matyan = () => {
 
                                         )
                                     })    
-
+                                    
+                                    
                                 return (
                                     <th onMouseEnter={() => setHandznumBut(`${day.split(' ')[0]}/${month}/${year - 2000}`)}
                                         onMouseLeave={() => setHandznumBut(null)}
@@ -732,8 +744,8 @@ const Matyan = () => {
                                                 <p>{day.split(' ')[0]}/{month}/{year - 2000}</p> <p >{weekDaysP[dayOfWeek]} </p><p > {jam[day.split(' ')[1]]}</p>
                                             </div>
                                             {handznumBut === `${day.split(' ')[0]}/${month}/${year - 2000}` && lesson.group_ !== 'Դաս' ?                             //closeHandznum = (day, month, year, LessonID, UserID,periud )
-                                                <div style={{ display: 'flex', flexDirection: 'row' }}><div><button className='hanznumBut' onClick={() =>{ handznumCase ? closeHandznum(day.split(' ')[0], month, year, lesson.LessonID, lesson.UserID, day.split(' ')[1]) : setHandznum(`${day.split(' ')[0]}/${month}/${year - 2000}`)}}>{`Հանձ\nնում`}</button>  <div class="arrow-down"></div></div>
-                                                    <div><button className='katarumBut' onClick={() => katarumCase ? closeKatarum(day.split(' ')[0], month, year, lesson.LessonID, lesson.UserID, day.split(' ')[1]) : setKatarum(`${day.split(' ')[0]}/${month}/${year - 2000}`)}>{`Կատա\nրում`}</button><div class="arrow-down2"></div></div></div> : <></>}
+                                                <div style={{ display: 'flex', flexDirection: 'row' }}><div><button className='hanznumBut' onClick={() =>{ handznumCase ? closeHandznum(day.split(' ')[0], month, year, lesson.LessonID, lesson.UserID, day.split(' ')[1]) : setHandznum(`${day.split(' ')[0]}/${month}/${year - 2000}`)}}  style={{color: handznumCase ? "rgb(136, 13, 13)" : '', fontSize: '14px', fontWeight: '600'}}>{!handznumCase ?`Հանձ\nնում` : `Ջնջել`}</button>  <div class="arrow-down"></div></div>
+                                                    <div><button className='katarumBut' onClick={() => katarumCase ? closeKatarum(day.split(' ')[0], month, year, lesson.LessonID, lesson.UserID, day.split(' ')[1]) : setKatarum(`${day.split(' ')[0]}/${month}/${year - 2000}`)} style={{color: katarumCase ? "rgb(136, 13, 13)" : ''}}>{!katarumCase ? `Կատա\nրում` : `Ջնջել`}</button><div class="arrow-down2"></div></div></div> : <></>}
                                         </div> </th>
                                 )
                             }

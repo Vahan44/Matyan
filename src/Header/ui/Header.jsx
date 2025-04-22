@@ -95,19 +95,36 @@ const Header = () => {
             <Link className={styles.linkS} to='/Schedules'>
               <h4 >Դասացուցակ</h4>
             </Link>
-          </li></>
-          : 
+          </li>
+          
+          <li>
+          <Link className={styles.linkS} to='/Course/daysofexams'>
+        <h4 >Քննությունների օրեր</h4>
+      </Link>
+        </li>
+        </>
+          : <>
+          <li>
+          <Link className={styles.link} to='/ExamInterface'>
+            <h4 >Քննություններ</h4>
+          </Link>
+          </li>
           <li>
           <Link className={styles.link} to='/EmployeeSchedule'>
             <h4 >Դասացուցակ</h4>
           </Link>
-        </li> : 
+        </li>
+        
+        
+        </> : 
         
         <li>
           <Link className={styles.link} to='/Schedules'>
         <h4 >Դասացուցակ</h4>
       </Link>
         </li>
+
+        
         }
           <li>
           </li>

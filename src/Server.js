@@ -10,7 +10,8 @@ import institutesRoutes from "./routes/institutesRoutes.js"
 import attendanceRoutes from "./routes/AttendanceRoutes.js"
 import Assignment from "./routes/AssignmentsRoutes.js";
 import mailRoutes from "./routes/StudentsMailer/mailRoutes.js";  // Ներդնում ենք mail routes-ը
-
+import ExamGrade from "./routes/ExapmsGradesRoutes.js";
+import Daysofexams from "./routes/DaysOfExamsRoutes.js"
 const app = express();
 const PORT = process.env.PORT || 5000;
 
@@ -26,6 +27,11 @@ app.use("/institutes", institutesRoutes);
 app.use("/api/attendance", attendanceRoutes);
 app.use("/api/assignment", Assignment);
 app.use("/api/mail", mailRoutes);
+app.use("/api/ExamGrade", ExamGrade);
+app.use("/Daysofexams", Daysofexams);
+
+
+
 app.get("/api/schedule", (req, res) => {
   db.query("SELECT * FROM schedule", (err, results) => {
     if (err) {

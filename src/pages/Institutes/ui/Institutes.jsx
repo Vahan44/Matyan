@@ -4,7 +4,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { FaPlus } from "react-icons/fa";
 import { fetchEmployees } from "../../../Redux/Employees";
 import { fetchInstitutes } from "../../../Redux/InstitutesSlice";
-import "./Institutes.css"
+import "../../Course/ui/Course.css"
 const Institute = () => {
 
   const navigate = useNavigate();
@@ -41,8 +41,8 @@ const Institute = () => {
             <h4>{Institutes.find(inst => inst.InstituteID === id)?.InstituteName}</h4>
           </div>
         ))}
-      </div>
-      <div className="course-add">
+        
+        <div className="course-add">
         {addingInstitute ? (
           <div className="course-add-form">
             <select
@@ -70,6 +70,8 @@ const Institute = () => {
           </button>
         )}
       </div>
+      </div>
+      
     </div>
   );
 };

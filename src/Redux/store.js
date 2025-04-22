@@ -8,6 +8,8 @@ import facultySlice from "./FacultySlice";
 import institutesSlice from "./InstitutesSlice";
 import AttendanceSlice from "./AttendanceSlice"; 
 import AssignmentsSlice from "./AssignmentsSlice";
+import ExamGradeSlice from "./ExamGrade"
+import daysofexamsSlice  from "./Daysofexams";
 //import blogSlice from "./blogSlice";
 
 export const store = configureStore({
@@ -21,6 +23,9 @@ export const store = configureStore({
         faculty: facultySlice,
         institutes: institutesSlice,
         attendance: AttendanceSlice,
-        assignment: AssignmentsSlice
+        assignment: AssignmentsSlice,
+        ExamGrade: ExamGradeSlice,
+        daysofexams: daysofexamsSlice
+        
     }
 });

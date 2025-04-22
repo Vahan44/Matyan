@@ -77,7 +77,9 @@
     max-width: 200px;
     min-width: 120px;
     background-color: #5983bd;
-    color: rgb(255, 255, 255);  }
+    color: rgb(255, 255, 255);
+    }
+
   .class-entry p{
     padding: 0;
     margin-bottom: -5px;
