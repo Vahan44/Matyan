@@ -39,7 +39,7 @@ export const addAssignmentRecord = createAsyncThunk(
 export const updateAssignmentRecord = createAsyncThunk(
   'attendance/updateAttendanceRecord',
   async (assignmentData) => {
-    debugger
+    
     const response = await fetch(`http://localhost:5000/api/assignment/${assignmentData.id}`, {
       method: 'PUT',
       headers: {

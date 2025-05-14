@@ -106,7 +106,7 @@ const ScheduleForm = () => {
                             } className="schedule-input2">
                               <option key="op1" value="">Առարկա</option>
                               {lessons.reduce((acc, lesson) => {
-                                debugger
+                                
                                 if (!acc.includes(lesson.Name) && lesson.FacultyID == faculties.find(fac => fac.Course === course)?.FacultyID) {
                                   acc.push(lesson.Name)
                                   return acc

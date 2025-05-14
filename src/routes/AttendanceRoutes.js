@@ -37,7 +37,7 @@ router.get("/:studentId", async (req, res) => {
 
 // ✅ Ավելացնել նոր ներկայություն
 router.post("/", async (req, res) => {
-    debugger
+    
     const { StudentID, UserID, year, month, day, periud, LessonID, Status } = req.body;
     try {
         const [result] = await db.query(

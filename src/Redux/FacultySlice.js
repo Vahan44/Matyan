@@ -4,7 +4,7 @@ import axios from "axios"
 export const fetchFaculties = createAsyncThunk('faculties/fetchFaculties', async () => {
   const response = await axios.get("http://localhost:5000/faculty");
    if (!response.ok) throw new Error('Failed to fetch faculties');
-  // debugger
+  
   return response.data;
 });
 

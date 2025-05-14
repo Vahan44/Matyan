@@ -37,6 +37,7 @@ const TeacherInterface = () => {
                 <img
                     src={'https://static.vecteezy.com/system/resources/thumbnails/002/318/271/small/user-profile-icon-free-vector.jpg'}
                     alt='' 
+                    loading="lazy" 
                 />
                 <p>{Employee.user.FirstName} {Employee.user.LastName} {Employee.user.Role === "Ադմինիստրատոր" ? "Ադմինիստրատոր" : "Դասախոս"}</p>
             </div>

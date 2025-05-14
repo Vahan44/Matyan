@@ -19,7 +19,7 @@ export const fetchdaysofexams = createAsyncThunk("daysofexams/fetchdaysofexams",
 
 // Add daysofexams
 export const adddaysofexams = createAsyncThunk("daysofexams/adddaysofexams", async (daysofexams) => {
-  debugger
+  
   const response = await axios.post("http://localhost:5000/daysofexams", daysofexams);
   return response.data;
 });

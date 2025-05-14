@@ -26,7 +26,7 @@ export const fetchFaculties = createAsyncThunk("faculties/fetchFaculties", async
 
 // Add Lesson
 export const addLesson = createAsyncThunk("lessons/addLesson", async (lesson) => {
-  debugger
+  
   const response = await axios.post("http://localhost:5000/lessons", lesson);
   return response.data;
 });

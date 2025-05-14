@@ -50,7 +50,7 @@ const PublicSchedule = () => {
 
     return (
         <div className="public-schedule-container">
-                  <h1 className="workspaceHeader">Ընտրեք կուրսը</h1>
+                  <h1 className="workspaceHeader">{course}</h1>
 
             {loading ? (
                 <p>🔄 Բեռնվում է...</p>

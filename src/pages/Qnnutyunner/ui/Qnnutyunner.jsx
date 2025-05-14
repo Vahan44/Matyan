@@ -23,11 +23,14 @@ const Qnnutyun = () => {
     const assignmentList = useSelector((state) => state.assignment.assignmentList)
     const attendanceList = useSelector((state) => state.attendance.attendanceList);
     const ExamGradeList = useSelector((state) => state.ExamGrade.ExamGradeList)
+    const user = useSelector((state) => {
+        return state.Employee
+      })
     const [year, setYear] = useState(new Date().getFullYear());
     const [month, setMonth] = useState(new Date().getMonth() + 1);
     const [lesson, setLesson] = useState(null);
     const [assignmentData, setAssignmentData] = useState([])
-
+    
 
 
 
@@ -217,7 +220,7 @@ const Qnnutyun = () => {
                         lessons.find((l) => l.LessonID === ass.LessonID).Name === lesson.Name &&
                         ass.Status == 'հանձնված'
                     ) {
-                        debugger
+                        
                         let lesson1 = daysofexams.find((day => day.year == lesson.year &&
                             day.month >= 2 && day.month <= 5 &&
                             day.Name === lesson.Name &&
@@ -465,9 +468,150 @@ const Qnnutyun = () => {
     }
 
 
+    const prevGrades2 = (studentid) => {
+        
+        if (lesson.month >= 2 && lesson.month <= 8) {
+            if (lesson.midNum == 1) {
+                return assignmentList.reduce((acc, ass) => {
+                    
+                    
+                    if (ass.StudentID === studentid &&
+                        lessons.find((l) => l.LessonID === ass.LessonID).Name === lesson.Name &&
+                        ass.Status == 'կատարված'
+                    ) {
+                        if (ass.month - 1 >= 2 && ass.month - 1 <= lesson.month && ass.year == lesson.year) {
+                            if (ass.month - 1 == 2) {
+                                if (ass.day >= 10) {
+                                    return acc += 1
+                                }
+                                return acc
+                            }
+                            else if (ass.month - 1 == lesson.month) {
+                                if (ass.day <= lesson.day) {
+                                    return acc += 1
+                                }
+                                return acc
+                            }
+                            else {
+                                return acc += 1
+                            }
+                        }else return acc
+
+                    } else return acc
+                }, 0)
+            }
+            else if (lesson.midNum == 2) {
+                return assignmentList.reduce((acc, ass) => {
+                    
+                    if (ass.StudentID == studentid &&
+                        lessons.find((l) => l.LessonID === ass.LessonID).Name === lesson.Name &&
+                        ass.Status == 'կատարված'
+                    ) {
+                        
+                        let lesson1 = daysofexams.find((day => day.year == lesson.year &&
+                            day.month >= 2 && day.month <= 5 &&
+                            day.Name === lesson.Name &&
+                            day.FacultyID === lesson.FacultyID &&
+                            day.UserID === lesson.UserID &&
+                            day.midNum == 1
+                        ))
+                        if (ass.month - 1 >= lesson1.month && ass.month - 1 <= lesson.month && ass.year == lesson.year) {
+                            if (ass.month - 1 == lesson1.month) {
+                                if (ass.day >= lesson1.day) {
+                                    
+                                    return acc += 1
+                                }
+                                return acc
+
+                            }
+                            else if (ass.month - 1 == lesson.month) {
+                                if (ass.day <= lesson.day) {
+                                    return acc += 1
+                                }
+                                return acc
+
+                            }
+                            else {
+                                return acc += 1
+                            }
+                        }else return acc
+
+                    } else return acc
+                }, 0)
+            }
+            
+        } 
+        else if ((lesson.month >= 9 && lesson.month <= 12) || lesson.month == 1) {
+            //     երկրորդ սեմեստր
+            if (lesson.midNum == 1) {
+                return assignmentList.reduce((acc, ass) => {
+                    if (ass.StudentID === studentid &&
+                        lessons.find((l) => l.LessonID === ass.LessonID).Name === lesson.Name &&
+                        ass.Status == 'կատարված'
+                    ) {
+                        if (ass.month - 1 >= 9 && ass.month - 1 <= lesson.month && ass.year == lesson.year) {
+                            if (ass.month - 1 == lesson.month) {
+                                if (ass.day <= lesson.day) {
+                                    return acc += 1
+                                }
+                                return acc
+                            }
+                            else {
+                                return acc += 1
+                            }
+                        }else return acc
+
+                    } else return acc
+                }, 0)
+            }
+            else if (lesson.midNum == 2) {
+                return assignmentList.reduce((acc, ass) => {
+                    if (ass.StudentID === studentid &&
+                        lessons.find((l) => l.LessonID === ass.LessonID).Name === lesson.Name &&
+                        ass.Status == 'կատարված'
+                    ) {
+
+                        let lesson1 = daysofexams.find((day => day.year == lesson.year &&
+                            ((day.month >= 9 && day.month <= 12) || day.month == 1) &&
+                            day.Name === lesson.Name &&
+                            day.FacultyID === lesson.FacultyID &&
+                            day.UserID === lesson.UserID &&
+                            day.midNum == 1
+                        ))
+                        if (ass.month - 1 >= lesson1.month && ass.month - 1 <= lesson.month && ass.year == lesson.year) {
+                            if (ass.month - 1 == lesson1.month) {
+                                if (ass.day >= lesson1.day) {
+                                    return acc += 1
+                                }
+                                return acc
+                            }
+                            else if (ass.month - 1 == lesson.month) {
+                                if (ass.day <= lesson.day) {
+                                    return acc += 1
+                                }
+                                return acc
+                            }
+                            else {
+                                return acc += 1
+                            }
+                        }else return acc
+
+                    } else return acc
+                }, 0)
+            }
+            
+        }
+        else {
+            console.error('Քննության օրերը ոչ աշխատանքային է')
+            return 'else'
+        }
+
+    }
+
+
     return (
         <div className='container' >
-            {isInCurrentWeek(data) || 1 ? (<>
+            {isInCurrentWeek(data) || user.user.Role === "Ադմինիստրատոր" ? (<>
                 <div style={{ padding: "24px", borderRadius: "12px" }}>
                     <h1 style={{ fontSize: "34px", fontWeight: "600", color: "#121265" }}>{lesson?.Name || "Loading..."}</h1>
                     <h2 style={{ color: "#223f6f", fontWeight: "600" }}>{`${lesson?.day}/${lesson?.month}/${lesson?.year}`}</h2>
@@ -483,23 +627,23 @@ const Qnnutyun = () => {
 
                 </div>
 
-                <table border="1" style={{ width: 'fit-content' }}>
+                <table border="1" >
                     <thead>
                         <tr>
                             <th style={{ width: '20px' }}>№</th>
                             <th style={{ width: '250px' }}>Ազգանուն Անուն Հայրանուն</th>
                             <th>{lesson?.midNum == 0 ? 'Միջ. քնն. գնահատականներ' : `Լաբ. աշխ. հանձնում.`}</th>
-                            
+                            {lesson?.midNum != 0 ? <th>{"Լաբ. աշխ. կատարումների քանակ"}</th> : <></>}
                             {[1].map(() => {
                                 const Day = daysofexams.find((d) => {
 
                                     return d.id == data
                                 })
                                 return (<th>
-                                    <p>{Day?.day}/{Day?.month}/{Day?.year}</p>
+                                    <p>{lesson?.midNum != 0 ? "Միջանկյալ քննության գնահատականներ":"Կիսամյակային քննության գնահատականներ"}</p>
                                 </th>)
                             })}
-
+                            {user.user.Role === "Ադմինիստրատոր"?<th style={{ width: '100px' }}>Ընդհանուր գնահատական</th> : <></>}
                             <th style={{ width: '10px', backgroundColor: 'rgb(192, 192, 192)', borderLeft: '2px solid black' }}>Ընդ. բաց.</th>
 
                         </tr>
@@ -546,11 +690,14 @@ const Qnnutyun = () => {
                                                         <div style={{ textAlign: 'center' }}>{prevGrades(student.id)}</div>
                                                     </td>
 
+                                                    {lesson?.midNum != 0 ? 
+                                                    <td style={{ textAlign: 'center' }}>{prevGrades2(student.id)}</td> : <></>}
+
                                                     <td >
                                                         <div className='box'>
-
-                                                            <input
-                                                                style={{ margin: '3px', fontSize: '12px' }}
+                                                            {handznumRecord?.Grade && user.user.Role === "Դասախոս" ? <p style={{marginRight: '-28px', zIndex: '100', fontSize: '15px'}}>{lesson.group_ == 0 ? '60' : '4'}/</p> : <></>}
+                                                            {user.user.Role === "Ադմինիստրատոր" ? <p>{handznumRecord?.Grade || ''}</p> : <input
+                                                                style={{ margin: '3px', fontSize: '12px' , textAlign: 'end'}}
                                                                 className='grade2'
                                                                 min='0' max={lesson.group_ == 0 ? '60' : '4'}
                                                                 type='number'
@@ -560,10 +707,15 @@ const Qnnutyun = () => {
                                                                 }}
                                                             >
 
-                                                            </input>
+                                                            </input>}
                                                         </div>
 
                                                     </td>
+
+                                                    {user.user.Role === "Ադմինիստրատոր"? handznumRecord?.Grade ? <td style={{textAlign: 'center'}}>
+                                                        {Number(prevGrades(student.id)) + Number(handznumRecord?.Grade || 0)}
+                                                    </td> : <td></td> : <></>}
+
                                                 </>
                                             );
 

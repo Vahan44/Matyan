@@ -95,6 +95,7 @@ const ExamInterface = () => {
                 <img
                     src={'https://static.vecteezy.com/system/resources/thumbnails/002/318/271/small/user-profile-icon-free-vector.jpg'}
                     alt='' 
+                    loading="lazy" 
                 />
                 <p>{Employee.user.FirstName} {Employee.user.LastName} {Employee.user.Role === "Ադմինիստրատոր" ? "Ադմինիստրատոր" : "Դասախոս"}</p>
             </div>
@@ -104,7 +105,7 @@ const ExamInterface = () => {
                 {lessonsData.map(( {id, day, month, year,UserID, Name, FacultyID, group_, midNum} ) =>(
                     <>
                         {semester(day, month, year) ?
-                        <li key = {id} className={styles.Bli} style={{backgroundColor: isInCurrentWeek(day, month, year) ? '': '#98b1d5'}}onClick={() => isInCurrentWeek(day, month, year) ? navigate(`/Exam/${id}`) : navigate(`/Exam/${id}`)}>
+                        <li key = {id} className={styles.Bli} style={{backgroundColor: isInCurrentWeek(day, month, year) ? '': '#98b1d5'}}onClick={() => isInCurrentWeek(day, month, year) ? navigate(`/Exam/${id}`) : {}}>
                             
                             <div className={styles.board} >
                                 <h3>{Name}</h3>

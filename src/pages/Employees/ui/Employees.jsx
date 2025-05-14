@@ -8,6 +8,7 @@ import { FaPencil } from "react-icons/fa6";
 import { MdDelete } from "react-icons/md";
 import { MdSave } from "react-icons/md";
 import { MdCancel } from "react-icons/md";
+import validator from "validator";
 import "./Employees.css";
 import bcrypt from "bcryptjs";
 import PasswordChecklist from "react-password-checklist"
@@ -32,7 +33,8 @@ const Employees = () => {
         Email: "",
         Profession: ""
     });
-
+	const [emailError, setEmailError] = useState(true);
+	const [emailError1, setEmailError1] = useState(true);
 
 
     useEffect(() => {
@@ -55,6 +57,18 @@ const Employees = () => {
 
 
     const handleChange = (id, field, value) => {
+
+         if(field === 'Email'){
+              const email = value
+        
+              if (validator.isEmail(email) || email === '') {
+                setEmailError1(true);
+              } 
+              else {
+                setEmailError1(false);
+              }
+            }
+
         setEmployeeData((prev) =>
             prev.map((employee) =>
                 employee.UserID === id ? { ...employee, [field]: value } : employee
@@ -65,6 +79,7 @@ const Employees = () => {
     const handleSave = async (id) => {
         const updatedEmployee = employeeData.find((employee) => employee.UserID === id);
         if (isObjectComplete(updatedEmployee)) {
+            if(emailError1){
             try {
                 const hashedPassword = await Hashing(updatedEmployee.Password);
                 const hashedNewEmployee = { ...updatedEmployee, Password: hashedPassword };
@@ -73,6 +88,7 @@ const Employees = () => {
                 setEditMode(null);
             } catch (error) {
             }
+        }else alert("Ներմուծեք գործող էլ. հասցէ")
         }
         else alert('"Լռացրեք Աշխատակցի բոլոր տվյալները"')
 
@@ -84,6 +100,18 @@ const Employees = () => {
     };
 
     const handleNewEmployeeChange = (e) => {
+
+        if(e.target.name === 'Email'){
+              const email = e.target.value;
+        
+              if (validator.isEmail(email) || email === '') {
+                setEmailError(true);
+              } 
+              else {
+                setEmailError(false);
+              }
+            }
+
         setNewEmployee({ ...newEmployee, [e.target.name]: e.target.value });
     };
     async function Hashing(password) {
@@ -95,26 +123,32 @@ const Employees = () => {
     };
     const handleAddEmployee = async () => {
         if (isObjectComplete(newEmployee)) {
-            try {
-                const hashedPassword = await Hashing(newEmployee.Password);
-                const hashedNewEmployee = { ...newEmployee, Password: hashedPassword };
+            if(emailError){
 
-                dispatch(addEmployee(hashedNewEmployee));
-                setEmployeeData((prev) => [...prev, hashedNewEmployee]);
+                try {
+                    const hashedPassword = await Hashing(newEmployee.Password);
+                    const hashedNewEmployee = { ...newEmployee, Password: hashedPassword };
+    
+                    dispatch(addEmployee(hashedNewEmployee));
+                    setEmployeeData((prev) => [...prev, hashedNewEmployee]);
+    
+                    setNewEmployee({
+                        FirstName: "",
+                        LastName: "",
+                        InstituteId: IdParam,
+                        Role: "",
+                        Username: "",
+                        Password: "",
+                        Email: "",
+                        Profession: ""
+                    });
+                } catch (error) {
+                    console.error("Error hashing password:", error);
+                }
+                setEmailError(true)
 
-                setNewEmployee({
-                    FirstName: "",
-                    LastName: "",
-                    InstituteId: IdParam,
-                    Role: "",
-                    Username: "",
-                    Password: "",
-                    Email: "",
-                    Profession: ""
-                });
-            } catch (error) {
-                console.error("Error hashing password:", error);
-            }
+            }else alert("Ներմուծեք գործող էլ. հասցէ")
+            
         } else alert("Լռացրեք Աշխատակցի բոլոր տվյալները")
 
     };
@@ -158,7 +192,7 @@ const Employees = () => {
                                     <td><input value={employee.Username} onChange={(e) => handleChange(employee.UserID, "Username", e.target.value)} /></td>
                                     <td><input onChange={(e) => handleChange(employee.UserID, "Password", e.target.value)} /></td>
 
-                                    <td><input value={employee.Email} onChange={(e) => handleChange(employee.UserID, "Email", e.target.value)} /></td>
+                                    <td><input type='email' style={{border : !emailError1 ? '2px solid red':''}} value={employee.Email} onChange={(e) => handleChange(employee.UserID, "Email", e.target.value)} /></td>
                                     <td><input value={employee.Profession} onChange={(e) => handleChange(employee.UserID, "Profession", e.target.value)} /></td>
                                     <td>
                                         <button onClick={() => handleSave(employee.UserID)}><MdSave /></button>
@@ -202,7 +236,7 @@ const Employees = () => {
                         
                             <td><input name="Username" value={newEmployee.Username} onChange={handleNewEmployeeChange} placeholder="Մուտքանուն" /></td>
                         <td><input name="Password" value={newEmployee.Password} onChange={handleNewEmployeeChange} placeholder="Գաղտնաբառ" /></td>
-                        <td><input name="Email" value={newEmployee.Email} onChange={handleNewEmployeeChange} placeholder="Էլ. հասցե" /></td>
+                        <td><input name="Email" type='email' style={{border : !emailError ? '2px solid red':''}} value={newEmployee.Email} onChange={handleNewEmployeeChange} placeholder="Էլ. հասցե" /></td>
                         <td><input name="Profession" value={newEmployee.Profession} onChange={handleNewEmployeeChange} placeholder="Մասնագիտություն" /></td>
                         <td>
                             <button className="pls" onClick={handleAddEmployee}><FaPlus /></button>

@@ -24,6 +24,7 @@ import PublicSchedule from '../pages/PublicSchedule/ui/PublicSchedule';
 import Qnnutyun from '../pages/Qnnutyunner/ui/Qnnutyunner';
 import Matyan from '../pages/Matyan/ui/Matyan'
 import Daysofexams from '../pages/Daysofexams/ui/Daysofexams';
+import GradeArchive from '../pages/TeacherInterface/ui/GradesArchive';
 const App = () => {
 
   const dispatch = useAppDispatch()
@@ -69,6 +70,9 @@ const App = () => {
                 <Route path='/Daysofexams/:course' element={<Daysofexams />} />
                 <Route path='/Students/:course' element={<Students />} />
                 <Route path='/Employees/:IdParam' element={<Employees />} />
+                <Route path='/GradeArchive' element={<GradeArchive />} />
+                <Route path='/Exam/:data' element={<Qnnutyun />} />
+
 
 
               </> : <>

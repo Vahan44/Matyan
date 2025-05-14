@@ -4,7 +4,7 @@ import { FC } from 'react'
 import { RootState } from '../../../Redux/store'
 
 
-const UserInfoModal: FC<any> = (props) =>{
+const UserInfoModal = (props) =>{
 
 
 
@@ -12,7 +12,7 @@ const UserInfoModal: FC<any> = (props) =>{
       
     return (
         <div className={styles.userInfo}>
-           <img src={props.profile} alt="" />
+           <img src={props.profile} alt=""  loading="lazy" />
         </div>
     )
 }

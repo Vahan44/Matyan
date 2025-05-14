@@ -82,7 +82,7 @@ const Daysofexams = () => {
   const examTypes = ['Կիսամյակային քննություն','Առաջին միջանկյալ քննություն', 'Երկրորդ միջանկյալ քննություն']
   return (
     <div className="Lessons-container">
-      <h2>Քննությունների օրերը</h2>
+      <h2>{course} Քննությունների օրերը</h2>
       <table>
         <thead>
           <tr>

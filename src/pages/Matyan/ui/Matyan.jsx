@@ -97,7 +97,7 @@ const Matyan = () => {
             const dayName = date.getDay()
             for (let i = 0; i < dayOfWeek.length; i++) {
                 if (dayOfWeek[i].split(' ')[0] == weekDays[dayName] && (dayOfWeek[i].split(' ')[2] === 'Ամբողջական' || getWeekType(day, month, year) === dayOfWeek[i].split(' ')[2])) {
-                    debugger
+                    
                     if(month == 2){
                         if(day >= 10){
                             filteredDays.push(day + ' ' + dayOfWeek[i].split(' ')[1]);
@@ -704,7 +704,7 @@ const Matyan = () => {
                                 let date = `${year}-${month}-${day.split(' ')[0]}`
                                 const dayOfWeek = new Date(date).getDay()
 
-                                const handznumCase = handznum ||
+                                const handznumCase = handznum == `${day.split(' ')[0]}/${month}/${year - 2000}` ||
                                     assignmentList.find((assList) => {
                                         return (
                                             assList.UserID === lesson?.UserID &&
@@ -721,7 +721,7 @@ const Matyan = () => {
 
 
 
-                                    const katarumCase = katarum ||
+                                    const katarumCase = katarum  == `${day.split(' ')[0]}/${month}/${year - 2000}` ||
                                     assignmentList.find((assList) => {
                                         return (
                                             assList.UserID === lesson?.UserID &&
