@@ -15,18 +15,24 @@ const Courses = () => {
   const lessons = useSelector((state) => state.lesson?.lessons);
   const daysofexams = useSelector((state) => state.daysofexams?.daysofexams);
   const dispatch = useDispatch();
-  useEffect(() => {
-    dispatch(fetchStudents());
-    dispatch(fetchFaculties());
-    dispatch(fetchLessons());
-    dispatch(fetchdaysofexams())
-  }, [dispatch]);
+ 
+  
   const uniqueCourses = (page === "Students" ? [...new Set(students.map(student => student.course))].sort((a, b) => a - b) : (page === "Lessons" ?
     [...new Set(lessons.map(lesson => faculties.find(fac => fac.FacultyID === lesson.FacultyID)?.Course))].sort((a, b) => a - b)
     : [...new Set(daysofexams.map(day => faculties.find(fac => fac.FacultyID === day.FacultyID)?.Course))].sort((a, b) => a - b)))
 
   const [addingCourse, setAddingCourse] = useState(false);
   const [newCourse, setNewCourse] = useState("");
+
+
+ useEffect(() => {
+    dispatch(fetchStudents());
+    dispatch(fetchFaculties());
+    dispatch(fetchLessons());
+    dispatch(fetchdaysofexams())
+
+  }, [dispatch]);
+
 
   const handleAddCourse = () => {
     if (newCourse.trim() && !uniqueCourses.includes(parseInt(newCourse))) {
@@ -43,12 +49,13 @@ if(!(page === "daysofexams" && !(lessons.find((l) => l.FacultyID === faculties.f
     <div className="course-container">
       <h1 className="workspaceHeader">Ընտրեք կուրսը</h1>
       <div className="course-list">
-        {uniqueCourses.map((course) => (
+        {uniqueCourses.map((course) => {
+          return(
           <div key={course} className="course-item" onClick={() => page === 'Students' ? navigate(`/Students/${course}`) : (page === "Lessons" ? navigate(`/Lessons/${course}`) : navigate(`/Daysofexams/${course}`))}>
             <h4>{course}</h4>
 
           </div>
-        ))}
+        )})}
 
         <div className="course-add">
           {addingCourse ? (
@@ -56,9 +63,13 @@ if(!(page === "daysofexams" && !(lessons.find((l) => l.FacultyID === faculties.f
 
               <select onChange={(e) => setNewCourse(e.target.value)} className="course-input">
                 <option value="">Կուրս</option>
-                {faculties.map(fac => (
-                  <option key={fac.FacultyID} value={fac.Course}>{fac.Course}</option>
-                ))}
+                {faculties.map(fac => {
+
+                  return(
+                  !uniqueCourses.includes(fac.Course) ? <option key={fac.FacultyID} value={fac.Course}>{fac.Course}</option> : <></>
+                )
+                  
+                  })}
               </select>
               <button className="add-btn" onClick={handleAddCourse}>
                 Հաստատել

@@ -36,12 +36,12 @@ const Students = () => {
     dispatch(fetchStudents());
   }, [dispatch]);
 
-  useEffect(() => {
-    setNewStudent(prevState => {
-      const index = studentData.findIndex(student => student.id === prevState.id);
-      return { ...prevState, recordNumber: index !== -1 ? index : null };
-    });
-  }, [studentData]);
+  // useEffect(() => {
+  //   setNewStudent(prevState => {
+  //     const index = studentData.findIndex(student => student.id === prevState.id);
+  //     return { ...prevState, recordNumber: index !== -1 ? index : null };
+  //   });
+  // }, [studentData]);
 
 
   useEffect(() => {
@@ -118,9 +118,9 @@ const Students = () => {
     return Object.values(obj).every(value => value !== null && value !== undefined && value !== "");
   };
 
-  const handleAddStudent = () => {
+   const handleAddStudent = () => {
 
-    const updatedStudent = { ...newStudent, recordNumber: (studentData?.length || 0) + 1 };
+    const updatedStudent = { ...newStudent, recordNumber: newStudent.recordNumber || (studentData?.length || 0) + 1 };
     if (isObjectComplete(updatedStudent)) {
       if (emailError) {
         dispatch(addStudent(updatedStudent));
@@ -169,7 +169,7 @@ const Students = () => {
               {/* <td>{student.recordNumber }</td> */}
               {editMode === student.id ? (
                 <>
-                  <td><input value={student.recordNumber} onChange={(e) => handleChange(student.id, "recordNumber", e.target.value)} /></td>
+                  <td><input type="number" value={student.recordNumber} onChange={(e) => handleChange(student.id, "recordNumber", e.target.value)} /></td>
                   <td><input value={student.firstName} onChange={(e) => handleChange(student.id, "firstName", e.target.value)} /></td>
                   <td><input value={student.lastName} onChange={(e) => handleChange(student.id, "lastName", e.target.value)} /></td>
                   <td><input value={student.patronymic} onChange={(e) => handleChange(student.id, "patronymic", e.target.value)} /></td>
@@ -200,7 +200,7 @@ const Students = () => {
             </tr>
           ))}
           <tr>
-            <td><FaPlus /></td>
+            <td><input type="number" name="recordNumber" style={{minWidth: '20px'}} value={newStudent.recordNumber || (studentData?.length || 0) + 1} onChange={handleNewStudentChange} /></td>
             <td><input name="firstName" value={newStudent.firstName} onChange={handleNewStudentChange} placeholder="First Name" /></td>
             <td><input name="lastName" value={newStudent.lastName} onChange={handleNewStudentChange} placeholder="Last Name" /></td>
             <td><input name="patronymic" value={newStudent.patronymic} onChange={handleNewStudentChange} placeholder="Patronymic" /></td>
